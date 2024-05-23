@@ -1,0 +1,26 @@
+name: Robotic Student Webapp CD Pipeline
+
+on:
+  workflow_run:
+    workflows: ["Robotic Student Webapp CI Pipeline"]
+    types:
+      - completed
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    steps:
+      - name: Setting up environment variables
+        run: |
+          touch .env
+          echo "${{ secrets.UAT_ENV_FILE }}" > .env
+
+      - name: Pull Docker Image
+        run: sudo docker pull kenliau0329/robotic-student-webapp:latest
+
+      - name: Remote the existing container
+        run: sudo docker rm -f robotic-student-webapp || true
+
+      - name: Run new docker container
+        run: sudo docker run -d -p 3000:8080 --name robotic-student-webapp --env-file ./.env kenliau0329/robotic-student-webapp
