@@ -19,7 +19,7 @@ jobs:
         run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
       - name: Build the Docker image
-        run: docker build -t kenliau0329/robotic-student-webapp .
+        run: docker build --build-arg DEPLOY_ENV=${{secrets.DEPLOY_ENV}} -t kenliau0329/robotic-student-webapp .
 
       - name: Push to Docker Hub
         run: docker push kenliau0329/robotic-student-webapp:latest
