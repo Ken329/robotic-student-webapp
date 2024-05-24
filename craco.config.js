@@ -4,7 +4,11 @@ const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
 dotenv.config();
 
+<<<<<<< Updated upstream
 const ENV = process.env.DEPLOY_ENV || "development";
+=======
+const ENV = process.env.DEPLOY_ENV || "uat";
+>>>>>>> Stashed changes
 const result = dotenv.config({ path: `./config/.env.${ENV}` });
 
 if (result.error) {
