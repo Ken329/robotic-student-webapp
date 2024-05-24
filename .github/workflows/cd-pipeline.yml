@@ -11,11 +11,6 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Setting up environment variables
-        run: |
-          touch .env
-          echo "${{ secrets.UAT_ENV_FILE }}" > .env
-
       - name: Pull Docker Image
         run: sudo docker pull kenliau0329/robotic-student-webapp:latest
 
@@ -23,4 +18,4 @@ jobs:
         run: sudo docker rm -f robotic-student-webapp || true
 
       - name: Run new docker container
-        run: sudo docker run -d -p 3000:8080 --name robotic-student-webapp -e DEPLOY_ENV=${{secrets.DEPLOY_ENV}} kenliau0329/robotic-student-webapp
+        run: sudo docker run -d -p 3000:8080 --name robotic-student-webapp kenliau0329/robotic-student-webapp
