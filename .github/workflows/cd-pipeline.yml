@@ -23,4 +23,4 @@ jobs:
         run: sudo docker rm -f robotic-student-webapp || true
 
       - name: Run new docker container
-        run: sudo docker run -d -p 3000:8080 --name robotic-student-webapp --env-file ./.env kenliau0329/robotic-student-webapp
+        run: sudo docker run -d -p 3000:8080 --name robotic-student-webapp -e DEPLOY_ENV=${{secrets.DEPLOY_ENV}} kenliau0329/robotic-student-webapp
