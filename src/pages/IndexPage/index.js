@@ -5,7 +5,7 @@ const IndexPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    navigate("/student/login");
+    navigate("/login");
   });
 };
 
