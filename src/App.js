@@ -1,36 +1,36 @@
 import React from "react";
 import {
-  createBrowserRouter,
-  createRoutesFromElements,
   Route,
   RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
 } from "react-router-dom";
 
-import AuthLayout from "./components/Layout/AuthLayout";
-import PrivateRoute from "./components/PrivateRoute";
+import NotFound from "./pages/404";
+import Profile from "./pages/Profile";
 import IndexPage from "./pages/IndexPage";
 import LoginPage from "./pages/LoginPage";
 import LogoutPage from "./pages/LogoutPage";
 import SignUpPage from "./pages/SignUpPage";
-import Profile from "./pages/Profile";
 import ForgotPassword from "./pages/ForgotPassword";
-import NotFound from "./pages/404";
+import PrivateRoute from "./components/PrivateRoute";
+import AuthLayout from "./components/Layout/AuthLayout";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route element={<AuthLayout />}>
-        <Route index element={<IndexPage />} />
-        <Route path="login" element={<LoginPage />} />
-        <Route path="sign-up" element={<SignUpPage />} />
-        <Route path="forgot-password" element={<ForgotPassword />} />
-        <Route path="logout" element={<LogoutPage />} />
+        <Route exact path="/student" element={<IndexPage />} />
+        <Route path="/student/login" element={<LoginPage />} />
+        <Route path="/student/sign-up" element={<SignUpPage />} />
+        <Route path="/student/forgot-password" element={<ForgotPassword />} />
+        <Route path="/student/logout" element={<LogoutPage />} />
       </Route>
 
       {/* protected routes */}
       <Route element={<PrivateRoute />}>
-        <Route path="dashboard" element={<NotFound />} /> {/* temporary */}
-        <Route path="profile" element={<Profile />} />
+        <Route path="/student/dashboard" element={<NotFound />} />
+        <Route path="/student/profile" element={<Profile />} />
       </Route>
     </Route>
   )
