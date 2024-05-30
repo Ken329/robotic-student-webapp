@@ -184,7 +184,7 @@ const Profile = () => {
               placeholder="level"
               _placeholder={{ color: "gray.500" }}
               type="text"
-              value={getValue("level").toUpperCase()}
+              value={getValue("levelName").toUpperCase()}
               isReadOnly={!editable}
             />
           </FormControl>
