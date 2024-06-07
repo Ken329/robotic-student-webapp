@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import NodeRSA from "node-rsa";
 import { useFormik } from "formik";
@@ -35,9 +34,11 @@ import {
 } from "../../services/auth";
 import { formatDate } from "../../utils/helper";
 import { signUpSchema, verifySchema } from "../../utils/validationSchema";
+import useCustomToast from "../../components/CustomToast";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
+  const toast = useCustomToast();
   const [step, setStep] = useState(1);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
@@ -130,7 +131,11 @@ const SignUpPage = () => {
         setLoading(false);
         actions.resetForm();
         navigate("/login");
-        toast.success("Sign-Up Successful");
+        toast({
+          title: "Sign-Up",
+          description: "Account sign-up successful",
+          status: "success",
+        });
       }
     } catch (error) {
       setLoading(false);
