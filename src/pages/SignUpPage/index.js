@@ -183,7 +183,16 @@ const SignUpPage = () => {
   });
 
   return (
-    <Box bg="white" p={6} rounded="md" w={80}>
+    <Box
+      bg="white"
+      p={6}
+      rounded="md"
+      w={{
+        base: "xs", // For mobile screens
+        md: "md", // For medium screens
+        lg: "xl", // For large screens
+      }}
+    >
       <Flex align="flex-start" mb={"10px"}>
         <Text fontSize="20px" fontWeight="700">
           STEAMCup+ Membership
@@ -403,7 +412,7 @@ const SignUpPage = () => {
                 fontWeight="700"
                 backgroundColor="#F4BB44"
                 borderRadius="5px"
-                w={"100%"}
+                w="100%"
               >
                 Student Detail&apos;s
                 <Text fontSize="14px" fontWeight="500">
@@ -616,7 +625,7 @@ const SignUpPage = () => {
                 fontWeight="700"
                 backgroundColor="#F4BB44"
                 borderRadius="5px"
-                w={"100%"}
+                w="100%"
               >
                 Student Detail&apos;s
                 <Text fontSize="14px" fontWeight="500">
@@ -662,6 +671,25 @@ const SignUpPage = () => {
 
                 <FormErrorMessage>
                   {signUpFormik.errors.moeEmail}
+                </FormErrorMessage>
+              </FormControl>
+
+              <FormControl
+                isInvalid={
+                  signUpFormik.errors.personalEmail &&
+                  signUpFormik.touched.personalEmail
+                }
+                w="100%"
+              >
+                <FormLabel>Personal Email</FormLabel>
+                <Input
+                  name="personalEmail"
+                  placeholder="Personal Email"
+                  {...signUpFormik.getFieldProps("personalEmail")}
+                ></Input>
+
+                <FormErrorMessage>
+                  {signUpFormik.errors.personalEmail}
                 </FormErrorMessage>
               </FormControl>
 
@@ -809,6 +837,9 @@ const SignUpPage = () => {
                   {signUpFormik.errors.password}
                 </FormErrorMessage>
               </FormControl>
+              <Text fontSize="14px" fontWeight="500">
+                We will send you a verification otp to the registered email.
+              </Text>
             </VStack>
           )}
           <Flex justify="space-between" mt={4} w="100%">

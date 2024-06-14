@@ -50,6 +50,7 @@ const signUpSchema = Yup.object().shape({
     ),
   race: Yup.string().required("Race is required"),
   moeEmail: Yup.string().optional().email("Invalid email address"),
+  personalEmail: Yup.string().optional().email("Invalid email address"),
   school: Yup.string().required("School is required"),
   nationality: Yup.string().required("Nationality is required"),
   othersNationality: Yup.string().optional(),

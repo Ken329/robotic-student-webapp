@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import SteamCupLogoEdited from "../../../assets/images/STEAM Cup+edited.png";
+import SteamCupPlusWord from "../../../assets/images/STEAM Cup Word.webp";
 import {
   Box,
   Flex,
@@ -30,7 +30,13 @@ const SidebarContent = ({ onClose, ...props }) => {
       {...props}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Image src={SteamCupLogoEdited} alt="SteamCup Logo" maxH="12" />
+        <Image
+          src={SteamCupPlusWord}
+          alt="SteamCup Logo"
+          maxH={{
+            base: "80px",
+          }}
+        />
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link, index) => (
