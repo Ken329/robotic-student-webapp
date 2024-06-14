@@ -64,7 +64,7 @@ const Achievements = () => {
 
   const groupByYear = (achievements) => {
     return achievements.reduce((acc, achievement) => {
-      const year = new Date(achievement.issuedAt).getFullYear();
+      const year = new Date(achievement.achievementCreationDate).getFullYear();
       if (!acc[year]) {
         acc[year] = [];
       }
@@ -161,7 +161,9 @@ const Achievements = () => {
                       }}
                       color="gray.500"
                     >
-                      {formatIssuedAtDate(achievement?.issuedAt) || ""}
+                      {formatIssuedAtDate(
+                        achievement?.achievementCreationDate
+                      ) || ""}
                     </Text>
                   </Box>
                 ))}

@@ -140,6 +140,17 @@ const Profile = () => {
           </FormControl>
 
           <FormControl>
+            <FormLabel>Personal Email</FormLabel>
+            <Input
+              placeholder="personal email"
+              _placeholder={{ color: "gray.500" }}
+              type="text"
+              value={getValue("personalEmail")}
+              isReadOnly={!editable}
+            />
+          </FormControl>
+
+          <FormControl>
             <FormLabel>Contact Number</FormLabel>
             <Input
               placeholder="contact number"
@@ -177,6 +188,17 @@ const Profile = () => {
               />
             </FormControl>
           </Grid>
+
+          <FormControl>
+            <FormLabel>Student ID</FormLabel>
+            <Input
+              placeholder="studentId"
+              _placeholder={{ color: "gray.500" }}
+              type="text"
+              value={getValue("roboticId").toUpperCase()}
+              isReadOnly={!editable}
+            />
+          </FormControl>
 
           <FormControl>
             <FormLabel>Student Level</FormLabel>
