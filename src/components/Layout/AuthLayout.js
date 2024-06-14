@@ -11,13 +11,7 @@ const AuthLayout = () => {
       minHeight="100vh"
       padding={4}
     >
-      <Flex
-        direction="column"
-        align="center"
-        justify="center"
-        maxW="400px"
-        w="100%"
-      >
+      <Flex direction="column" align="center" justify="center" w="100%">
         <Outlet />
       </Flex>
     </Flex>

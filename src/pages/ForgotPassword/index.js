@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import SteamCupLogo from "../../assets/images/STEAM Cup Logo.webp"
 import {
   Box,
   Button,
@@ -16,6 +17,7 @@ import {
   InputGroup,
   InputRightElement,
   Link,
+  Image,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon, ArrowBackIcon } from "@chakra-ui/icons";
 import { Formik, Field } from "formik";
@@ -67,6 +69,9 @@ const ForgotPassword = () => {
   return (
     <Box bg="white" p={6} rounded="md" w={80} alignItems="center">
       <Flex align="center" justify="center" p="10px">
+        <Image src={SteamCupLogo} alt="SteamCup Logo" width={36} />
+      </Flex>
+      <Flex align="center" justify="center" p="10px">
         <Text fontSize="24px" fontWeight="500">
           Forgot Password
         </Text>
@@ -91,7 +96,7 @@ const ForgotPassword = () => {
             <form onSubmit={handleSubmit}>
               <VStack spacing={4} align="flex-start">
                 <Text fontSize="14px" fontWeight="500">
-                  Please enter your email below and we&apos;ll send you a
+                  Please enter your login email below and we&apos;ll send you a
                   verification code to reset your password.
                 </Text>
 
