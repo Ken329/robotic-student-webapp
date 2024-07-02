@@ -15,6 +15,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import AuthLayout from "./components/Layout/AuthLayout";
 import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
+import Post from "./pages/Post";
 import Achievements from "./pages/Achievements";
 
 const router = createBrowserRouter(
@@ -31,6 +32,7 @@ const router = createBrowserRouter(
       {/* protected routes */}
       <Route element={<PrivateRoute />}>
         <Route path="dashboard" element={<Dashboard />} /> {/* temporary */}
+        <Route exact path="/post/:id" element={<Post />} />
         <Route path="profile" element={<Profile />} />
         <Route path="achievements" element={<Achievements />} />
         <Route path="competitions" element={<Dashboard />} />
