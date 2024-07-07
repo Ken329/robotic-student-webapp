@@ -27,7 +27,7 @@ const Layout = ({ children, isLoading }) => {
     if (!isUserLoading && !isError && data) {
       const role = data?.data?.role;
       if (role !== "student") {
-        navigate("/logout");
+        navigate("/logout", { replace: true, state: { unauthorized: true } });
       } else {
         if (data?.data?.status === "rejected") {
           const user = userpool.getCurrentUser();
