@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import SteamCupLogo from "../../assets/images/STEAM Cup Logo.webp";
 import {
   Box,
@@ -25,9 +25,12 @@ import { authenticate } from "../../services/awsAuth";
 import userpool from "../../utils/userpool";
 import { loginSchema } from "../../utils/validationSchema";
 import { generateAccessToken } from "../../services/auth";
+import useCustomToast from "../../components/CustomToast";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const toast = useCustomToast();
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -39,7 +42,15 @@ const LoginPage = () => {
     if (user && authTokens?.accessToken) {
       navigate("/dashboard", { replace: true });
     }
-  }, [user, authTokens]);
+    if (location?.state?.unauthorized) {
+      toast({
+        title: "Unauthorized Access",
+        description: "You are not authorized to login.",
+        status: "error",
+      });
+      location.state.unauthorized = false;
+    }
+  }, [user, authTokens, location]);
 
   const initAuth = async (cognitoToken) => {
     const tokenPayload = await generateAccessToken(cognitoToken);
