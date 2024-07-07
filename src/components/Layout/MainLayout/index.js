@@ -25,28 +25,33 @@ const Layout = ({ children, isLoading }) => {
 
   useEffect(() => {
     if (!isUserLoading && !isError && data) {
-      if (data?.data?.status === "rejected") {
-        const user = userpool.getCurrentUser();
-        if (user) {
-          user.getSession((err, session) => {
-            if (!err && session) {
-              user.deleteUser((deleteErr, result) => {
-                if (deleteErr) {
-                  console.error("Error deleting user:", deleteErr);
-                } else {
-                  console.log("Successfully deleted user:", result);
-                  navigate("/login", { replace: true });
-                }
-              });
-            }
-          });
+      const role = data?.data?.role;
+      if (role !== "student") {
+        navigate("/logout");
+      } else {
+        if (data?.data?.status === "rejected") {
+          const user = userpool.getCurrentUser();
+          if (user) {
+            user.getSession((err, session) => {
+              if (!err && session) {
+                user.deleteUser((deleteErr, result) => {
+                  if (deleteErr) {
+                    console.error("Error deleting user:", deleteErr);
+                  } else {
+                    console.log("Successfully deleted user:", result);
+                    navigate("/login", { replace: true });
+                  }
+                });
+              }
+            });
+          }
         }
+        dispatch(saveUserData(data?.data));
       }
-      dispatch(saveUserData(data?.data));
     } else if (isError) {
       onLogout();
     }
-  }, [data, isLoading, isError, dispatch]);
+  }, [data, isUserLoading, isError, dispatch]);
 
   const onClose = () => setIsOpen(false);
   const onOpen = () => setIsOpen(true);

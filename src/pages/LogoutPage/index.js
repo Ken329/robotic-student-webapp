@@ -36,7 +36,7 @@ const LogoutPage = () => {
     if (token) {
       handleLogout();
     } else {
-      navigate("/login", { replace: true });
+      navigate("/login", { replace: true, state: { unauthorized: true } });
     }
   }, [token]);
 
