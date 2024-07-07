@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import SteamCupLogo from "../../assets/images/STEAM Cup Logo.webp"
+import SteamCupLogo from "../../assets/images/STEAM-Cup+-Logo.png"
 import {
   Box,
   Button,

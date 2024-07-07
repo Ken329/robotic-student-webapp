@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import SteamCupPlusWord from "../../../assets/images/STEAM Cup Word.webp";
+import SteamCupPlusWord from "../../../assets/images/STEAM-Cup+-Text.png";
 import {
   Box,
   Flex,
