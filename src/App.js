@@ -31,7 +31,7 @@ const router = createBrowserRouter(
 
       {/* protected routes */}
       <Route element={<PrivateRoute />}>
-        <Route path="dashboard" element={<Dashboard />} /> {/* temporary */}
+        <Route path="dashboard" element={<Dashboard />} />
         <Route exact path="/post/:id" element={<Post />} />
         <Route path="profile" element={<Profile />} />
         <Route path="achievements" element={<Achievements />} />
