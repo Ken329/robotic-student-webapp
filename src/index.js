@@ -4,6 +4,8 @@ import { ChakraProvider } from "@chakra-ui/react";
 import store from "./redux/store";
 import { Provider } from "react-redux";
 import App from "./App";
+import "react-quill/dist/quill.snow.css";
+import "./pages/Post/Quill.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
