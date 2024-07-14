@@ -6,6 +6,7 @@ import { makeSelectBlogsData } from "../../redux/slices/posts/selector";
 import Layout from "../../components/Layout/MainLayout";
 import useCustomToast from "../../components/CustomToast";
 import BlogList from "../../components/BlogPosts";
+import Carousel from "../../components/Carousel";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -29,9 +30,17 @@ const Dashboard = () => {
     refetch();
   }, [refetch]);
 
+  const filteredBlogs = blogsData.filter((blog) => blog.type !== "priority");
+
+  const slides = filteredBlogs.map((blog) => ({
+    url: blog.url,
+    id: blog.id,
+  }));
+
   return (
     <Layout isLoading={isLoading}>
-      <BlogList blogs={blogsData} />
+      {slides.length > 0 && <Carousel slides={slides} />}
+      <BlogList blogs={filteredBlogs} />
     </Layout>
   );
 };
