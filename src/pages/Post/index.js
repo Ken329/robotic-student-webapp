@@ -37,11 +37,11 @@ const Post = () => {
 
   return (
     <Layout isLoading={isLoading}>
-      <Container maxW="container.md">
+      <Container maxW="container.md" p={0}>
         <Button
           onClick={() => navigate("/dashboard")}
           leftIcon={<ArrowBackIcon />}
-          mb="4"
+          mb="2"
         >
           Back to Dashboard
         </Button>
