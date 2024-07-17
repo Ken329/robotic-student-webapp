@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Box, Flex, IconButton } from "@chakra-ui/react";
-import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
+import { ArrowLeftIcon, ArrowRightIcon } from "@chakra-ui/icons";
 
 const Carousel = ({ slides }) => {
   const navigate = useNavigate();
@@ -30,9 +30,15 @@ const Carousel = ({ slides }) => {
   };
 
   return (
-    <Box position="relative" overflow="hidden" m="2%" borderRadius="10px">
+    <Box
+      position="relative"
+      overflow="hidden"
+      m={{ base: "5%", md: "2%", lg: "2%" }}
+      borderRadius="10px"
+      height={{ base: "200px", md: "400px" }}
+    >
       <Flex
-        height={{ base: "200px", md: "400px" }}
+        height="100%"
         transition="transform 0.5s ease-in-out"
         transform={`translateX(-${currentSlide * 100}%)`}
       >
@@ -42,28 +48,31 @@ const Carousel = ({ slides }) => {
             flex="0 0 100%"
             height="100%"
             background={`url(${slide.url}) center/cover no-repeat`}
-            backgroundSize={{ base: "cover", md: "contain" }}
-            backgroundPosition={{ base: "center", md: "center" }}
-            backgroundRepeat="no-repeat"
-            bgColor={{ base: "transparent", md: "black" }}
+            backgroundSize="contain"
+            backgroundPosition="center"
+            bgColor="black"
             cursor="pointer"
             onClick={() => handleSlideClick(slide.id)}
           ></Box>
         ))}
       </Flex>
       <IconButton
-        icon={<ChevronLeftIcon />}
+        icon={<ArrowLeftIcon />}
         position="absolute"
         top="50%"
         left="10px"
+        color="white"
+        bg="transparent"
         transform="translateY(-50%)"
         onClick={prevSlide}
       />
       <IconButton
-        icon={<ChevronRightIcon />}
+        icon={<ArrowRightIcon />}
         position="absolute"
         top="50%"
         right="10px"
+        color="white"
+        bg="transparent"
         transform="translateY(-50%)"
         onClick={nextSlide}
       />

@@ -30,9 +30,9 @@ const Dashboard = () => {
     refetch();
   }, [refetch]);
 
-  const filteredBlogs = blogsData.filter((blog) => blog.type !== "priority");
+  const priorityBlogs = blogsData.filter((blog) => blog.type === "priority");
 
-  const slides = filteredBlogs.map((blog) => ({
+  const slides = priorityBlogs.map((blog) => ({
     url: blog.url,
     id: blog.id,
   }));
@@ -40,7 +40,7 @@ const Dashboard = () => {
   return (
     <Layout isLoading={isLoading}>
       {slides.length > 0 && <Carousel slides={slides} />}
-      <BlogList blogs={filteredBlogs} />
+      <BlogList blogs={blogsData} />
     </Layout>
   );
 };
