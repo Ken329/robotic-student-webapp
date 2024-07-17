@@ -18,7 +18,7 @@ import {
   MenuDivider,
   Avatar,
 } from "@chakra-ui/react";
-import { FiMenu, FiChevronDown, FiBell } from "react-icons/fi";
+import { FiMenu, FiChevronDown } from "react-icons/fi";
 
 const MobileNav = ({ onOpen, onLogout, onClickProfile, ...props }) => {
   const location = useLocation();
@@ -61,23 +61,20 @@ const MobileNav = ({ onOpen, onLogout, onClickProfile, ...props }) => {
         icon={<FiMenu />}
       />
 
-      <Text
+      <Flex
         display={{ base: "flex", md: "none" }}
-        fontSize="2xl"
-        fontWeight="bold"
-        ml="8"
-        color="#27374d"
+        flex="1"
+        justifyContent="center"
+        position="absolute"
+        left="50%"
+        transform="translateX(-50%)"
       >
-        {currentPage}
-      </Text>
+        <Text fontSize="2xl" fontWeight="bold" color="#27374d">
+          {currentPage}
+        </Text>
+      </Flex>
 
       <HStack spacing={{ base: "0", md: "6" }}>
-        <IconButton
-          size="lg"
-          variant="ghost"
-          aria-label="open menu"
-          icon={<FiBell />}
-        />
         <Flex alignItems={"center"}>
           <Menu>
             <MenuButton
@@ -86,12 +83,7 @@ const MobileNav = ({ onOpen, onLogout, onClickProfile, ...props }) => {
               _focus={{ boxShadow: "none" }}
             >
               <HStack>
-                <Avatar
-                  size={"sm"}
-                  // src={
-                  //   "https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
-                  // }
-                />
+                <Avatar size={"sm"} />
                 <VStack
                   display={{ base: "none", md: "flex" }}
                   alignItems="flex-start"
