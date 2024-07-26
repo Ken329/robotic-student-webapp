@@ -26,7 +26,6 @@ import userpool from "../../utils/userpool";
 import { loginSchema } from "../../utils/validationSchema";
 import { generateAccessToken } from "../../services/auth";
 import useCustomToast from "../../components/CustomToast";
-import { ERR_MESSAGE } from "../../utils/constants";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -64,19 +63,13 @@ const LoginPage = () => {
         navigate("/logout", { replace: true });
       }
     } catch (error) {
-      if (error.response?.status === 503) {
-        toast({
-          title: "Service Maintenance",
-          description: ERR_MESSAGE.MAINTENANCE,
-          status: "error",
-        });
-        setError({
-          message: ERR_MESSAGE.MAINTENANCE,
-        });
-      } else {
-        setError(error);
-      }
+      setError(error);
       setLoading(false);
+      toast({
+        title: "Service Maintenance",
+        description: error.message,
+        status: "error",
+      });
     }
   };
 
