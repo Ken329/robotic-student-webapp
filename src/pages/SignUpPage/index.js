@@ -35,7 +35,6 @@ import {
 import { formatDate } from "../../utils/helper";
 import { signUpSchema, verifySchema } from "../../utils/validationSchema";
 import useCustomToast from "../../components/CustomToast";
-import { ERR_MESSAGE } from "../../utils/constants";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -47,7 +46,6 @@ const SignUpPage = () => {
   const [isVerify, setIsVerify] = useState(false);
   const [loading, setLoading] = useState(false);
   const [activeCentres, setActiveCentres] = useState(null);
-  const [isMaintenance, setIsMaintenance] = useState(false);
   const fetchCenterOnMount = useRef(false);
 
   useEffect(() => {
@@ -56,21 +54,7 @@ const SignUpPage = () => {
         const centerData = await getCenter();
         setActiveCentres(centerData);
       } catch (error) {
-        if (error.response?.status === 503) {
-          toast({
-            title: "Service Maintenance",
-            description: ERR_MESSAGE.MAINTENANCE,
-            status: "error",
-          });
-          setIsMaintenance(true);
-          setError({
-            message: ERR_MESSAGE.MAINTENANCE,
-          });
-        } else {
-          setIsMaintenance(false);
-          setError(error);
-        }
-        setLoading(false);
+        setError(error.message);
       }
     };
 
@@ -892,7 +876,7 @@ const SignUpPage = () => {
                 <Button
                   type="submit"
                   colorScheme="green"
-                  isDisabled={!signUpFormik.isValid || isMaintenance}
+                  isDisabled={!signUpFormik.isValid}
                 >
                   {loading ? <Spinner size="sm" color="white" /> : "Register"}
                 </Button>

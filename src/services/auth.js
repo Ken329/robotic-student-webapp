@@ -24,7 +24,16 @@ const generateAccessToken = async (cognitoToken) => {
     );
     return response?.data?.data;
   } catch (error) {
-    return error;
+    if (error.response?.status === 503) {
+      throw new Error(
+        "STEAM Cup is under daily maintenance from 10 PM to 6 AM. Please try again tommorrow."
+      );
+    } else {
+      throw new Error(
+        "Authentication Failed: " + error.response?.data?.message ||
+          "Unknown error"
+      );
+    }
   }
 };
 
@@ -77,7 +86,13 @@ const getCenter = async () => {
     );
     return response?.data;
   } catch (error) {
-    return error;
+    if (error.response?.status === 503) {
+      throw new Error(
+        "STEAM Cup is under daily maintenance from 10 PM to 6 AM. Please try again tommorrow."
+      );
+    } else {
+      throw new Error("Failed to get center: " + error.response.data.message);
+    }
   }
 };
 
