@@ -17,6 +17,7 @@ import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
 import Post from "./pages/Post";
 import Achievements from "./pages/Achievements";
+import Verify from "./pages/Verify";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -26,6 +27,7 @@ const router = createBrowserRouter(
         <Route path="login" element={<LoginPage />} />
         <Route path="sign-up" element={<SignUpPage />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
+        <Route path="verify" element={<Verify />} />
         <Route path="logout" element={<LogoutPage />} />
       </Route>
 

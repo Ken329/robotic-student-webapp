@@ -156,6 +156,11 @@ const LoginPage = () => {
         </Link>
       </Flex>
       <Flex justifyContent="center" w="100%" mt={"15px"}>
+        <Link href="/verify" color={"blue.500"}>
+          Verify Email
+        </Link>
+      </Flex>
+      <Flex justifyContent="center" w="100%" mt={"15px"}>
         <Text>
           New user?{" "}
           <Link href="/sign-up" color={"red"}>
