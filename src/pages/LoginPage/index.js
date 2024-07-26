@@ -53,13 +53,23 @@ const LoginPage = () => {
   }, [user, authTokens, location]);
 
   const initAuth = async (cognitoToken) => {
-    const tokenPayload = await generateAccessToken(cognitoToken);
-    if (tokenPayload) {
-      localStorage.setItem("token", JSON.stringify(tokenPayload));
+    try {
+      const tokenPayload = await generateAccessToken(cognitoToken);
+      if (tokenPayload) {
+        localStorage.setItem("token", JSON.stringify(tokenPayload));
+        setLoading(false);
+        navigate("/dashboard", { replace: true });
+      } else {
+        navigate("/logout", { replace: true });
+      }
+    } catch (error) {
+      setError(error);
       setLoading(false);
-      navigate("/dashboard", { replace: true });
-    } else {
-      navigate("/logout", { replace: true });
+      toast({
+        title: "Service Maintenance",
+        description: error.message,
+        status: "error",
+      });
     }
   };
 
