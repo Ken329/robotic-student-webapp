@@ -18,6 +18,7 @@ import Dashboard from "./pages/Dashboard";
 import Post from "./pages/Post";
 import Achievements from "./pages/Achievements";
 import Verify from "./pages/Verify";
+import Maintenance from "./pages/Maintenance";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -29,6 +30,7 @@ const router = createBrowserRouter(
         <Route path="forgot-password" element={<ForgotPassword />} />
         <Route path="verify" element={<Verify />} />
         <Route path="logout" element={<LogoutPage />} />
+        <Route path="maintenance" element={<Maintenance />} />
       </Route>
 
       {/* protected routes */}
