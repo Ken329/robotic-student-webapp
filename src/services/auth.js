@@ -13,7 +13,7 @@ const generatePublicKey = async () => {
   }
 };
 
-const generateAccessToken = async (cognitoToken) => {
+const generateAccessToken = async (cognitoToken, navigate) => {
   try {
     const response = await axios.post(
       `${process.env.REACT_APP_BASE_API}/auth/generate-token`,
@@ -25,9 +25,7 @@ const generateAccessToken = async (cognitoToken) => {
     return response?.data?.data;
   } catch (error) {
     if (error.response?.status === 503) {
-      throw new Error(
-        "STEAM Cup is under daily maintenance from 10 PM to 6 AM. Please try again tommorrow."
-      );
+      navigate("/maintenance", { replace: true });
     } else {
       throw new Error(
         "Authentication Failed: " + error.response?.data?.message ||
@@ -78,7 +76,7 @@ const verifyOtp = async (payload) => {
   }
 };
 
-const getCenter = async () => {
+const getCenter = async (navigate) => {
   try {
     const response = await axios.get(
       `${process.env.REACT_APP_BASE_API}/center`,
@@ -87,9 +85,7 @@ const getCenter = async () => {
     return response?.data;
   } catch (error) {
     if (error.response?.status === 503) {
-      throw new Error(
-        "STEAM Cup is under daily maintenance from 10 PM to 6 AM. Please try again tommorrow."
-      );
+      navigate("/maintenance", { replace: true });
     } else {
       throw new Error("Failed to get center: " + error.response.data.message);
     }
