@@ -51,7 +51,7 @@ const SignUpPage = () => {
   useEffect(() => {
     const fetchCenter = async () => {
       try {
-        const centerData = await getCenter();
+        const centerData = await getCenter(navigate);
         setActiveCentres(centerData);
       } catch (error) {
         setError(error.message);

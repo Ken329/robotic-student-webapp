@@ -54,7 +54,7 @@ const LoginPage = () => {
 
   const initAuth = async (cognitoToken) => {
     try {
-      const tokenPayload = await generateAccessToken(cognitoToken);
+      const tokenPayload = await generateAccessToken(cognitoToken, navigate);
       if (tokenPayload) {
         localStorage.setItem("token", JSON.stringify(tokenPayload));
         setLoading(false);
@@ -65,11 +65,6 @@ const LoginPage = () => {
     } catch (error) {
       setError(error);
       setLoading(false);
-      toast({
-        title: "Service Maintenance",
-        description: error.message,
-        status: "error",
-      });
     }
   };
 
