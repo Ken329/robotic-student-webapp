@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import SteamCupLogo from "../../assets/images/STEAM-Cup+-Logo.png";
 import {
   Flex,
@@ -32,6 +33,23 @@ const Verify = () => {
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_BASE_API}/maintenance`)
+      .then((response) => {
+        if (response?.data?.data !== null) {
+          navigate("/maintenance");
+        }
+      })
+      .catch((error) => {
+        toast({
+          title: "Maintenance",
+          description: error.message,
+          status: "error",
+        });
+      });
+  }, [navigate]);
 
   const handleSendVerificationCode = async (values, actions) => {
     setError(null);

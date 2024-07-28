@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import NodeRSA from "node-rsa";
 import { useFormik } from "formik";
 import {
@@ -49,9 +50,26 @@ const SignUpPage = () => {
   const fetchCenterOnMount = useRef(false);
 
   useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_BASE_API}/maintenance`)
+      .then((response) => {
+        if (response?.data?.data !== null) {
+          navigate("/maintenance");
+        }
+      })
+      .catch((error) => {
+        toast({
+          title: "Maintenance",
+          description: error.message,
+          status: "error",
+        });
+      });
+  }, [navigate]);
+
+  useEffect(() => {
     const fetchCenter = async () => {
       try {
-        const centerData = await getCenter(navigate);
+        const centerData = await getCenter();
         setActiveCentres(centerData);
       } catch (error) {
         setError(error.message);
