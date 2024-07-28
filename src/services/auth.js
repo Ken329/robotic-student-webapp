@@ -13,7 +13,7 @@ const generatePublicKey = async () => {
   }
 };
 
-const generateAccessToken = async (cognitoToken, navigate) => {
+const generateAccessToken = async (cognitoToken) => {
   try {
     const response = await axios.post(
       `${process.env.REACT_APP_BASE_API}/auth/generate-token`,
@@ -24,14 +24,10 @@ const generateAccessToken = async (cognitoToken, navigate) => {
     );
     return response?.data?.data;
   } catch (error) {
-    if (error.response?.status === 503) {
-      navigate("/maintenance", { replace: true });
-    } else {
-      throw new Error(
-        "Authentication Failed: " + error.response?.data?.message ||
-          "Unknown error"
-      );
-    }
+    throw new Error(
+      "Authentication Failed: " + error.response?.data?.message ||
+        "Unknown error"
+    );
   }
 };
 
@@ -76,7 +72,7 @@ const verifyOtp = async (payload) => {
   }
 };
 
-const getCenter = async (navigate) => {
+const getCenter = async () => {
   try {
     const response = await axios.get(
       `${process.env.REACT_APP_BASE_API}/center`,
@@ -84,11 +80,7 @@ const getCenter = async (navigate) => {
     );
     return response?.data;
   } catch (error) {
-    if (error.response?.status === 503) {
-      navigate("/maintenance", { replace: true });
-    } else {
-      throw new Error("Failed to get center: " + error.response.data.message);
-    }
+    throw new Error("Failed to get center: " + error.response.data.message);
   }
 };
 
