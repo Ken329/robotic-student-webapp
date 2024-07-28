@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
 import SteamCupLogo from "../../assets/images/STEAM-Cup+-Logo.png";
 import {
   Box,
@@ -39,6 +40,23 @@ const LoginPage = () => {
   const authTokens = JSON.parse(localStorage.getItem("token"));
 
   useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_BASE_API}/maintenance`)
+      .then((response) => {
+        if (response?.data?.data !== null) {
+          navigate("/maintenance");
+        }
+      })
+      .catch((error) => {
+        toast({
+          title: "Maintenance",
+          description: error.message,
+          status: "error",
+        });
+      });
+  }, [navigate]);
+
+  useEffect(() => {
     if (user && authTokens?.accessToken) {
       navigate("/dashboard", { replace: true });
     }
@@ -54,7 +72,7 @@ const LoginPage = () => {
 
   const initAuth = async (cognitoToken) => {
     try {
-      const tokenPayload = await generateAccessToken(cognitoToken, navigate);
+      const tokenPayload = await generateAccessToken(cognitoToken);
       if (tokenPayload) {
         localStorage.setItem("token", JSON.stringify(tokenPayload));
         setLoading(false);
