@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import NodeRSA from "node-rsa";
 import { useFormik } from "formik";
 import {
@@ -36,6 +35,7 @@ import {
 import { formatDate } from "../../utils/helper";
 import { signUpSchema, verifySchema } from "../../utils/validationSchema";
 import useCustomToast from "../../components/CustomToast";
+import { useMaintenanceCheckQuery } from "../../redux/slices/app/api";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -49,22 +49,21 @@ const SignUpPage = () => {
   const [activeCentres, setActiveCentres] = useState(null);
   const fetchCenterOnMount = useRef(false);
 
+  const {
+    data: maintenanceData,
+    isLoading: maintenanceIsLoading,
+    isError: maintenanceIsError,
+  } = useMaintenanceCheckQuery();
+
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_BASE_API}/maintenance`)
-      .then((response) => {
-        if (response?.data?.data !== null) {
-          navigate("/maintenance");
-        }
-      })
-      .catch((error) => {
-        toast({
-          title: "Maintenance",
-          description: error.message,
-          status: "error",
-        });
-      });
-  }, [navigate]);
+    if (
+      !maintenanceIsLoading &&
+      !maintenanceIsError &&
+      maintenanceData?.data !== null
+    ) {
+      navigate("/maintenance");
+    }
+  }, [maintenanceData, maintenanceIsLoading, maintenanceIsError]);
 
   useEffect(() => {
     const fetchCenter = async () => {
