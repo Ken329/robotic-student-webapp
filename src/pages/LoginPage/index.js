@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import axios from "axios";
 import SteamCupLogo from "../../assets/images/STEAM-Cup+-Logo.png";
 import {
   Box,
@@ -27,6 +26,7 @@ import userpool from "../../utils/userpool";
 import { loginSchema } from "../../utils/validationSchema";
 import { generateAccessToken } from "../../services/auth";
 import useCustomToast from "../../components/CustomToast";
+import { useMaintenanceCheckQuery } from "../../redux/slices/app/api";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -39,22 +39,21 @@ const LoginPage = () => {
   const user = userpool.getCurrentUser();
   const authTokens = JSON.parse(localStorage.getItem("token"));
 
+  const {
+    data: maintenanceData,
+    isLoading: maintenanceIsLoading,
+    isError: maintenanceIsError,
+  } = useMaintenanceCheckQuery();
+
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_BASE_API}/maintenance`)
-      .then((response) => {
-        if (response?.data?.data !== null) {
-          navigate("/maintenance");
-        }
-      })
-      .catch((error) => {
-        toast({
-          title: "Maintenance",
-          description: error.message,
-          status: "error",
-        });
-      });
-  }, [navigate]);
+    if (
+      !maintenanceIsLoading &&
+      !maintenanceIsError &&
+      maintenanceData?.data !== null
+    ) {
+      navigate("/maintenance");
+    }
+  }, [maintenanceData, maintenanceIsLoading, maintenanceIsError]);
 
   useEffect(() => {
     if (user && authTokens?.accessToken) {
