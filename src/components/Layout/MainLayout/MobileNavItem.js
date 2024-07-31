@@ -8,8 +8,6 @@ import {
   Flex,
   Text,
   HStack,
-  VStack,
-  useColorModeValue,
   IconButton,
   Menu,
   MenuButton,
@@ -22,24 +20,20 @@ import { FiMenu, FiChevronDown } from "react-icons/fi";
 
 const MobileNav = ({ onOpen, onLogout, onClickProfile, ...props }) => {
   const location = useLocation();
-  const [currentPage, setCurrentPage] = useState(null);
+  const [currentPage, setCurrentPage] = useState("");
   const userName = useSelector(makeSelectUserName());
 
   useEffect(() => {
-    let currentLocation = location?.pathname;
-    if (currentLocation === "/dashboard") {
-      setCurrentPage("Dashboard");
-    } else if (currentLocation === "/test") {
-      setCurrentPage("Test");
-    } else if (currentLocation === "/profile") {
-      setCurrentPage("Profile");
-    } else if (currentLocation === "/achievements") {
-      setCurrentPage("Achievements");
-    } else if (currentLocation === "/competitions") {
-      setCurrentPage("Competitions");
-    } else {
-      setCurrentPage("");
-    }
+    const pageTitles = {
+      "/dashboard": "Dashboard",
+      "/test": "Test",
+      "/profile": "Profile",
+      "/achievements": "Achievements",
+      "/competitions": "Competitions",
+    };
+
+    const currentLocation = location?.pathname;
+    setCurrentPage(pageTitles[currentLocation] || "");
   }, [location]);
 
   return (
@@ -47,9 +41,9 @@ const MobileNav = ({ onOpen, onLogout, onClickProfile, ...props }) => {
       px={{ base: 4, md: 4 }}
       height="3.75rem"
       alignItems="center"
-      bg={useColorModeValue("white", "gray.900")}
+      bg="white"
       borderBottomWidth="1px"
-      borderBottomColor={useColorModeValue("gray.200", "gray.700")}
+      borderBottomColor="gray.200"
       justifyContent={{ base: "space-between", md: "flex-end" }}
       {...props}
     >
@@ -75,7 +69,7 @@ const MobileNav = ({ onOpen, onLogout, onClickProfile, ...props }) => {
       </Flex>
 
       <HStack spacing={{ base: "0", md: "6" }}>
-        <Flex alignItems={"center"}>
+        <Flex alignItems="center">
           <Menu>
             <MenuButton
               py={2}
@@ -83,24 +77,22 @@ const MobileNav = ({ onOpen, onLogout, onClickProfile, ...props }) => {
               _focus={{ boxShadow: "none" }}
             >
               <HStack>
-                <Avatar size={"sm"} />
-                <VStack
-                  display={{ base: "none", md: "flex" }}
-                  alignItems="flex-start"
-                  spacing="1px"
-                  ml="2"
-                >
-                  <Text fontSize="sm">{userName}</Text>
-                </VStack>
+                <Avatar
+                  size="sm"
+                  name={userName}
+                  bg="orange.400"
+                  color="white"
+                  showBorder
+                  borderColor="green.300"
+                  borderWidth="3px" 
+                  _hover={{ transform: "scale(1.05)" }}
+                />
                 <Box display={{ base: "none", md: "flex" }}>
                   <FiChevronDown />
                 </Box>
               </HStack>
             </MenuButton>
-            <MenuList
-              bg={useColorModeValue("white", "gray.900")}
-              borderColor={useColorModeValue("gray.200", "gray.700")}
-            >
+            <MenuList bg="white" borderColor="gray.200">
               <MenuItem onClick={onClickProfile}>Profile</MenuItem>
               <MenuDivider />
               <MenuItem onClick={onLogout}>Sign out</MenuItem>
