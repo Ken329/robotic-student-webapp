@@ -19,6 +19,7 @@ import Post from "./pages/Post";
 import Achievements from "./pages/Achievements";
 import Verify from "./pages/Verify";
 import Maintenance from "./pages/Maintenance";
+import PageUnderConstruction from "./pages/UnderConstruction";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -39,7 +40,7 @@ const router = createBrowserRouter(
         <Route exact path="/post/:id" element={<Post />} />
         <Route path="profile" element={<Profile />} />
         <Route path="achievements" element={<Achievements />} />
-        <Route path="competitions" element={<Dashboard />} />
+        <Route path="competitions" element={<PageUnderConstruction />} />
       </Route>
     </Route>
   )
