@@ -13,7 +13,9 @@ import {
   Heading,
   Grid,
   useMediaQuery,
+  Icon,
 } from "@chakra-ui/react";
+import { FaMedal } from "react-icons/fa";
 import { formatIssuedAtDate } from "../../utils/helper";
 import Layout from "../../components/Layout/MainLayout";
 import useCustomToast from "../../components/CustomToast";
@@ -86,9 +88,25 @@ const Achievements = () => {
             </Heading>
           )}
           {achievements?.length === 0 && (
-            <Text fontSize="14px" fontWeight="500" alignSelf="center">
-              You have no achievements yet, keep trying!
-            </Text>
+            <Flex
+              alignItems="center"
+              justifyContent="center"
+              direction="column"
+              bg="orange.100"
+              p={4}
+              borderRadius="md"
+              boxShadow="md"
+              my={4}
+            >
+              <Icon as={FaMedal} boxSize={12} color="orange.500" mb={2} />
+              <Text fontSize="xl" fontWeight="bold" color="orange.700" mb={1}>
+                No Achievements Yet!
+              </Text>
+              <Text fontSize="md" color="orange.600" textAlign="center" px={2}>
+                Keep exploring and learning. Your first achievement is just
+                around the corner. 💪
+              </Text>
+            </Flex>
           )}
           {sortedYears.map((year) => (
             <Box key={year} mb={8}>
