@@ -34,7 +34,9 @@ const SidebarContent = ({ onClose, ...props }) => {
           src={SteamCupPlusWord}
           alt="SteamCup Logo"
           maxH={{
-            base: "80px",
+            base: "60px",
+            md: "80px",
+            lg: "80px"
           }}
         />
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />

@@ -11,15 +11,15 @@ import LoginPage from "./pages/LoginPage";
 import LogoutPage from "./pages/LogoutPage";
 import SignUpPage from "./pages/SignUpPage";
 import ForgotPassword from "./pages/ForgotPassword";
+import Verify from "./pages/Verify";
+import Maintenance from "./pages/Maintenance";
 import PrivateRoute from "./components/PrivateRoute";
 import AuthLayout from "./components/Layout/AuthLayout";
 import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
 import Post from "./pages/Post";
 import Achievements from "./pages/Achievements";
-import Verify from "./pages/Verify";
-import Maintenance from "./pages/Maintenance";
-import PageUnderConstruction from "./pages/UnderConstruction";
+import Competitions from "./pages/Competitions";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -37,10 +37,10 @@ const router = createBrowserRouter(
       {/* protected routes */}
       <Route element={<PrivateRoute />}>
         <Route path="dashboard" element={<Dashboard />} />
-        <Route exact path="/post/:id" element={<Post />} />
+        <Route exact path="post/:id" element={<Post />} />
         <Route path="profile" element={<Profile />} />
         <Route path="achievements" element={<Achievements />} />
-        <Route path="competitions" element={<PageUnderConstruction />} />
+        <Route path="competitions" element={<Competitions />} />
       </Route>
     </Route>
   )

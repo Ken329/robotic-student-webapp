@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { saveAchievementsData } from "../../redux/slices/achievements";
 import { makeSelectToken } from "../../redux/slices/app/selector";
@@ -27,8 +27,10 @@ const Achievements = () => {
   const achievements = useSelector(makeSelectAchievementsData());
   const { data, isLoading, isError } = useGetAchievementsQuery();
   const [isMobile] = useMediaQuery("(max-width: 600px)");
+  const [imagesLoading, setImagesLoading] = useState(true);
 
   const fetchImages = async (achievements) => {
+    setImagesLoading(true);
     const updatedAchievements = await Promise.all(
       achievements?.map(async (achievement) => {
         const imageUrl = achievement?.achievementImageUrl;
@@ -48,6 +50,7 @@ const Achievements = () => {
       })
     );
     dispatch(saveAchievementsData(updatedAchievements));
+    setImagesLoading(false);
   };
 
   useEffect(() => {
@@ -55,12 +58,14 @@ const Achievements = () => {
       fetchImages(data?.data);
     } else if (!isLoading && !isError && data) {
       dispatch(saveAchievementsData(null));
+      setImagesLoading(false);
     } else if (isError) {
       toast({
         title: "Achievements",
         description: "Error getting achievements",
         status: "error",
       });
+      setImagesLoading(false);
     }
   }, [data, isLoading, isError]);
 
@@ -79,7 +84,7 @@ const Achievements = () => {
   const sortedYears = Object.keys(groupedAchievements).sort((a, b) => b - a);
 
   return (
-    <Layout isLoading={isLoading}>
+    <Layout isLoading={isLoading || imagesLoading}>
       <Flex flexDirection={"column"}>
         <Box p={5}>
           {!isMobile && (
@@ -99,7 +104,13 @@ const Achievements = () => {
               my={4}
             >
               <Icon as={FaMedal} boxSize={12} color="orange.500" mb={2} />
-              <Text fontSize="xl" fontWeight="bold" color="orange.700" mb={1}>
+              <Text
+                fontSize="xl"
+                fontWeight="bold"
+                color="orange.700"
+                textAlign="center"
+                mb={1}
+              >
                 No Achievements Yet!
               </Text>
               <Text fontSize="md" color="orange.600" textAlign="center" px={2}>

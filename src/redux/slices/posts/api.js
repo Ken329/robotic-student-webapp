@@ -13,8 +13,30 @@ export const postsApi = baseApiSlice.injectEndpoints({
           url: "/blog",
         }),
       }),
+      competitionSignUp: builder.mutation({
+        query: (blogId) => ({
+          url: `/participants/${blogId}`,
+          method: "POST",
+        }),
+      }),
+      signUpConfirmation: builder.query({
+        query: (blogId) => ({
+          url: `/participants/${blogId}`,
+        }),
+      }),
+      getAllSignUps: builder.query({
+        query: () => ({
+          url: "/participants",
+        }),
+      }),
     };
   },
 });
 
-export const { useGetPostByIdQuery, useGetAllBlogsQuery } = postsApi;
+export const {
+  useGetPostByIdQuery,
+  useGetAllBlogsQuery,
+  useCompetitionSignUpMutation,
+  useSignUpConfirmationQuery,
+  useGetAllSignUpsQuery,
+} = postsApi;

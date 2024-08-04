@@ -7,6 +7,7 @@ import Layout from "../../components/Layout/MainLayout";
 import useCustomToast from "../../components/CustomToast";
 import BlogList from "../../components/BlogPosts";
 import Carousel from "../../components/Carousel";
+import NotificationBanner from "../../components/NotificationBanner";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -39,6 +40,7 @@ const Dashboard = () => {
 
   return (
     <Layout isLoading={isLoading}>
+      <NotificationBanner />
       {slides.length > 0 && <Carousel slides={slides} />}
       <BlogList blogs={blogsData} />
     </Layout>
