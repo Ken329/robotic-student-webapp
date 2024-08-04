@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   blogs: [],
   files: [],
+  competitions: [],
 };
 
 const postsSlice = createSlice({
@@ -15,8 +16,12 @@ const postsSlice = createSlice({
     saveFilesData(state, action) {
       state.files = action.payload;
     },
+    saveCompetitionsData(state, action) {
+      state.competitions = action.payload;
+    },
   },
 });
 
-export const { saveBlogsData, saveFilesData } = postsSlice.actions;
+export const { saveBlogsData, saveFilesData, saveCompetitionsData } =
+  postsSlice.actions;
 export default postsSlice.reducer;

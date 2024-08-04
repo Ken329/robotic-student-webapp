@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { PENDING_STATUS_MAP } from "../../utils/constants";
 
-const MaintenanceAlert = () => {
+const PendingAlert = () => {
   const status = useSelector(makeSelectUserStatus());
 
   const isPending = Object.values(PENDING_STATUS_MAP).includes(status);
@@ -21,7 +21,7 @@ const MaintenanceAlert = () => {
         <Alert status="warning" marginBottom={"8px"}>
           <AlertIcon />
           <Box>
-            <AlertTitle>Your account is pending verification!</AlertTitle>
+            <AlertTitle>Your account is {status} approval!</AlertTitle>
             <AlertDescription>
               Access to some features may be limited. Thank you for your
               patience.
@@ -33,4 +33,4 @@ const MaintenanceAlert = () => {
   );
 };
 
-export default MaintenanceAlert;
+export default PendingAlert;

@@ -14,3 +14,9 @@ export const ERR_MESSAGE = {
   MAINTENANCE:
     "STEAM Cup+ is under daily maintenance from 10 PM to 6 AM. Please try again tommorrow.",
 };
+
+export const POST_TYPE = {
+  GENERAL: "general",
+  COMPETITION: "competition",
+  EXERCISE: "exercise",
+};
