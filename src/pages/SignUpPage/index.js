@@ -212,7 +212,7 @@ const SignUpPage = () => {
     >
       <Flex align="flex-start" mb={"10px"}>
         <Text fontSize="20px" fontWeight="700">
-          STEAMCup+ Membership
+          STEAM Cup+ Membership
         </Text>
       </Flex>
 

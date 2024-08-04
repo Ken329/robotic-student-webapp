@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import SidebarContent from "./SideBarContent";
 import MobileNav from "./MobileNavItem";
-import MaintenanceAlert from "../../MaintenanceALert";
+import PendingAlert from "../../PendingAlert";
 import AnimatedPage from "../../AnimatedPage";
 import Spin from "../../Spin";
 import userpool from "../../../utils/userpool";
@@ -92,7 +92,7 @@ const Layout = ({ children, isLoading }) => {
           <Spin />
         ) : (
           <AnimatedPage>
-            <MaintenanceAlert />
+            <PendingAlert />
             {children}
           </AnimatedPage>
         )}

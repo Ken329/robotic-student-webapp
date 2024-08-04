@@ -88,8 +88,8 @@ const Verify = () => {
         actions.resetForm();
         navigate("/login");
         toast({
-          title: "Sign-Up",
-          description: "Account sign-up successful",
+          title: "Verification",
+          description: "Account email verification successful",
           status: "success",
         });
       }

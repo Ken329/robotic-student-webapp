@@ -7,3 +7,7 @@ export const makeSelectBlogsData = () =>
 
 export const makeSelectFilesData = () =>
   createSelector(selectPosts, (appState) => appState.files);
+
+export const makeSelectCompetitionsData = () =>
+  createSelector(selectPosts, (appState) => appState.competitions);
+

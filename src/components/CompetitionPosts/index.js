@@ -10,19 +10,16 @@ import {
   InputGroup,
   InputLeftElement,
   Flex,
+  Icon,
 } from "@chakra-ui/react";
+import { FaMedal } from "react-icons/fa";
 import { SearchIcon } from "@chakra-ui/icons";
-import BlogCard from "./BlogCard";
+import BlogCard from "../BlogPosts/BlogCard";
 import { sortBlogs } from "../../utils/helper";
 
-const BlogList = ({ blogs }) => {
-  const [selectedCategory, setSelectedCategory] = useState("all");
+const CompetitionPosts = ({ blogs }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("newest");
-
-  const handleCategoryChange = (event) => {
-    setSelectedCategory(event.target.value);
-  };
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
@@ -33,12 +30,10 @@ const BlogList = ({ blogs }) => {
   };
 
   const filteredBlogs = blogs.filter((blog) => {
-    const matchesCategory =
-      selectedCategory === "all" || blog.category === selectedCategory;
     const matchesSearch = blog.title
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
+    return matchesSearch;
   });
 
   const sortedAndFilteredBlogs = sortBlogs(filteredBlogs, sortBy);
@@ -66,23 +61,6 @@ const BlogList = ({ blogs }) => {
         </InputGroup>
         <Flex direction={{ base: "rown", md: 0, lg: 0 }} gap={4}>
           <Select
-            onChange={handleCategoryChange}
-            bg="white"
-            flex="1"
-            borderRadius="md"
-            boxShadow="sm"
-            _focus={{ boxShadow: "outline" }}
-          >
-            <option value="all">All</option>
-            {[...new Set(blogs.map((blog) => blog.category))].map(
-              (category) => (
-                <option key={category} value={category}>
-                  {category}
-                </option>
-              )
-            )}
-          </Select>
-          <Select
             onChange={handleSortChange}
             bg="white"
             flex="1"
@@ -98,24 +76,50 @@ const BlogList = ({ blogs }) => {
         </Flex>
       </Flex>
       <Heading as="h3" size="lg" mb="10px">
-        Latest Posts
+        My competitions
       </Heading>
       <SimpleGrid columns={{ base: 1, md: 1, lg: 3 }} spacing={5}>
         {sortedAndFilteredBlogs.map((blog) => (
           <BlogCard key={blog.id} blog={blog} />
         ))}
       </SimpleGrid>
-      {sortedAndFilteredBlogs.length === 0 && <Text>None</Text>}
+      {sortedAndFilteredBlogs.length === 0 && (
+        <Flex
+          alignItems="center"
+          justifyContent="center"
+          direction="column"
+          bg="orange.100"
+          p={4}
+          borderRadius="md"
+          boxShadow="md"
+          my={4}
+        >
+          <Icon as={FaMedal} boxSize={12} color="orange.500" mb={2} />
+          <Text
+            fontSize="xl"
+            fontWeight="bold"
+            color="orange.700"
+            textAlign="center"
+            mb={1}
+          >
+            You have not joined any competitions yet!
+          </Text>
+          <Text fontSize="md" color="orange.600" textAlign="center" px={2}>
+            Look out for upcoming competitions or contact your centre for more
+            info.
+          </Text>
+        </Flex>
+      )}
     </Box>
   );
 };
 
-BlogList.propTypes = {
+CompetitionPosts.propTypes = {
   blogs: PropTypes.array.isRequired,
 };
 
-BlogList.defaultProps = {
+CompetitionPosts.defaultProps = {
   blogs: [],
 };
 
-export default BlogList;
+export default CompetitionPosts;
