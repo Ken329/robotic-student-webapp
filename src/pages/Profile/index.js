@@ -190,6 +190,17 @@ const Profile = () => {
           </Grid>
 
           <FormControl>
+            <FormLabel>Joined Date</FormLabel>
+            <Input
+              placeholder="joinedDate"
+              _placeholder={{ color: "gray.500" }}
+              type="text"
+              value={getValue("joinedDate").toUpperCase()}
+              isReadOnly={!editable}
+            />
+          </FormControl>
+
+          <FormControl>
             <FormLabel>Student ID</FormLabel>
             <Input
               placeholder="studentId"
