@@ -1,5 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
+import { makeSelectUserStatus } from "../../../redux/slices/app/selector";
 import SteamCupPlusWord from "../../../assets/images/STEAM-Cup+-Text.png";
 import {
   Box,
@@ -12,10 +14,22 @@ import { FiHome, FiCompass, FiStar } from "react-icons/fi";
 import NavItem from "./NavItem";
 
 const SidebarContent = ({ onClose, ...props }) => {
+  const userStatus = useSelector(makeSelectUserStatus());
+
   const LinkItems = [
-    { name: "Dashboard", icon: FiHome, path: "/dashboard" },
-    { name: "Achievements", icon: FiStar, path: "/achievements" },
-    { name: "Competitions", icon: FiCompass, path: "/competitions" },
+    { name: "Dashboard", icon: FiHome, path: "/dashboard", isDisabled: false },
+    {
+      name: "Achievements",
+      icon: FiStar,
+      path: "/achievements",
+      isDisabled: userStatus !== "approved",
+    },
+    {
+      name: "Competitions",
+      icon: FiCompass,
+      path: "/competitions",
+      isDisabled: userStatus !== "approved",
+    },
   ];
 
   return (
@@ -36,13 +50,18 @@ const SidebarContent = ({ onClose, ...props }) => {
           maxH={{
             base: "60px",
             md: "80px",
-            lg: "80px"
+            lg: "80px",
           }}
         />
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link, index) => (
-        <NavItem key={index} icon={link.icon} path={link.path}>
+        <NavItem
+          key={index}
+          icon={link.icon}
+          path={link.path}
+          isDisabled={link.isDisabled}
+        >
           {link.name}
         </NavItem>
       ))}

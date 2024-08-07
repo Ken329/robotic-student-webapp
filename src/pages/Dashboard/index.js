@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { makeSelectUserStatus } from "../../redux/slices/app/selector";
 import { useGetAllBlogsQuery } from "../../redux/slices/posts/api";
 import { saveBlogsData } from "../../redux/slices/posts";
 import { makeSelectBlogsData } from "../../redux/slices/posts/selector";
@@ -13,23 +14,30 @@ const Dashboard = () => {
   const dispatch = useDispatch();
   const toast = useCustomToast();
   const blogsData = useSelector(makeSelectBlogsData());
-  const { data, isLoading, isError, refetch } = useGetAllBlogsQuery();
+  const userStatus = useSelector(makeSelectUserStatus());
+  const { data, isLoading, isError, refetch } = useGetAllBlogsQuery(undefined, {
+    skip: userStatus !== "approved",
+  });
 
   useEffect(() => {
-    if (!isLoading && !isError && data) {
-      dispatch(saveBlogsData(data?.data));
-    } else if (isError) {
-      toast({
-        title: "Dashboard",
-        description: "Error getting blogs list",
-        status: "error",
-      });
+    if (userStatus === "approved") {
+      if (!isLoading && !isError && data) {
+        dispatch(saveBlogsData(data?.data));
+      } else if (isError) {
+        toast({
+          title: "Dashboard",
+          description: "Error getting blogs list",
+          status: "error",
+        });
+      }
     }
-  }, [data, isLoading, isError, dispatch]);
+  }, [data, isLoading, isError, userStatus, dispatch, toast]);
 
   useEffect(() => {
-    refetch();
-  }, [refetch]);
+    if (userStatus === "approved") {
+      refetch();
+    }
+  }, [userStatus, refetch]);
 
   const priorityBlogs = blogsData.filter((blog) => blog.type === "priority");
 

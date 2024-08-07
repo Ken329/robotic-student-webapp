@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
@@ -20,21 +20,24 @@ import { FiMenu, FiChevronDown } from "react-icons/fi";
 
 const MobileNav = ({ onOpen, onLogout, onClickProfile, ...props }) => {
   const location = useLocation();
-  const [currentPage, setCurrentPage] = useState("");
   const userName = useSelector(makeSelectUserName());
+  const storedUserName = localStorage.getItem("userName");
 
   useEffect(() => {
-    const pageTitles = {
-      "/dashboard": "Dashboard",
-      "/test": "Test",
-      "/profile": "Profile",
-      "/achievements": "Achievements",
-      "/competitions": "Competitions",
-    };
+    if (userName && userName !== storedUserName) {
+      localStorage.setItem("userName", userName);
+    }
+  }, [storedUserName, userName]);
 
-    const currentLocation = location?.pathname;
-    setCurrentPage(pageTitles[currentLocation] || "");
-  }, [location]);
+  const pageTitles = {
+    "/dashboard": "Dashboard",
+    "/test": "Test",
+    "/profile": "Profile",
+    "/achievements": "Achievements",
+    "/competitions": "Competitions",
+  };
+
+  const currentPage = pageTitles[location.pathname] || "";
 
   return (
     <Flex
@@ -79,12 +82,12 @@ const MobileNav = ({ onOpen, onLogout, onClickProfile, ...props }) => {
               <HStack>
                 <Avatar
                   size="sm"
-                  name={userName}
+                  name={storedUserName}
                   bg="orange.400"
                   color="white"
                   showBorder
                   borderColor="green.300"
-                  borderWidth="3px" 
+                  borderWidth="3px"
                   _hover={{ transform: "scale(1.05)" }}
                 />
                 <Box display={{ base: "none", md: "flex" }}>
