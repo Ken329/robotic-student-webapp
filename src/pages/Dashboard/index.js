@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Flex, Text, Icon } from "@chakra-ui/react";
-import { FaMedal } from "react-icons/fa";
+import { Box, Text } from "@chakra-ui/react";
 import { makeSelectUserStatus } from "../../redux/slices/app/selector";
 import { useGetAllBlogsQuery } from "../../redux/slices/posts/api";
 import { saveBlogsData } from "../../redux/slices/posts";
@@ -51,27 +50,16 @@ const Dashboard = () => {
   if (userStatus !== "approved") {
     return (
       <Layout>
-        <Flex
-          alignItems="center"
+        <Box
+          display="flex"
           justifyContent="center"
-          direction="column"
-          bg="orange.100"
-          p={4}
-          borderRadius="md"
-          boxShadow="md"
-          my={4}
+          alignItems="center"
+          textAlign="center"
         >
-          <Icon as={FaMedal} boxSize={12} color="orange.500" mb={2} />
-          <Text
-            fontSize="xl"
-            fontWeight="bold"
-            color="orange.700"
-            textAlign="center"
-            mb={1}
-          >
-            No Data Found!
+          <Text fontSize="xl" color="gray.600">
+            No data found
           </Text>
-        </Flex>
+        </Box>{" "}
       </Layout>
     );
   }
