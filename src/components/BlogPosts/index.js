@@ -10,7 +10,9 @@ import {
   InputGroup,
   InputLeftElement,
   Flex,
+  Icon,
 } from "@chakra-ui/react";
+import { FaMedal } from "react-icons/fa";
 import { SearchIcon } from "@chakra-ui/icons";
 import BlogCard from "./BlogCard";
 import { sortBlogs } from "../../utils/helper";
@@ -105,7 +107,29 @@ const BlogList = ({ blogs }) => {
           <BlogCard key={blog.id} blog={blog} />
         ))}
       </SimpleGrid>
-      {sortedAndFilteredBlogs.length === 0 && <Text>None</Text>}
+      {sortedAndFilteredBlogs.length === 0 && (
+        <Flex
+          alignItems="center"
+          justifyContent="center"
+          direction="column"
+          bg="orange.100"
+          p={4}
+          borderRadius="md"
+          boxShadow="md"
+          my={4}
+        >
+          <Icon as={FaMedal} boxSize={12} color="orange.500" mb={2} />
+          <Text
+            fontSize="xl"
+            fontWeight="bold"
+            color="orange.700"
+            textAlign="center"
+            mb={1}
+          >
+            No Data Found!
+          </Text>
+        </Flex>
+      )}
     </Box>
   );
 };

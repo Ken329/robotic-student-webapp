@@ -45,7 +45,7 @@ const signUpSchema = Yup.object().shape({
     .trim()
     .optional()
     .matches(
-      /^(\+?6?01)[02-46-9]-*[0-9]{7}$|^(\+?6?01)[1]-*[0-9]{8}$/,
+      /^(\+?6?01)[02-46-9]-*[0-9]{7}$|^(\+?6?01)[02-46-9]-*[0-9]{8}$|^(\+?6?01)[1]-*[0-9]{8}$/,
       "Invalid phone number. Please use a valid Malaysian phone number."
     ),
   race: Yup.string().required("Race is required"),
@@ -65,7 +65,7 @@ const signUpSchema = Yup.object().shape({
     .trim()
     .required("Parent contact number is required")
     .matches(
-      /^(\+?6?01)[02-46-9]-*[0-9]{7}$|^(\+?6?01)[1]-*[0-9]{8}$/,
+      /^(\+?6?01)[02-46-9]-*[0-9]{7}$|^(\+?6?01)[02-46-9]-*[0-9]{8}$|^(\+?6?01)[1]-*[0-9]{8}$/,
       "Invalid phone number. Please use a valid Malaysian phone number."
     ),
   size: Yup.string().required("T-Shirt size is required"),

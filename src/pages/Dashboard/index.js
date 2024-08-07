@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Flex, Text, Icon } from "@chakra-ui/react";
+import { FaMedal } from "react-icons/fa";
 import { makeSelectUserStatus } from "../../redux/slices/app/selector";
 import { useGetAllBlogsQuery } from "../../redux/slices/posts/api";
 import { saveBlogsData } from "../../redux/slices/posts";
@@ -46,6 +48,33 @@ const Dashboard = () => {
     id: blog.id,
   }));
 
+  if (userStatus !== "approved") {
+    return (
+      <Layout>
+        <Flex
+          alignItems="center"
+          justifyContent="center"
+          direction="column"
+          bg="orange.100"
+          p={4}
+          borderRadius="md"
+          boxShadow="md"
+          my={4}
+        >
+          <Icon as={FaMedal} boxSize={12} color="orange.500" mb={2} />
+          <Text
+            fontSize="xl"
+            fontWeight="bold"
+            color="orange.700"
+            textAlign="center"
+            mb={1}
+          >
+            No Data Found!
+          </Text>
+        </Flex>
+      </Layout>
+    );
+  }
   return (
     <Layout isLoading={isLoading}>
       <NotificationBanner />
