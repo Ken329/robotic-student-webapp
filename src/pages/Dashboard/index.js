@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Box, Text } from "@chakra-ui/react";
 import { makeSelectUserStatus } from "../../redux/slices/app/selector";
 import { useGetAllBlogsQuery } from "../../redux/slices/posts/api";
 import { saveBlogsData } from "../../redux/slices/posts";
@@ -46,6 +47,22 @@ const Dashboard = () => {
     id: blog.id,
   }));
 
+  if (userStatus !== "approved") {
+    return (
+      <Layout>
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          textAlign="center"
+        >
+          <Text fontSize="xl" color="gray.600">
+            No data found
+          </Text>
+        </Box>{" "}
+      </Layout>
+    );
+  }
   return (
     <Layout isLoading={isLoading}>
       <NotificationBanner />
