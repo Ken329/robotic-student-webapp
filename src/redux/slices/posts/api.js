@@ -14,9 +14,12 @@ export const postsApi = baseApiSlice.injectEndpoints({
         }),
       }),
       competitionSignUp: builder.mutation({
-        query: (blogId) => ({
+        query: ({ blogId, payload }) => ({
           url: `/participants/${blogId}`,
           method: "POST",
+          body: {
+            attributes: payload.attributes,
+          },
         }),
       }),
       signUpConfirmation: builder.query({
@@ -29,6 +32,11 @@ export const postsApi = baseApiSlice.injectEndpoints({
           url: "/participants",
         }),
       }),
+      getAllStudents: builder.query({
+        query: () => ({
+          url: "/user/students",
+        }),
+      }),
     };
   },
 });
@@ -39,4 +47,5 @@ export const {
   useCompetitionSignUpMutation,
   useSignUpConfirmationQuery,
   useGetAllSignUpsQuery,
+  useGetAllStudentsQuery,
 } = postsApi;
