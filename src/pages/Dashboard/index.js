@@ -59,7 +59,7 @@ const Dashboard = () => {
           <Text fontSize="xl" color="gray.600">
             No data found
           </Text>
-        </Box>{" "}
+        </Box>
       </Layout>
     );
   }

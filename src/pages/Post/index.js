@@ -5,6 +5,7 @@ import {
   useGetPostByIdQuery,
   useCompetitionSignUpMutation,
   useSignUpConfirmationQuery,
+  useGetAllStudentsQuery,
 } from "../../redux/slices/posts/api";
 import {
   Box,
@@ -23,7 +24,11 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
+  Checkbox,
+  FormControl,
+  FormLabel,
 } from "@chakra-ui/react";
+import Select from "react-select";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import useCustomToast from "../../components/CustomToast";
 import Layout from "../../components/Layout/MainLayout";
@@ -34,7 +39,11 @@ const Post = () => {
   const { id } = useParams();
   const toast = useCustomToast();
   const [blog, setBlog] = useState(null);
+  const [remark, setRemark] = useState("");
   const [signedUp, setSignedUp] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [teamMember, setTeamMember] = useState(null);
+  const [studentList, setStudentList] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { data, isLoading, isError } = useGetPostByIdQuery(id);
   const {
@@ -44,13 +53,31 @@ const Post = () => {
   } = useSignUpConfirmationQuery(id, {
     skip: blog?.category !== POST_TYPE.COMPETITION,
   });
+  const {
+    data: studentData,
+    isLoading: studentDataLoading,
+    isError: studentDataError,
+  } = useGetAllStudentsQuery(null, {
+    skip: blog?.category !== POST_TYPE.COMPETITION,
+  });
 
   const [competitionSignUp, { isLoading: signUpLoading }] =
     useCompetitionSignUpMutation();
 
   useEffect(() => {
-    if ((data, !isLoading, !isError)) {
-      setBlog(data?.data);
+    if (data && !isLoading && !isError) {
+      setBlog(data.data);
+
+      let content = data.data.content || "";
+      const remarkMatch = content.match(/\{remark:\s*([^}]+)\}/);
+      if (remarkMatch) {
+        setRemark(remarkMatch[1]);
+        content = content.replace(remarkMatch[0], "");
+        setBlog((prevBlog) => ({
+          ...prevBlog,
+          content: content,
+        }));
+      }
     } else if (isError) {
       toast({
         title: "Posts",
@@ -61,8 +88,31 @@ const Post = () => {
   }, [data, isLoading, isError]);
 
   useEffect(() => {
-    if ((hasSignedUpData, !hasSignedUpLoading, !hasSignedUpError)) {
-      setSignedUp(hasSignedUpData?.data ? true : false);
+    if (hasSignedUpData && !hasSignedUpLoading && !hasSignedUpError) {
+      if (hasSignedUpData.data) {
+        setSignedUp(true);
+
+        const { attributes } = hasSignedUpData.data;
+
+        const selectedCategoryAttr = attributes.find(
+          (attr) => attr.value === true
+        );
+        const teamMemberAttr = attributes.find(
+          (attr) => attr.category === "Team Member"
+        );
+
+        if (selectedCategoryAttr) {
+          setSelectedCategory(selectedCategoryAttr.category);
+        }
+        if (teamMemberAttr) {
+          setTeamMember({
+            value: teamMemberAttr.value,
+            label: teamMemberAttr.value,
+          });
+        }
+      } else {
+        setSignedUp(false);
+      }
     } else if (hasSignedUpError) {
       toast({
         title: "Competition",
@@ -72,9 +122,46 @@ const Post = () => {
     }
   }, [hasSignedUpData, hasSignedUpLoading, hasSignedUpError]);
 
+  useEffect(() => {
+    if (studentData && !studentDataLoading && !studentDataError) {
+      setStudentList(studentData?.data);
+    } else if (studentDataError) {
+      toast({
+        title: "Competition",
+        description: "Error getting student list for team member checking",
+        status: "error",
+      });
+    }
+  }, [studentData, studentDataLoading, studentDataError]);
+
   const handleCompetitionSignUp = async (blogId) => {
+    if (!selectedCategory) {
+      toast({
+        title: "Competition",
+        description: "Please select at least one game to register.",
+        status: "warning",
+      });
+      return;
+    }
+
+    const attributes = blog.customAttributes.map((attribute) => {
+      if (attribute.category === "Team Member") {
+        return {
+          category: "Team Member",
+          value: teamMember ? teamMember.value : "",
+        };
+      } else {
+        return {
+          category: attribute.category,
+          value: selectedCategory === attribute.category,
+        };
+      }
+    });
+
+    const payload = { attributes };
+
     try {
-      const response = await competitionSignUp(blogId).unwrap();
+      const response = await competitionSignUp({ blogId, payload }).unwrap();
 
       if (response?.success) {
         toast({
@@ -96,6 +183,20 @@ const Post = () => {
   const handleSignUp = () => {
     onOpen();
   };
+
+  const handleCheckboxChange = (category) => {
+    setSelectedCategory(category);
+  };
+
+  const handleTeamMemberChange = (selectedOption) => {
+    setTeamMember(selectedOption);
+  };
+
+  const teamMemberOptions =
+    studentList?.map((student) => ({
+      value: student.email,
+      label: student.name,
+    })) || [];
 
   return (
     <Layout isLoading={isLoading}>
@@ -160,6 +261,41 @@ const Post = () => {
           <Box className="ql-editor">{parse(`${blog?.content}`)}</Box>
           {blog?.category === POST_TYPE.COMPETITION && (
             <VStack marginTop="30px">
+              <VStack align="start" spacing="5" mb="30px">
+                {blog?.customAttributes?.map((attribute, index) => {
+                  if (attribute.category === "Team Member") {
+                    return (
+                      <FormControl key={index}>
+                        <FormLabel>
+                          {attribute.category} {remark && `(${remark})`}
+                        </FormLabel>
+                        <Select
+                          placeholder="Select team member"
+                          value={teamMember}
+                          onChange={handleTeamMemberChange}
+                          options={teamMemberOptions}
+                          isSearchable
+                          isClearable
+                          isDisabled={signedUp}
+                        />
+                      </FormControl>
+                    );
+                  } else {
+                    return (
+                      <Checkbox
+                        key={index}
+                        isChecked={selectedCategory === attribute.category}
+                        onChange={() =>
+                          handleCheckboxChange(attribute.category)
+                        }
+                        isDisabled={signedUp}
+                      >
+                        {attribute.category}
+                      </Checkbox>
+                    );
+                  }
+                })}
+              </VStack>
               {signedUp ? (
                 <Text
                   fontSize={{ base: "md", md: "md", lg: "md" }}
