@@ -15,6 +15,7 @@ import {
   MenuList,
   MenuDivider,
   Avatar,
+  AvatarBadge,
 } from "@chakra-ui/react";
 import { FiMenu, FiChevronDown } from "react-icons/fi";
 
@@ -85,11 +86,9 @@ const MobileNav = ({ onOpen, onLogout, onClickProfile, ...props }) => {
                   name={storedUserName}
                   bg="orange.400"
                   color="white"
-                  showBorder
-                  borderColor="green.300"
-                  borderWidth="3px"
-                  _hover={{ transform: "scale(1.05)" }}
-                />
+                >
+                  <AvatarBadge boxSize="1.25em" bg="green.500" />
+                </Avatar>
                 <Box display={{ base: "none", md: "flex" }}>
                   <FiChevronDown />
                 </Box>

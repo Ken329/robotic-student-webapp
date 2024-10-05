@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Box, Flex, IconButton, Heading } from "@chakra-ui/react";
-import { ArrowLeftIcon, ArrowRightIcon } from "@chakra-ui/icons";
+import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 
 const Carousel = ({ slides }) => {
   const navigate = useNavigate();
@@ -60,7 +60,7 @@ const Carousel = ({ slides }) => {
           ))}
         </Flex>
         <IconButton
-          icon={<ArrowLeftIcon />}
+          icon={<ChevronLeftIcon boxSize={{ base: 6, md: 10, lg: 10 }} />}
           position="absolute"
           top="50%"
           left="10px"
@@ -71,7 +71,7 @@ const Carousel = ({ slides }) => {
           hidden={slides.length < 2}
         />
         <IconButton
-          icon={<ArrowRightIcon />}
+          icon={<ChevronRightIcon boxSize={{ base: 6, md: 10, lg: 10 }} />}
           position="absolute"
           top="50%"
           right="10px"
