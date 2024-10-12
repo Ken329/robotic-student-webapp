@@ -162,7 +162,7 @@ const Profile = () => {
           </FormControl>
 
           <Grid
-            templateColumns="calc(65% - 8px) calc(35% - 8px)"
+            templateColumns="calc(62% - 8px) calc(38% - 8px)"
             gap={4}
             w="100%"
           >
@@ -178,6 +178,17 @@ const Profile = () => {
             </FormControl>
 
             <FormControl>
+              <FormLabel>Joined Date</FormLabel>
+              <Input
+                placeholder="joinedDate"
+                _placeholder={{ color: "gray.500" }}
+                type="text"
+                value={getValue("joinedDate").toUpperCase()}
+                isReadOnly={!editable}
+              />
+            </FormControl>
+
+            {/* <FormControl>
               <FormLabel>T-Shirt Size</FormLabel>
               <Input
                 placeholder="size"
@@ -186,19 +197,8 @@ const Profile = () => {
                 value={getValue("size").toUpperCase()}
                 isReadOnly={!editable}
               />
-            </FormControl>
+            </FormControl> */}
           </Grid>
-
-          <FormControl>
-            <FormLabel>Joined Date</FormLabel>
-            <Input
-              placeholder="joinedDate"
-              _placeholder={{ color: "gray.500" }}
-              type="text"
-              value={getValue("joinedDate").toUpperCase()}
-              isReadOnly={!editable}
-            />
-          </FormControl>
 
           <FormControl>
             <FormLabel>Student ID</FormLabel>

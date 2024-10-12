@@ -180,7 +180,7 @@ const SignUpPage = () => {
       relationship: "",
       parentEmail: "",
       parentContact: "",
-      size: "",
+      size: "S",
       parentConsent: false,
     },
     validationSchema: signUpSchema,
@@ -679,7 +679,17 @@ const SignUpPage = () => {
                 }
                 w="100%"
               >
-                <FormLabel>Moe Email</FormLabel>
+                {/* <FormLabel>MOE Email</FormLabel> */}
+                <FormLabel>
+                  MOE Email
+                  <UnorderedList>
+                    <ListItem fontSize="sm" color={"red"}>
+                      Please enter your MOE email if your school is registered
+                      with the Ministry of Education Malaysia and you have an
+                      MOE account
+                    </ListItem>
+                  </UnorderedList>
+                </FormLabel>
                 <Input
                   name="moeEmail"
                   placeholder="MOE Email"
@@ -758,7 +768,7 @@ const SignUpPage = () => {
                 </FormErrorMessage>
               </FormControl>
 
-              <FormControl
+              {/* <FormControl
                 isInvalid={
                   signUpFormik.errors.size && signUpFormik.touched.size
                 }
@@ -786,7 +796,7 @@ const SignUpPage = () => {
                 </Select>
 
                 <FormErrorMessage>{signUpFormik.errors.size}</FormErrorMessage>
-              </FormControl>
+              </FormControl> */}
             </VStack>
           )}
           {step === 4 && (
