@@ -1,6 +1,11 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { useSelector } from "react-redux";
-import { makeSelectUserData } from "../../redux/slices/app/selector";
+import {
+  makeSelectUserData,
+  makeSelectUserStatus,
+} from "../../redux/slices/app/selector";
+import { useRenewStudentAccountMutation } from "../../redux/slices/app/api";
 import {
   Flex,
   FormControl,
@@ -10,13 +15,21 @@ import {
   Stack,
   useColorModeValue,
   Grid,
+  Text,
 } from "@chakra-ui/react";
 import Layout from "../../components/Layout/MainLayout";
+import { ALLOWED_EDIT_ATTRIBUTES } from "../../utils/constants";
 
 const Profile = () => {
   const userData = useSelector(makeSelectUserData());
+  const status = useSelector(makeSelectUserStatus());
   const [profileData, setProfileData] = useState({});
-  const [editable] = useState(false);
+  const [editable, setIsEditable] = useState(false);
+
+  const [renewStudentAccount, { isLoading: renewLoading }] =
+    useRenewStudentAccountMutation();
+
+  const isExpired = useMemo(() => status === "expired", [status]);
 
   useEffect(() => {
     if (userData) {
@@ -26,6 +39,14 @@ const Profile = () => {
 
   const getValue = (field) => profileData[field] || "-";
 
+  const allowedEdit = useCallback(
+    (key) => {
+      const allowed = Object.values(ALLOWED_EDIT_ATTRIBUTES).includes(key);
+      return allowed && isExpired;
+    },
+    [status]
+  );
+
   return (
     <Layout>
       <Flex
@@ -34,7 +55,7 @@ const Profile = () => {
         bg={useColorModeValue("gray.50", "gray.800")}
         borderRadius={"xl"}
       >
-        <Stack spacing={4} w={"100%"} p={6}>
+        <Stack p={6} w="100%" spacing={4}>
           <Heading lineHeight={1.1} fontSize={{ base: "xl", sm: "2xl" }}>
             Student Info
           </Heading>
@@ -45,7 +66,7 @@ const Profile = () => {
               _placeholder={{ color: "gray.500" }}
               type="text"
               value={getValue("fullName").toUpperCase()}
-              isReadOnly={!editable}
+              isReadOnly={!allowedEdit("fullName")}
             />
           </FormControl>
 
@@ -57,7 +78,7 @@ const Profile = () => {
                 _placeholder={{ color: "gray.500" }}
                 type="text"
                 value={getValue("race").toUpperCase()}
-                isReadOnly={!editable}
+                isReadOnly={!allowedEdit("race")}
               />
             </FormControl>
             <FormControl>
@@ -67,7 +88,7 @@ const Profile = () => {
                 _placeholder={{ color: "gray.500" }}
                 type="text"
                 value={getValue("nationality").toUpperCase()}
-                isReadOnly={!editable}
+                isReadOnly={!allowedEdit("nationality")}
               />
             </FormControl>
           </Grid>
@@ -79,7 +100,7 @@ const Profile = () => {
                 _placeholder={{ color: "gray.500" }}
                 type="text"
                 value={getValue("nric").toUpperCase()}
-                isReadOnly={!editable}
+                isReadOnly={!allowedEdit("nric")}
               />
             </FormControl>
           ) : (
@@ -90,7 +111,7 @@ const Profile = () => {
                 _placeholder={{ color: "gray.500" }}
                 type="text"
                 value={getValue("passport").toUpperCase()}
-                isReadOnly={!editable}
+                isReadOnly={!allowedEdit("passport")}
               />
             </FormControl>
           )}
@@ -102,7 +123,7 @@ const Profile = () => {
                 _placeholder={{ color: "gray.500" }}
                 type="text"
                 value={getValue("gender").toUpperCase()}
-                isReadOnly={!editable}
+                isReadOnly={!allowedEdit("gender")}
               />
             </FormControl>
             <FormControl>
@@ -112,19 +133,26 @@ const Profile = () => {
                 _placeholder={{ color: "gray.500" }}
                 type="text"
                 value={getValue("dob").toUpperCase()}
-                isReadOnly={!editable}
+                isReadOnly={!allowedEdit("dob")}
               />
             </FormControl>
           </Grid>
 
           <FormControl>
-            <FormLabel>School</FormLabel>
+            <FormLabel>
+              School{" "}
+              {isExpired && (
+                <Text as="span" color="red">
+                  - editable
+                </Text>
+              )}
+            </FormLabel>
             <Input
               placeholder="school"
               _placeholder={{ color: "gray.500" }}
               type="text"
               value={getValue("school").toUpperCase()}
-              isReadOnly={!editable}
+              isReadOnly={!allowedEdit("school")}
             />
           </FormControl>
 
@@ -135,7 +163,7 @@ const Profile = () => {
               _placeholder={{ color: "gray.500" }}
               type="text"
               value={getValue("moeEmail")}
-              isReadOnly={!editable}
+              isReadOnly={!allowedEdit("moeEmail")}
             />
           </FormControl>
 
@@ -146,18 +174,25 @@ const Profile = () => {
               _placeholder={{ color: "gray.500" }}
               type="text"
               value={getValue("personalEmail")}
-              isReadOnly={!editable}
+              isReadOnly={!allowedEdit("personalEmail")}
             />
           </FormControl>
 
           <FormControl>
-            <FormLabel>Contact Number</FormLabel>
+            <FormLabel>
+              Contact Number{" "}
+              {isExpired && (
+                <Text as="span" color="red">
+                  - editable
+                </Text>
+              )}
+            </FormLabel>
             <Input
               placeholder="contact number"
               _placeholder={{ color: "gray.500" }}
               type="text"
               value={getValue("contact").toUpperCase()}
-              isReadOnly={!editable}
+              isReadOnly={!allowedEdit("contact")}
             />
           </FormControl>
 
@@ -173,7 +208,7 @@ const Profile = () => {
                 _placeholder={{ color: "gray.500" }}
                 type="text"
                 value={getValue("centerName").toUpperCase()}
-                isReadOnly={!editable}
+                isReadOnly={!allowedEdit("centerName")}
               />
             </FormControl>
 
@@ -184,7 +219,7 @@ const Profile = () => {
                 _placeholder={{ color: "gray.500" }}
                 type="text"
                 value={getValue("joinedDate").toUpperCase()}
-                isReadOnly={!editable}
+                isReadOnly={!allowedEdit("joinedDate")}
               />
             </FormControl>
 
@@ -207,7 +242,7 @@ const Profile = () => {
               _placeholder={{ color: "gray.500" }}
               type="text"
               value={getValue("roboticId").toUpperCase()}
-              isReadOnly={!editable}
+              isReadOnly={!allowedEdit("roboticId")}
             />
           </FormControl>
 
@@ -218,7 +253,7 @@ const Profile = () => {
               _placeholder={{ color: "gray.500" }}
               type="text"
               value={getValue("levelName").toUpperCase()}
-              isReadOnly={!editable}
+              isReadOnly={!allowedEdit("levelName")}
             />
           </FormControl>
 
@@ -236,7 +271,7 @@ const Profile = () => {
               _placeholder={{ color: "gray.500" }}
               type="text"
               value={getValue("parentName").toUpperCase()}
-              isReadOnly={!editable}
+              isReadOnly={!allowedEdit("parentName")}
             />
           </FormControl>
           <FormControl>
@@ -246,7 +281,7 @@ const Profile = () => {
               _placeholder={{ color: "gray.500" }}
               type="text"
               value={getValue("relationship").toUpperCase()}
-              isReadOnly={!editable}
+              isReadOnly={!allowedEdit("relationship")}
             />
           </FormControl>
           <FormControl>
@@ -256,17 +291,24 @@ const Profile = () => {
               _placeholder={{ color: "gray.500" }}
               type="text"
               value={getValue("parentEmail")}
-              isReadOnly={!editable}
+              isReadOnly={!allowedEdit("parentEmail")}
             />
           </FormControl>
           <FormControl>
-            <FormLabel>Contact Number</FormLabel>
+            <FormLabel>
+              Contact Number{" "}
+              {isExpired && (
+                <Text as="span" color="red">
+                  - editable
+                </Text>
+              )}
+            </FormLabel>
             <Input
               placeholder="parentContact"
               _placeholder={{ color: "gray.500" }}
               type="text"
               value={getValue("parentContact").toUpperCase()}
-              isReadOnly={!editable}
+              isReadOnly={!allowedEdit("parentContact")}
             />
           </FormControl>
         </Stack>

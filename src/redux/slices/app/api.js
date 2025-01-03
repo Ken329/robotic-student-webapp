@@ -13,8 +13,21 @@ export const appApi = baseApiSlice.injectEndpoints({
           url: "/maintenance",
         }),
       }),
+      renewStudentAccount: builder.mutation({
+        query: ({ payload }) => ({
+          url: `/user/renewsss`,
+          method: "POST",
+          body: {
+            ...payload,
+          },
+        }),
+      }),
     };
   },
 });
 
-export const { useGetUserDataQuery, useMaintenanceCheckQuery } = appApi;
+export const {
+  useGetUserDataQuery,
+  useMaintenanceCheckQuery,
+  useRenewStudentAccountMutation,
+} = appApi;

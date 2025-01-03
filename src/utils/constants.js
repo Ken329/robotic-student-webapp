@@ -20,3 +20,9 @@ export const POST_TYPE = {
   COMPETITION: "competition",
   EXERCISE: "exercise",
 };
+
+export const ALLOWED_EDIT_ATTRIBUTES = {
+  school: "school",
+  contact: "contact",
+  parentContact: "parentContact",
+};
