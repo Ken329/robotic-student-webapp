@@ -5,6 +5,10 @@ import {
   makeSelectUserStatus,
 } from "../../redux/slices/app/selector";
 import {
+  useGetUserDataQuery,
+  useRenewStudentAccountMutation,
+} from "../../redux/slices/app/api";
+import {
   Flex,
   FormControl,
   FormLabel,
@@ -17,14 +21,19 @@ import {
   Button,
 } from "@chakra-ui/react";
 import Layout from "../../components/Layout/MainLayout";
+import useCustomToast from "../../components/CustomToast";
 import EditProfileModal from "./EditProfileModal";
 
 const Profile = () => {
+  const toast = useCustomToast();
   const userData = useSelector(makeSelectUserData());
   const status = useSelector(makeSelectUserStatus());
   const [profileData, setProfileData] = useState({});
   const [editable] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [renewStudentAccount] = useRenewStudentAccountMutation();
+  const { refetch } = useGetUserDataQuery();
 
   const isExpired = useMemo(() => status === "expired", [status]);
 
@@ -36,9 +45,27 @@ const Profile = () => {
 
   const getValue = (field) => profileData[field] || "-";
 
-  const handleSave = (updatedData) => {
-    // Perform API call or update state with new data
-    console.log("Updated Data:", updatedData);
+  const handleSave = async (updatedData) => {
+    try {
+      const response = await renewStudentAccount({
+        payload: updatedData,
+      }).unwrap();
+
+      if (response?.success) {
+        toast({
+          title: "Profile",
+          description: "Successfully update profile data",
+          status: "success",
+        });
+      }
+      refetch();
+    } catch (error) {
+      toast({
+        title: "Profile",
+        description: error?.data?.message || "Failed to update profile data",
+        status: "error",
+      });
+    }
   };
 
   return (
@@ -56,7 +83,7 @@ const Profile = () => {
             </Heading>
             {isExpired && (
               <Button onClick={onOpen} colorScheme="blue" size="sm">
-                Edit
+                Update Profile Data
               </Button>
             )}
           </Flex>

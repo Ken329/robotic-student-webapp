@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import {
   Modal,
@@ -16,10 +16,20 @@ import {
 
 const EditProfileModal = ({ isOpen, onClose, profileData, onSave }) => {
   const [formValues, setFormValues] = useState({
-    school: profileData.school || "",
-    contact: profileData.contact || "",
-    parentContact: profileData.parentContact || "",
+    school: "",
+    contact: "",
+    parentContact: "",
   });
+
+  useEffect(() => {
+    if (profileData) {
+      setFormValues({
+        school: profileData.school || "",
+        contact: profileData.contact || "",
+        parentContact: profileData.parentContact || "",
+      });
+    }
+  }, [profileData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,14 +45,14 @@ const EditProfileModal = ({ isOpen, onClose, profileData, onSave }) => {
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Edit Profile Data</ModalHeader>
+        <ModalHeader>Update Profile Data</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <FormControl>
             <FormLabel>School</FormLabel>
             <Input
               name="school"
-              value={formValues.school}
+              value={formValues?.school}
               onChange={handleChange}
               placeholder="school name"
             />
@@ -51,7 +61,7 @@ const EditProfileModal = ({ isOpen, onClose, profileData, onSave }) => {
             <FormLabel>Contact Number</FormLabel>
             <Input
               name="contact"
-              value={formValues.contact}
+              value={formValues?.contact}
               onChange={handleChange}
               placeholder="personal contact number"
             />
@@ -60,7 +70,7 @@ const EditProfileModal = ({ isOpen, onClose, profileData, onSave }) => {
             <FormLabel>Parent Contact Number</FormLabel>
             <Input
               name="parentContact"
-              value={formValues.parentContact}
+              value={formValues?.parentContact}
               onChange={handleChange}
               placeholder="parent contact number"
             />
