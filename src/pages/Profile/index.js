@@ -1,6 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useSelector } from "react-redux";
-import { makeSelectUserData } from "../../redux/slices/app/selector";
+import {
+  makeSelectUserData,
+  makeSelectUserStatus,
+} from "../../redux/slices/app/selector";
+import {
+  useGetUserDataQuery,
+  useRenewStudentAccountMutation,
+} from "../../redux/slices/app/api";
 import {
   Flex,
   FormControl,
@@ -10,13 +17,25 @@ import {
   Stack,
   useColorModeValue,
   Grid,
+  useDisclosure,
+  Button,
 } from "@chakra-ui/react";
 import Layout from "../../components/Layout/MainLayout";
+import useCustomToast from "../../components/CustomToast";
+import EditProfileModal from "./EditProfileModal";
 
 const Profile = () => {
+  const toast = useCustomToast();
   const userData = useSelector(makeSelectUserData());
+  const status = useSelector(makeSelectUserStatus());
   const [profileData, setProfileData] = useState({});
   const [editable] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [renewStudentAccount] = useRenewStudentAccountMutation();
+  const { refetch } = useGetUserDataQuery();
+
+  const isExpired = useMemo(() => status === "expired", [status]);
 
   useEffect(() => {
     if (userData) {
@@ -26,6 +45,29 @@ const Profile = () => {
 
   const getValue = (field) => profileData[field] || "-";
 
+  const handleSave = async (updatedData) => {
+    try {
+      const response = await renewStudentAccount({
+        payload: updatedData,
+      }).unwrap();
+
+      if (response?.success) {
+        toast({
+          title: "Profile",
+          description: "Successfully update profile data",
+          status: "success",
+        });
+      }
+      refetch();
+    } catch (error) {
+      toast({
+        title: "Profile",
+        description: error?.data?.message || "Failed to update profile data",
+        status: "error",
+      });
+    }
+  };
+
   return (
     <Layout>
       <Flex
@@ -34,10 +76,17 @@ const Profile = () => {
         bg={useColorModeValue("gray.50", "gray.800")}
         borderRadius={"xl"}
       >
-        <Stack spacing={4} w={"100%"} p={6}>
-          <Heading lineHeight={1.1} fontSize={{ base: "xl", sm: "2xl" }}>
-            Student Info
-          </Heading>
+        <Stack p={6} w="100%" spacing={4}>
+          <Flex direction="row" align="center" gap={2}>
+            <Heading lineHeight={1.1} fontSize={{ base: "xl", sm: "2xl" }}>
+              Student Info
+            </Heading>
+            {isExpired && (
+              <Button onClick={onOpen} colorScheme="blue" size="sm">
+                Update Profile Data
+              </Button>
+            )}
+          </Flex>
           <FormControl>
             <FormLabel>Full Name</FormLabel>
             <Input
@@ -270,6 +319,12 @@ const Profile = () => {
             />
           </FormControl>
         </Stack>
+        <EditProfileModal
+          isOpen={isOpen}
+          onClose={onClose}
+          profileData={profileData}
+          onSave={handleSave}
+        />
       </Flex>
     </Layout>
   );

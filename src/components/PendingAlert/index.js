@@ -30,7 +30,7 @@ const PendingAlert = () => {
           </Box>
         </Alert>
       ) : isExpired ? (
-        <Alert status="warning" marginBottom={"8px"}>
+        <Alert status="error" marginBottom={"8px"}>
           <AlertIcon />
           <Box>
             <AlertTitle>Your membership is pending renewal!</AlertTitle>
