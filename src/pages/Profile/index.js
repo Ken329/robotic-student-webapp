@@ -15,7 +15,6 @@ import {
   Heading,
   Input,
   Stack,
-  useColorModeValue,
   Grid,
   useDisclosure,
   Button,
@@ -70,12 +69,7 @@ const Profile = () => {
 
   return (
     <Layout>
-      <Flex
-        minH={"100vh"}
-        justify={"center"}
-        bg={useColorModeValue("gray.50", "gray.800")}
-        borderRadius={"xl"}
-      >
+      <Flex minH="100vh" justify="center" bg="gray.50" borderRadius="xl">
         <Stack p={6} w="100%" spacing={4}>
           <Flex direction="row" align="center" gap={2}>
             <Heading lineHeight={1.1} fontSize={{ base: "xl", sm: "2xl" }}>

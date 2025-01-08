@@ -3,13 +3,7 @@ import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { makeSelectUserStatus } from "../../../redux/slices/app/selector";
 import SteamCupPlusWord from "../../../assets/images/STEAM-Cup+-Text.png";
-import {
-  Box,
-  Flex,
-  CloseButton,
-  useColorModeValue,
-  Image,
-} from "@chakra-ui/react";
+import { Box, Flex, CloseButton, Image } from "@chakra-ui/react";
 import { FiHome, FiCompass, FiStar } from "react-icons/fi";
 import NavItem from "./NavItem";
 
@@ -35,9 +29,7 @@ const SidebarContent = ({ onClose, ...props }) => {
   return (
     <Box
       transition="3s ease"
-      bg={"#dde6ed"}
-      borderRight="1px"
-      borderRightColor={useColorModeValue("gray.200", "gray.700")}
+      bg="#dde6ed"
       w={{ base: "full", md: 60 }}
       pos="fixed"
       h="full"
