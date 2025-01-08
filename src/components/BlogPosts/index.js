@@ -126,7 +126,7 @@ const BlogList = ({ blogs }) => {
             textAlign="center"
             mb={1}
           >
-            No Data Found!
+            No posts found
           </Text>
         </Flex>
       )}

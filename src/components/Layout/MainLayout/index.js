@@ -4,12 +4,7 @@ import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { useGetUserDataQuery } from "../../../redux/slices/app/api";
 import { saveUserData } from "../../../redux/slices/app";
-import {
-  Box,
-  useColorModeValue,
-  Drawer,
-  DrawerContent,
-} from "@chakra-ui/react";
+import { Box, Drawer, DrawerContent } from "@chakra-ui/react";
 import SidebarContent from "./SideBarContent";
 import MobileNav from "./MobileNavItem";
 import PendingAlert from "../../PendingAlert";
@@ -65,7 +60,7 @@ const Layout = ({ children, isLoading }) => {
   };
 
   return (
-    <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
+    <Box minH="100vh" bg="gray.100">
       <SidebarContent
         onClose={onClose}
         display={{ base: "none", md: "block" }}
