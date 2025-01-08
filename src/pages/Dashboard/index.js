@@ -47,7 +47,11 @@ const Dashboard = () => {
     id: blog.id,
   }));
 
-  if (userStatus !== "approved") {
+  if (!userStatus) {
+    return <Layout isLoading={!userStatus}></Layout>;
+  }
+
+  if (userStatus && userStatus !== "approved") {
     return (
       <Layout>
         <Box
@@ -57,7 +61,7 @@ const Dashboard = () => {
           textAlign="center"
         >
           <Text fontSize="xl" color="gray.600">
-            No data found
+            Posts are available for approved accounts only
           </Text>
         </Box>
       </Layout>
