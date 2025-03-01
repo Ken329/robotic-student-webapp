@@ -27,6 +27,7 @@ import {
   Checkbox,
   FormControl,
   FormLabel,
+  Input,
 } from "@chakra-ui/react";
 import Select from "react-select";
 import { ArrowBackIcon } from "@chakra-ui/icons";
@@ -43,6 +44,7 @@ const Post = () => {
   const [signedUp, setSignedUp] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [teamMember, setTeamMember] = useState(null);
+  const [textInputValues, setTextInputValues] = useState({});
   const [studentList, setStudentList] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { data, isLoading, isError } = useGetPostByIdQuery(id);
@@ -110,6 +112,15 @@ const Post = () => {
             label: teamMemberAttr.value,
           });
         }
+
+        const textInputValues = {};
+        attributes.forEach((attr) => {
+          if (typeof attr.value === "string") {
+            textInputValues[attr.category] = attr.value;
+          }
+        });
+
+        setTextInputValues(textInputValues);
       } else {
         setSignedUp(false);
       }
@@ -145,12 +156,26 @@ const Post = () => {
     }
 
     const attributes = blog.customAttributes.map((attribute) => {
-      if (attribute.category === "Team Member") {
+      if (
+        attribute.category === "Team Member" ||
+        attribute.type === "Team Member"
+      ) {
         return {
           category: "Team Member",
           value: teamMember ? teamMember.value : "",
         };
+      } else if (attribute.type === "textInput") {
+        return {
+          category: attribute.category,
+          value: textInputValues[attribute.category] || "",
+        };
+      } else if (attribute.type === "checkbox") {
+        return {
+          category: attribute.category,
+          value: selectedCategory === attribute.category,
+        };
       } else {
+        // fallback to checkboxes to handle old posts
         return {
           category: attribute.category,
           value: selectedCategory === attribute.category,
@@ -186,6 +211,13 @@ const Post = () => {
 
   const handleCheckboxChange = (category) => {
     setSelectedCategory(category);
+  };
+
+  const handleTextInputChange = (category, value) => {
+    setTextInputValues((prevValues) => ({
+      ...prevValues,
+      [category]: value,
+    }));
   };
 
   const handleTeamMemberChange = (selectedOption) => {
@@ -263,7 +295,45 @@ const Post = () => {
             <VStack marginTop="30px">
               <VStack align="start" spacing="5" mb="30px">
                 {blog?.customAttributes?.map((attribute, index) => {
-                  if (attribute.category === "Team Member") {
+                  if (attribute.type === "checkbox") {
+                    return (
+                      <Checkbox
+                        key={index}
+                        isChecked={selectedCategory === attribute.category}
+                        onChange={() =>
+                          handleCheckboxChange(attribute.category)
+                        }
+                        isReadOnly={signedUp}
+                      >
+                        {attribute.category}
+                      </Checkbox>
+                    );
+                  }
+
+                  if (attribute.type === "textInput") {
+                    return (
+                      <FormControl key={index}>
+                        <FormLabel>{attribute.category}</FormLabel>
+                        <Input
+                          placeholder={`Enter ${attribute.category}`}
+                          value={textInputValues[attribute.category] || ""}
+                          onChange={(e) =>
+                            handleTextInputChange(
+                              attribute.category,
+                              e.target.value
+                            )
+                          }
+                          mr={2}
+                          isReadOnly={signedUp}
+                        />
+                      </FormControl>
+                    );
+                  }
+
+                  if (
+                    attribute.type === "Team Member" ||
+                    attribute.category === "Team Member"
+                  ) {
                     return (
                       <FormControl key={index}>
                         <FormLabel>
