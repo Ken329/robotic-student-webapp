@@ -291,22 +291,24 @@ const Post = () => {
             <Heading fontSize="2xl">{blog?.title}</Heading>
           </VStack>
           <Box className="ql-editor">{parse(`${blog?.content}`)}</Box>
-          {blog?.category === POST_TYPE.COMPETITION && (
-            <VStack marginTop="30px">
-              <VStack align="start" spacing="5" mb="30px">
+          <Box marginTop="30px">
+            {blog?.category === POST_TYPE.COMPETITION && (
+              <VStack spacing="5" mb="30px">
                 {blog?.customAttributes?.map((attribute, index) => {
                   if (attribute.type === "checkbox") {
                     return (
-                      <Checkbox
-                        key={index}
-                        isChecked={selectedCategory === attribute.category}
-                        onChange={() =>
-                          handleCheckboxChange(attribute.category)
-                        }
-                        isReadOnly={signedUp}
-                      >
-                        {attribute.category}
-                      </Checkbox>
+                      <FormControl key={index}>
+                        <Checkbox
+                          key={index}
+                          isChecked={selectedCategory === attribute.category}
+                          onChange={() =>
+                            handleCheckboxChange(attribute.category)
+                          }
+                          isReadOnly={signedUp}
+                        >
+                          {attribute.category}
+                        </Checkbox>
+                      </FormControl>
                     );
                   }
 
@@ -352,42 +354,44 @@ const Post = () => {
                     );
                   } else {
                     return (
-                      <Checkbox
-                        key={index}
-                        isChecked={selectedCategory === attribute.category}
-                        onChange={() =>
-                          handleCheckboxChange(attribute.category)
-                        }
-                        isDisabled={signedUp}
-                      >
-                        {attribute.category}
-                      </Checkbox>
+                      <FormControl key={index}>
+                        <Checkbox
+                          key={index}
+                          isChecked={selectedCategory === attribute.category}
+                          onChange={() =>
+                            handleCheckboxChange(attribute.category)
+                          }
+                          isDisabled={signedUp}
+                        >
+                          {attribute.category}
+                        </Checkbox>
+                      </FormControl>
                     );
                   }
                 })}
+                {signedUp ? (
+                  <Text
+                    fontSize={{ base: "md", md: "md", lg: "md" }}
+                    color="green"
+                    fontWeight="600"
+                  >
+                    You have signed up for this competition!
+                  </Text>
+                ) : (
+                  <Button
+                    size={{ base: "sm", md: "md", lg: "lg" }}
+                    colorScheme="orange"
+                    onClick={() => {
+                      handleSignUp();
+                    }}
+                    isDisabled={signUpLoading}
+                  >
+                    Register Now
+                  </Button>
+                )}
               </VStack>
-              {signedUp ? (
-                <Text
-                  fontSize={{ base: "md", md: "md", lg: "md" }}
-                  color="green"
-                  fontWeight="600"
-                >
-                  You have signed up for this competition!
-                </Text>
-              ) : (
-                <Button
-                  size={{ base: "sm", md: "md", lg: "lg" }}
-                  colorScheme="orange"
-                  onClick={() => {
-                    handleSignUp();
-                  }}
-                  isDisabled={signUpLoading}
-                >
-                  Register Now
-                </Button>
-              )}
-            </VStack>
-          )}
+            )}
+          </Box>
         </Box>
       </Container>
 
