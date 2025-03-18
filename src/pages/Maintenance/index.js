@@ -1,30 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 import { Box, Flex, Text, VStack, Icon, Image } from "@chakra-ui/react";
 import { FaTools } from "react-icons/fa";
-import { useMaintenanceCheckQuery } from "../../redux/slices/app/api";
+import useGetMaintenance from "./hooks/useGetMaintenance";
 import SteamCupLogo from "../../assets/images/STEAM-Cup+-Logo.png";
 
 const Maintenance = () => {
-  const navigate = useNavigate();
-  const [maintenanceTime, setMaintenanceTime] = useState({});
-  const {
-    data: maintenanceData,
-    isLoading: maintenanceIsLoading,
-    isError: maintenanceIsError,
-  } = useMaintenanceCheckQuery();
-
-  useEffect(() => {
-    if (
-      !maintenanceIsLoading &&
-      !maintenanceIsError &&
-      maintenanceData?.data === null
-    ) {
-      navigate("/login");
-    } else {
-      setMaintenanceTime(maintenanceData?.data);
-    }
-  }, [maintenanceData, maintenanceIsLoading, maintenanceIsError]);
+  const { maintenanceTime } = useGetMaintenance();
 
   return (
     <Box
