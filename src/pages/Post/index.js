@@ -234,165 +234,196 @@ const Post = () => {
     <Layout isLoading={isLoading}>
       <Container maxW="container.md" p={0}>
         <Button
-          onClick={() => navigate("/dashboard")}
           leftIcon={<ArrowBackIcon />}
-          mb="2"
+          color="#27374d"
+          variant="link"
+          onClick={() => navigate("/dashboard")}
+          mb="4"
         >
           Back to Dashboard
         </Button>
-        <Box
-          maxW="full"
-          w="100%"
-          bg="white"
-          p="6"
-          borderRadius="15px"
-          boxShadow="md"
-          overflow="hidden"
-        >
-          <HStack align="start" spacing="1" mb="10px">
-            <Text
-              fontSize={{ base: "xs", md: "md", lg: "md" }}
-              color="gray.500"
-            >
-              By
-            </Text>
-            <Text
-              fontSize={{ base: "xs", md: "md", lg: "md" }}
-              color="#27374d"
-              fontWeight="600"
-            >
-              Admin
-            </Text>
-            <Text
-              fontSize={{ base: "xs", md: "md", lg: "md" }}
-              color="gray.500"
-            >
-              • {new Date(blog?.createdAt).toLocaleDateString()} • {blog?.views}{" "}
-              views
-            </Text>
-          </HStack>
 
+        {isError ? (
           <Box
-            height="auto"
-            width="100%"
-            overflow="hidden"
-            borderRadius="xl"
-            mb="4"
+            w="100%"
+            bg="white"
+            p="10"
+            borderRadius="15px"
+            boxShadow="lg"
+            textAlign="center"
+            minH="300px"
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
           >
-            <Image
-              src={blog?.url}
-              alt={blog?.title}
-              objectFit="cover"
-              width="100%"
+            <Heading fontSize="3xl">404 Not Found</Heading>
+            <Text color="gray.500" mt="4">
+              Oops, the page you are looking for does not exist.
+            </Text>
+          </Box>
+        ) : (
+          <Box
+            maxW="full"
+            w="100%"
+            bg="white"
+            p="6"
+            borderRadius="15px"
+            boxShadow="md"
+            overflow="hidden"
+          >
+            <HStack align="start" spacing="1" mb="10px">
+              <Text
+                fontSize={{ base: "xs", md: "md", lg: "md" }}
+                color="gray.500"
+              >
+                By
+              </Text>
+              <Text
+                fontSize={{ base: "xs", md: "md", lg: "md" }}
+                color="#27374d"
+                fontWeight="600"
+              >
+                Admin
+              </Text>
+              <Text
+                fontSize={{ base: "xs", md: "md", lg: "md" }}
+                color="gray.500"
+              >
+                • {new Date(blog?.createdAt).toLocaleDateString()} •{" "}
+                {blog?.views} views
+              </Text>
+            </HStack>
+
+            <Box
               height="auto"
-            />
-          </Box>
-          <VStack spacing="2" alignItems="flex-start" mb="4">
-            <Heading fontSize="2xl">{blog?.title}</Heading>
-          </VStack>
-          <Box className="ql-editor">{parse(`${blog?.content}`)}</Box>
-          <Box marginTop="30px">
-            {blog?.category === POST_TYPE.COMPETITION && (
-              <VStack spacing="5" mb="30px">
-                {blog?.customAttributes?.map((attribute, index) => {
-                  if (attribute.type === "checkbox") {
-                    return (
-                      <FormControl key={index}>
-                        <Checkbox
-                          key={index}
-                          isChecked={selectedCategory === attribute.category}
-                          onChange={() =>
-                            handleCheckboxChange(attribute.category)
-                          }
-                          isReadOnly={signedUp}
-                        >
-                          {attribute.category}
-                        </Checkbox>
-                      </FormControl>
-                    );
-                  }
+              width="100%"
+              overflow="hidden"
+              borderRadius="xl"
+              mb="4"
+            >
+              <Image
+                src={blog?.url}
+                alt={blog?.title}
+                objectFit="cover"
+                width="100%"
+                height="auto"
+              />
+            </Box>
+            <VStack spacing="2" alignItems="flex-start" mb="4">
+              <Heading
+                fontSize={{
+                  base: "xl",
+                  md: "2xl",
+                }}
+              >
+                {blog?.title}
+              </Heading>
+            </VStack>
+            <Box className="ql-editor">{parse(`${blog?.content}`)}</Box>
+            <Box marginTop="30px">
+              {blog?.category === POST_TYPE.COMPETITION && (
+                <VStack spacing="5" mb="30px">
+                  {blog?.customAttributes?.map((attribute, index) => {
+                    if (attribute.type === "checkbox") {
+                      return (
+                        <FormControl key={index}>
+                          <Checkbox
+                            key={index}
+                            isChecked={selectedCategory === attribute.category}
+                            onChange={() =>
+                              handleCheckboxChange(attribute.category)
+                            }
+                            isReadOnly={signedUp}
+                          >
+                            {attribute.category}
+                          </Checkbox>
+                        </FormControl>
+                      );
+                    }
 
-                  if (attribute.type === "textInput") {
-                    return (
-                      <FormControl key={index}>
-                        <FormLabel>{attribute.category}</FormLabel>
-                        <Input
-                          placeholder={`Enter ${attribute.category}`}
-                          value={textInputValues[attribute.category] || ""}
-                          onChange={(e) =>
-                            handleTextInputChange(
-                              attribute.category,
-                              e.target.value
-                            )
-                          }
-                          mr={2}
-                          isReadOnly={signedUp}
-                        />
-                      </FormControl>
-                    );
-                  }
+                    if (attribute.type === "textInput") {
+                      return (
+                        <FormControl key={index}>
+                          <FormLabel>{attribute.category}</FormLabel>
+                          <Input
+                            placeholder={`Enter ${attribute.category}`}
+                            value={textInputValues[attribute.category] || ""}
+                            onChange={(e) =>
+                              handleTextInputChange(
+                                attribute.category,
+                                e.target.value
+                              )
+                            }
+                            mr={2}
+                            isReadOnly={signedUp}
+                          />
+                        </FormControl>
+                      );
+                    }
 
-                  if (
-                    attribute.type === "Team Member" ||
-                    attribute.category === "Team Member"
-                  ) {
-                    return (
-                      <FormControl key={index}>
-                        <FormLabel>
-                          {attribute.category} {remark && `(${remark})`}
-                        </FormLabel>
-                        <Select
-                          placeholder="Select team member"
-                          value={teamMember}
-                          onChange={handleTeamMemberChange}
-                          options={teamMemberOptions}
-                          isSearchable
-                          isClearable
-                          isDisabled={signedUp}
-                        />
-                      </FormControl>
-                    );
-                  } else {
-                    return (
-                      <FormControl key={index}>
-                        <Checkbox
-                          key={index}
-                          isChecked={selectedCategory === attribute.category}
-                          onChange={() =>
-                            handleCheckboxChange(attribute.category)
-                          }
-                          isDisabled={signedUp}
-                        >
-                          {attribute.category}
-                        </Checkbox>
-                      </FormControl>
-                    );
-                  }
-                })}
-                {signedUp ? (
-                  <Text
-                    fontSize={{ base: "md", md: "md", lg: "md" }}
-                    color="green"
-                    fontWeight="600"
-                  >
-                    You have signed up for this competition!
-                  </Text>
-                ) : (
-                  <Button
-                    size={{ base: "sm", md: "md", lg: "lg" }}
-                    colorScheme="orange"
-                    onClick={() => {
-                      handleSignUp();
-                    }}
-                    isDisabled={signUpLoading}
-                  >
-                    Register Now
-                  </Button>
-                )}
-              </VStack>
-            )}
+                    if (
+                      attribute.type === "Team Member" ||
+                      attribute.category === "Team Member"
+                    ) {
+                      return (
+                        <FormControl key={index}>
+                          <FormLabel>
+                            {attribute.category} {remark && `(${remark})`}
+                          </FormLabel>
+                          <Select
+                            placeholder="Select team member"
+                            value={teamMember}
+                            onChange={handleTeamMemberChange}
+                            options={teamMemberOptions}
+                            isSearchable
+                            isClearable
+                            isDisabled={signedUp}
+                          />
+                        </FormControl>
+                      );
+                    } else {
+                      return (
+                        <FormControl key={index}>
+                          <Checkbox
+                            key={index}
+                            isChecked={selectedCategory === attribute.category}
+                            onChange={() =>
+                              handleCheckboxChange(attribute.category)
+                            }
+                            isDisabled={signedUp}
+                          >
+                            {attribute.category}
+                          </Checkbox>
+                        </FormControl>
+                      );
+                    }
+                  })}
+                  {signedUp ? (
+                    <Text
+                      fontSize={{ base: "md", md: "md", lg: "md" }}
+                      color="green"
+                      fontWeight="600"
+                    >
+                      You have signed up for this competition!
+                    </Text>
+                  ) : (
+                    <Button
+                      size={{ base: "sm", md: "md", lg: "lg" }}
+                      colorScheme="orange"
+                      onClick={() => {
+                        handleSignUp();
+                      }}
+                      isDisabled={signUpLoading}
+                    >
+                      Register Now
+                    </Button>
+                  )}
+                </VStack>
+              )}
+            </Box>
           </Box>
-        </Box>
+        )}
       </Container>
 
       <Modal isOpen={isOpen} onClose={onClose}>
