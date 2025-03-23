@@ -205,7 +205,7 @@ const SignUpPage = () => {
       p={6}
       rounded="md"
       w={{
-        base: "xs", // For mobile screens
+        base: "100%", // For mobile screens
         md: "md", // For medium screens
         lg: "xl", // For large screens
       }}
