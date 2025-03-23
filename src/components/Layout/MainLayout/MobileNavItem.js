@@ -54,9 +54,9 @@ const MobileNav = ({ onOpen, onLogout, onClickProfile, ...props }) => {
       <IconButton
         display={{ base: "flex", md: "none" }}
         onClick={onOpen}
-        variant="outline"
-        aria-label="open menu"
+        variant="ghost"
         icon={<FiMenu />}
+        aria-label="open menu"
       />
 
       <Flex

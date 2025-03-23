@@ -74,15 +74,12 @@ const BlogList = ({ blogs }) => {
             borderRadius="md"
             boxShadow="sm"
             _focus={{ boxShadow: "outline" }}
+            value={selectedCategory}
           >
             <option value="all">All</option>
-            {[...new Set(blogs.map((blog) => blog.category))].map(
-              (category) => (
-                <option key={category} value={category}>
-                  {category}
-                </option>
-              )
-            )}
+            <option value="general">General</option>
+            <option value="exercise">Exercise</option>
+            <option value="competition">Competition</option>
           </Select>
           <Select
             onChange={handleSortChange}
