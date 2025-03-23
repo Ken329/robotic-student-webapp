@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Box, Flex, Icon } from "@chakra-ui/react";
+import { Box, Flex, Icon, Text } from "@chakra-ui/react";
 
 const NavItem = ({ icon, path, children, isDisabled }) => {
   return (
@@ -33,7 +33,7 @@ const NavItem = ({ icon, path, children, isDisabled }) => {
             }}
           />
         )}
-        {children}
+        <Text fontWeight={600}>{children}</Text>
       </Flex>
     </Box>
   );
