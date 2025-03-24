@@ -1,33 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 import PropTypes from "prop-types";
-import { Box, Flex, IconButton, Heading } from "@chakra-ui/react";
+import { Box, Flex, IconButton, Icon, HStack, Heading } from "@chakra-ui/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
+import { GoDotFill } from "react-icons/go";
+import useCarousel from "./hooks/useCarousel";
 
 const Carousel = ({ slides }) => {
-  const navigate = useNavigate();
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  const nextSlide = () => {
-    setCurrentSlide((prevSlide) =>
-      prevSlide === slides.length - 1 ? 0 : prevSlide + 1
-    );
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prevSlide) =>
-      prevSlide === 0 ? slides.length - 1 : prevSlide - 1
-    );
-  };
-
-  useEffect(() => {
-    const interval = setInterval(nextSlide, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const handleSlideClick = (id) => {
-    navigate(`/post/${id}`);
-  };
+  const {
+    emblaRef,
+    selectedIndex,
+    scrollPrev,
+    scrollNext,
+    scrollTo,
+    handleSlideClick,
+  } = useCarousel();
 
   return (
     <Box m={{ base: "5%", md: "5%", lg: "2%" }}>
@@ -36,52 +22,78 @@ const Carousel = ({ slides }) => {
       </Heading>
       <Box
         position="relative"
+        w="full"
         overflow="hidden"
-        borderRadius="10px"
-        height={{ base: "200px", md: "400px" }}
+        borderRadius="lg"
+        bg="black"
       >
-        <Flex
-          height="100%"
-          transition="transform 0.5s ease-in-out"
-          transform={`translateX(-${currentSlide * 100}%)`}
-        >
-          {slides.map((slide, index) => (
-            <Box
-              key={index}
-              flex="0 0 100%"
-              height="100%"
-              background={`url(${slide.url}) center/cover no-repeat`}
-              backgroundSize="contain"
-              backgroundPosition="center"
-              bgColor="black"
-              cursor="pointer"
-              onClick={() => handleSlideClick(slide.id)}
-            ></Box>
-          ))}
-        </Flex>
+        <Box ref={emblaRef} overflow="hidden">
+          <Flex>
+            {slides.map((slide, index) => (
+              <Box
+                key={index}
+                flexShrink={0}
+                flexBasis="100%"
+                height={{ base: "200px", md: "400px" }}
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                bg="black"
+                cursor="pointer"
+                onClick={() => handleSlideClick(slide.id)}
+              >
+                <Box
+                  as="img"
+                  src={slide.url}
+                  maxH="100%"
+                  maxW="100%"
+                  objectFit="contain"
+                />
+              </Box>
+            ))}
+          </Flex>
+        </Box>
+
         <IconButton
-          icon={<ChevronLeftIcon boxSize={{ base: 6, md: 10, lg: 10 }} />}
+          aria-label="Previous Slide"
+          icon={<ChevronLeftIcon boxSize={8} />}
           position="absolute"
           top="50%"
-          left="10px"
-          color="white"
-          bg="transparent"
+          left={2}
           transform="translateY(-50%)"
-          onClick={prevSlide}
-          hidden={slides.length < 2}
+          bg="blackAlpha.600"
+          color="white"
+          _hover={{ bg: "blackAlpha.800" }}
+          onClick={scrollPrev}
         />
         <IconButton
-          icon={<ChevronRightIcon boxSize={{ base: 6, md: 10, lg: 10 }} />}
+          aria-label="Next Slide"
+          icon={<ChevronRightIcon boxSize={8} />}
           position="absolute"
           top="50%"
-          right="10px"
-          color="white"
-          bg="transparent"
+          right={2}
           transform="translateY(-50%)"
-          onClick={nextSlide}
-          hidden={slides.length < 2}
+          bg="blackAlpha.600"
+          color="white"
+          _hover={{ bg: "blackAlpha.800" }}
+          onClick={scrollNext}
         />
       </Box>
+
+      <HStack justify="center" spacing={1} mt={4}>
+        {slides.map((_, index) => (
+          <Icon
+            key={index}
+            as={GoDotFill}
+            boxSize={
+              index === selectedIndex ? { base: 5, md: 6 } : { base: 4, md: 5 }
+            }
+            color={index === selectedIndex ? "blue.400" : "gray.500"}
+            cursor="pointer"
+            onClick={() => scrollTo(index)}
+          />
+        ))}
+      </HStack>
     </Box>
   );
 };
