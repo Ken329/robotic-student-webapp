@@ -12,7 +12,7 @@ import AnimatedPage from "../../AnimatedPage";
 import Spin from "../../Spin";
 import userpool from "../../../utils/userpool";
 
-const Layout = ({ children, isLoading }) => {
+const Layout = ({ children, isLoading, padding = 4 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
@@ -83,7 +83,7 @@ const Layout = ({ children, isLoading }) => {
         onLogout={onLogout}
         onClickProfile={onClickProfile}
       />
-      <Box ml={{ base: 0, md: 60 }} p="4">
+      <Box ml={{ base: 0, md: 60 }} p={padding}>
         {isLoading ? (
           <Spin />
         ) : (
@@ -100,6 +100,7 @@ const Layout = ({ children, isLoading }) => {
 Layout.propTypes = {
   children: PropTypes.any.isRequired,
   isLoading: PropTypes.bool,
+  padding: PropTypes.number,
 };
 
 Layout.defaultProps = {

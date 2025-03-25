@@ -1,66 +1,36 @@
 import React from "react";
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Text, keyframes } from "@chakra-ui/react";
+
+const scrollAnimation = keyframes`
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+`;
 
 const NotificationBanner = () => {
   return (
     <Box
-      overflow="hidden"
       position="relative"
-      width="100%"
-      height={{ base: "35px", md: "35px", lg: "50px" }}
-      borderRadius="5px"
+      w="100%"
+      h={{ base: "35px", lg: "50px" }}
       bg="blue.400"
       display="flex"
       alignItems="center"
       justifyContent="center"
+      overflow="hidden"
     >
-      <Box
-        position="absolute"
-        top="0"
-        left="0"
-        width="100%"
+      <Text
+        as="span"
         whiteSpace="nowrap"
-        animation="scroll 30s linear infinite"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        height="100%"
+        color="white"
+        fontWeight="bold"
+        fontSize={{ base: "sm", md: "md", lg: "lg" }}
+        animation={`${scrollAnimation} 30s linear infinite`}
+        willChange="transform"
+        aria-live="polite"
       >
-        <Text
-          color="white"
-          fontWeight="bold"
-          fontSize={{ base: "sm", md: "md", lg: "lg" }}
-          mx={4}
-        >
-          🎉 Welcome to STEAM Cup+ Student Portal! We have daily scheduled
-          maintenance from 12 AM to 8 AM.
-        </Text>
-      </Box>
-
-      <style>
-        {`
-          @keyframes scroll {
-            0% {
-              transform: translateX(100%);
-            }
-            100% {
-              transform: translateX(-100%);
-            }
-          }
-
-          @media (max-width: 768px) {
-            .chakra-box {
-              animation-duration: 40s; // Slower on smaller screens
-            }
-          }
-
-          @media (min-width: 1200px) {
-            .chakra-box {
-              animation-duration: 30s; // Faster on larger screens
-            }
-          }
-        `}
-      </style>
+        🎉 Welcome to STEAM Cup+ Student Portal! We have daily scheduled
+        maintenance from 12 AM to 8 AM.
+      </Text>
     </Box>
   );
 };
