@@ -11,12 +11,12 @@ const Dashboard = () => {
     useFetchBlogs();
 
   if (!userStatus) {
-    return <Layout isLoading={!userStatus}></Layout>;
+    return <Layout isLoading={!userStatus} padding={0}></Layout>;
   }
 
   if (isUserPending) {
     return (
-      <Layout>
+      <Layout padding={0}>
         <Box
           display="flex"
           justifyContent="center"
@@ -32,7 +32,7 @@ const Dashboard = () => {
   }
 
   return (
-    <Layout isLoading={isLoading}>
+    <Layout isLoading={isLoading} padding={0}>
       <NotificationBanner />
       {slides.length > 0 && <Carousel slides={slides} />}
       <BlogList blogs={blogsData} />

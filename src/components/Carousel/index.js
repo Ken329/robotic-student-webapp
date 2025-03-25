@@ -20,13 +20,7 @@ const Carousel = ({ slides }) => {
       <Heading as="h3" size="lg" mb="10px">
         Featured
       </Heading>
-      <Box
-        position="relative"
-        w="full"
-        overflow="hidden"
-        borderRadius="lg"
-        bg="black"
-      >
+      <Box position="relative" w="full" overflow="hidden" borderRadius="md">
         <Box ref={emblaRef} overflow="hidden">
           <Flex>
             {slides.map((slide, index) => (
@@ -34,13 +28,15 @@ const Carousel = ({ slides }) => {
                 key={index}
                 flexShrink={0}
                 flexBasis="100%"
-                height={{ base: "200px", md: "400px" }}
+                height={{ base: "180px", md: "360px" }}
                 display="flex"
                 alignItems="center"
                 justifyContent="center"
-                bg="black"
+                bg="gray.800"
+                borderRadius="md"
                 cursor="pointer"
                 onClick={() => handleSlideClick(slide.id)}
+                mr={{ base: "24px", md: "36px" }}
               >
                 <Box
                   as="img"
@@ -61,7 +57,7 @@ const Carousel = ({ slides }) => {
           top="50%"
           left={2}
           transform="translateY(-50%)"
-          bg="blackAlpha.600"
+          bg="transparent"
           color="white"
           _hover={{ bg: "blackAlpha.800" }}
           onClick={scrollPrev}
@@ -73,7 +69,7 @@ const Carousel = ({ slides }) => {
           top="50%"
           right={2}
           transform="translateY(-50%)"
-          bg="blackAlpha.600"
+          bg="transparent"
           color="white"
           _hover={{ bg: "blackAlpha.800" }}
           onClick={scrollNext}
