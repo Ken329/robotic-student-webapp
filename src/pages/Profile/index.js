@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   makeSelectUserData,
   makeSelectUserStatus,
@@ -19,11 +20,13 @@ import {
   useDisclosure,
   Button,
 } from "@chakra-ui/react";
+import { ArrowBackIcon } from "@chakra-ui/icons";
 import Layout from "../../components/Layout/MainLayout";
 import useCustomToast from "../../components/CustomToast";
 import EditProfileModal from "./EditProfileModal";
 
 const Profile = () => {
+  const navigate = useNavigate();
   const toast = useCustomToast();
   const userData = useSelector(makeSelectUserData());
   const status = useSelector(makeSelectUserStatus());
@@ -69,6 +72,15 @@ const Profile = () => {
 
   return (
     <Layout>
+      <Button
+        leftIcon={<ArrowBackIcon />}
+        color="#27374d"
+        variant="link"
+        onClick={() => navigate("/dashboard")}
+        mb="4"
+      >
+        Back to Dashboard
+      </Button>
       <Flex minH="100vh" justify="center" bg="gray.50" borderRadius="xl">
         <Stack p={6} w="100%" spacing={4}>
           <Flex direction="row" align="center" gap={2}>

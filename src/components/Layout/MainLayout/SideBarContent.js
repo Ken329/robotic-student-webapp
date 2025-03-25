@@ -40,7 +40,7 @@ const SidebarContent = ({ onClose, ...props }) => {
           src={SteamCupPlusWord}
           alt="SteamCup Logo"
           maxH={{
-            base: "60px",
+            base: "40px",
             md: "80px",
             lg: "80px",
           }}
