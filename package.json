@@ -13,6 +13,7 @@
     "amazon-cognito-identity-js": "^5.2.10",
     "axios": "^1.6.8",
     "date-fns": "^3.6.0",
+    "dotenv": "^16.4.7",
     "embla-carousel-autoplay": "^8.5.2",
     "embla-carousel-react": "^8.5.2",
     "formik": "^2.4.5",
@@ -60,7 +61,6 @@
     ]
   },
   "devDependencies": {
-    "dotenv": "^16.4.7",
     "eslint": "^8.57.1",
     "eslint-plugin-react": "^7.37.4",
     "webpack": "^5.98.0"
