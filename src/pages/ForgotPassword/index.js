@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 import SteamCupLogo from "../../assets/images/STEAM-Cup+-Logo.png";
 import {
   Box,
@@ -21,67 +20,18 @@ import {
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon, ArrowBackIcon } from "@chakra-ui/icons";
 import { Formik, Field } from "formik";
-import { forgotPassword, resetPasswordWithOTP } from "../../services/awsAuth";
 import {
   forgotPasswordSchema,
   resetPasswordSchema,
 } from "../../utils/validationSchema";
-import { useMaintenanceCheckQuery } from "../../redux/slices/app/api";
+import useMaintenanceCheck from "../../hooks/useMaintenanceCheck";
+import useForgotPassword from "./hooks/useForgotPassword";
 
 const ForgotPassword = () => {
-  const navigate = useNavigate();
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [currentEmail, setCurrentEmail] = useState("");
+  useMaintenanceCheck();
+  const { error, loading, step, handleForgotPassword, handleResetPassword } =
+    useForgotPassword();
   const [showPassword, setShowPassword] = useState(false);
-  const [step, setStep] = useState(1);
-
-  const {
-    data: maintenanceData,
-    isLoading: maintenanceIsLoading,
-    isError: maintenanceIsError,
-  } = useMaintenanceCheckQuery();
-
-  useEffect(() => {
-    if (
-      !maintenanceIsLoading &&
-      !maintenanceIsError &&
-      maintenanceData?.data !== null
-    ) {
-      navigate("/maintenance");
-    }
-  }, [maintenanceData, maintenanceIsLoading, maintenanceIsError]);
-
-  const handleForgotPassword = ({ email }) => {
-    setError(null);
-    setCurrentEmail(email);
-    setLoading(true);
-    forgotPassword(email)
-      .then(() => {
-        setStep(2);
-      })
-      .catch((err) => {
-        setError(err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-
-  const handleResetPassword = ({ newPassword, otp }) => {
-    setError(null);
-    setLoading(true);
-    resetPasswordWithOTP(currentEmail, newPassword, otp)
-      .then(() => {
-        navigate("/login");
-      })
-      .catch((err) => {
-        setError(err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
 
   return (
     <Box bg="white" p={6} rounded="md" w={80} alignItems="center">
@@ -99,14 +49,10 @@ const ForgotPassword = () => {
           {error.message}
         </Alert>
       )}
-      {step && step === 1 && (
+      {step === 1 && (
         <Formik
-          initialValues={{
-            email: "",
-          }}
-          onSubmit={(values) => {
-            handleForgotPassword(values);
-          }}
+          initialValues={{ email: "" }}
+          onSubmit={handleForgotPassword}
           validationSchema={forgotPasswordSchema}
         >
           {({ handleSubmit, errors, touched }) => (
@@ -116,7 +62,6 @@ const ForgotPassword = () => {
                   Please enter your login email below and we&apos;ll send you a
                   verification code to reset your password.
                 </Text>
-
                 <FormControl isInvalid={errors.email && touched.email} w="100%">
                   <FormLabel htmlFor="email">Email</FormLabel>
                   <Field
@@ -136,25 +81,19 @@ const ForgotPassword = () => {
           )}
         </Formik>
       )}
-      {step && step === 2 && (
+      {step === 2 && (
         <Formik
-          initialValues={{
-            newPassword: "",
-            otp: "",
-          }}
-          onSubmit={(values) => {
-            handleResetPassword(values);
-          }}
+          initialValues={{ newPassword: "", otp: "" }}
+          onSubmit={handleResetPassword}
           validationSchema={resetPasswordSchema}
         >
           {({ handleSubmit, errors, touched }) => (
             <form onSubmit={handleSubmit}>
               <VStack spacing={4} align="flex-start">
                 <Text fontSize="14px" fontWeight="500">
-                  Enter your new password and verification otp sent to your
+                  Enter your new password and verification OTP sent to your
                   email.
                 </Text>
-
                 <FormControl
                   isInvalid={errors.newPassword && touched.newPassword}
                   w="100%"
@@ -171,9 +110,7 @@ const ForgotPassword = () => {
                     <InputRightElement h={"full"}>
                       <Button
                         variant={"ghost"}
-                        onClick={() =>
-                          setShowPassword((showPassword) => !showPassword)
-                        }
+                        onClick={() => setShowPassword(!showPassword)}
                       >
                         {showPassword ? <ViewIcon /> : <ViewOffIcon />}
                       </Button>

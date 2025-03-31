@@ -1,109 +1,84 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import {
   Box,
   Text,
   Heading,
   SimpleGrid,
-  Select,
   Input,
   InputGroup,
   InputLeftElement,
   Flex,
   Icon,
+  Button,
 } from "@chakra-ui/react";
 import { FaMedal } from "react-icons/fa";
 import { SearchIcon } from "@chakra-ui/icons";
+import { BLOG_FILTERS } from "../../utils/constants";
+import useBlogFilters from "./hooks/useBlogFilters";
 import BlogCard from "./BlogCard";
-import { sortBlogs } from "../../utils/helper";
 
-const BlogList = ({ blogs }) => {
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [sortBy, setSortBy] = useState("newest");
+const BlogList = ({ blogs = [] }) => {
+  const { filters, updateFilter, handleSearchChange, sortedAndFilteredBlogs } =
+    useBlogFilters(blogs);
 
-  const handleCategoryChange = (event) => {
-    setSelectedCategory(event.target.value);
-  };
-
-  const handleSearchChange = (event) => {
-    setSearchQuery(event.target.value);
-  };
-
-  const handleSortChange = (event) => {
-    setSortBy(event.target.value);
-  };
-
-  const filteredBlogs = blogs.filter((blog) => {
-    const matchesCategory =
-      selectedCategory === "all" || blog.category === selectedCategory;
-    const matchesSearch = blog.title
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
-
-  const sortedAndFilteredBlogs = sortBlogs(filteredBlogs, sortBy);
+  const renderFilterButtons = (options, key) => (
+    <>
+      {options.map((option) => (
+        <Button
+          key={option}
+          size={{ base: "sm", md: "md" }}
+          bg={filters[key] === option ? "#27374d" : "transparent"}
+          color={filters[key] === option ? "white" : "#27374d"}
+          border="1px solid #27374d"
+          _hover={{
+            bg: "#1f2c3d",
+            color: "white",
+          }}
+          onClick={() => updateFilter(key, option)}
+        >
+          {option.charAt(0).toUpperCase() + option.slice(1)}
+        </Button>
+      ))}
+    </>
+  );
 
   return (
     <Box m={{ base: "5%", md: "5%", lg: "2%" }}>
-      <Flex
-        direction={{ base: "column", md: "row", lg: "row" }}
-        alignItems={{ base: "stretch", md: "center", lg: "center" }}
-        mb={4}
-        gap={4}
-      >
-        <InputGroup flex="1" bg="white" borderRadius="md" boxShadow="sm">
+      <Flex direction="column" mb={4} gap={4}>
+        <InputGroup bg="white" borderRadius="md" boxShadow="sm">
           <InputLeftElement pointerEvents="none">
             <SearchIcon color="gray.300" />
           </InputLeftElement>
           <Input
             placeholder="Search"
-            value={searchQuery}
+            value={filters.searchQuery}
             onChange={handleSearchChange}
             bg="white"
             border="none"
             _focus={{ boxShadow: "outline" }}
           />
         </InputGroup>
-        <Flex direction={{ base: "rown", md: 0, lg: 0 }} gap={4}>
-          <Select
-            onChange={handleCategoryChange}
-            bg="white"
-            flex="1"
-            borderRadius="md"
-            boxShadow="sm"
-            _focus={{ boxShadow: "outline" }}
-            value={selectedCategory}
-          >
-            <option value="all">All</option>
-            <option value="general">General</option>
-            <option value="exercise">Exercise</option>
-            <option value="competition">Competition</option>
-          </Select>
-          <Select
-            onChange={handleSortChange}
-            bg="white"
-            flex="1"
-            borderRadius="md"
-            boxShadow="sm"
-            _focus={{ boxShadow: "outline" }}
-            value={sortBy}
-          >
-            <option value="newest">Newest</option>
-            <option value="oldest">Oldest</option>
-            <option value="mostViewed">Most Viewed</option>
-          </Select>
+
+        <Flex direction={{ base: "column", md: "row" }} gap={2} wrap="wrap">
+          <Flex gap={2} wrap="wrap">
+            {renderFilterButtons(BLOG_FILTERS.categories, "category")}
+          </Flex>
+          <Flex gap={2} wrap="wrap">
+            {renderFilterButtons(BLOG_FILTERS.sortOptions, "sort")}
+          </Flex>
         </Flex>
       </Flex>
+
       <Heading as="h3" size="lg" mb="10px">
         Latest Posts
       </Heading>
-      <SimpleGrid columns={{ base: 1, md: 1, lg: 3 }} spacing={5}>
+      <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={5}>
         {sortedAndFilteredBlogs.map((blog) => (
           <BlogCard key={blog.id} blog={blog} />
         ))}
       </SimpleGrid>
+
       {sortedAndFilteredBlogs.length === 0 && (
         <Flex
           alignItems="center"
@@ -133,10 +108,6 @@ const BlogList = ({ blogs }) => {
 
 BlogList.propTypes = {
   blogs: PropTypes.array.isRequired,
-};
-
-BlogList.defaultProps = {
-  blogs: [],
 };
 
 export default BlogList;

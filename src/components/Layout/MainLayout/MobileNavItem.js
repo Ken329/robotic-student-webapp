@@ -1,8 +1,5 @@
 import React, { useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
-import { makeSelectUserName } from "../../../redux/slices/app/selector";
 import {
   Box,
   Flex,
@@ -18,11 +15,10 @@ import {
   AvatarBadge,
 } from "@chakra-ui/react";
 import { FiMenu, FiChevronDown } from "react-icons/fi";
+import useLayout from "./hooks/useLayout";
 
 const MobileNav = ({ onOpen, onLogout, onClickProfile, ...props }) => {
-  const location = useLocation();
-  const userName = useSelector(makeSelectUserName());
-  const storedUserName = localStorage.getItem("userName");
+  const { location, userName, storedUserName } = useLayout();
 
   useEffect(() => {
     if (userName && userName !== storedUserName) {

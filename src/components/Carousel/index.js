@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import PropTypes from "prop-types";
 import { Box, Flex, IconButton, Icon, HStack, Heading } from "@chakra-ui/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
@@ -28,7 +28,7 @@ const Carousel = ({ slides }) => {
                 key={index}
                 flexShrink={0}
                 flexBasis="100%"
-                height={{ base: "180px", md: "360px" }}
+                height={{ base: "200px", md: "360px" }}
                 display="flex"
                 alignItems="center"
                 justifyContent="center"
@@ -103,4 +103,4 @@ Carousel.propTypes = {
   ).isRequired,
 };
 
-export default Carousel;
+export default memo(Carousel);

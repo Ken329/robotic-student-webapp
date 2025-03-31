@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SteamCupLogo from "../../assets/images/STEAM-Cup+-Logo.png";
 import {
@@ -24,30 +24,17 @@ import { verifySchema, emailSchema } from "../../utils/validationSchema";
 import { verifyOtp } from "../../services/auth";
 import { resendVerificationOtp } from "../../services/awsAuth";
 import useCustomToast from "../../components/CustomToast";
-import { useMaintenanceCheckQuery } from "../../redux/slices/app/api";
+import useMaintenanceCheck from "../../hooks/useMaintenanceCheck";
 
 const Verify = () => {
+  useMaintenanceCheck();
   const navigate = useNavigate();
   const toast = useCustomToast();
+
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState("");
-  const {
-    data: maintenanceData,
-    isLoading: maintenanceIsLoading,
-    isError: maintenanceIsError,
-  } = useMaintenanceCheckQuery();
-
-  useEffect(() => {
-    if (
-      !maintenanceIsLoading &&
-      !maintenanceIsError &&
-      maintenanceData?.data !== null
-    ) {
-      navigate("/maintenance");
-    }
-  }, [maintenanceData, maintenanceIsLoading, maintenanceIsError]);
 
   const handleSendVerificationCode = async (values, actions) => {
     setError(null);

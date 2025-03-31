@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, memo } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
@@ -17,15 +17,19 @@ import {
   CardBody,
   CardFooter,
 } from "@chakra-ui/react";
-import { categoryMap } from "../../utils/constants";
+import { CATEGORY_MAP } from "../../utils/constants";
 
 const BlogCard = ({ blog }) => {
   const navigate = useNavigate();
 
-  const category = categoryMap[blog.category] || {
-    label: blog.category,
-    colorScheme: "gray",
-  };
+  const category = useMemo(
+    () =>
+      CATEGORY_MAP[blog.category] || {
+        label: blog.category,
+        colorScheme: "gray",
+      },
+    [blog.category]
+  );
 
   const timeAgo = formatDistanceToNow(new Date(blog.createdAt), {
     addSuffix: true,
@@ -67,25 +71,12 @@ const BlogCard = ({ blog }) => {
       <CardFooter p="15px" pt="0" m="0">
         <Flex justifyContent="space-between" alignItems="center" w="100%">
           <VStack align="start">
-            <HStack wrap="wrap">
+            <HStack>
               <Text
                 fontSize={{ base: "xs", md: "sm", lg: "sm" }}
                 color="gray.500"
               >
-                By
-              </Text>
-              <Text
-                fontSize={{ base: "xs", md: "sm", lg: "sm" }}
-                color="#27374d"
-                fontWeight="600"
-              >
-                Admin
-              </Text>
-              <Text
-                fontSize={{ base: "xs", md: "sm", lg: "sm" }}
-                color="gray.500"
-              >
-                • {timeAgo}
+                By Admin • {timeAgo}
               </Text>
             </HStack>
             <Text
@@ -121,4 +112,4 @@ BlogCard.propTypes = {
   }).isRequired,
 };
 
-export default BlogCard;
+export default memo(BlogCard);
