@@ -26,9 +26,10 @@ import userpool from "../../utils/userpool";
 import { loginSchema } from "../../utils/validationSchema";
 import { generateAccessToken } from "../../services/auth";
 import useCustomToast from "../../components/CustomToast";
-import { useMaintenanceCheckQuery } from "../../redux/slices/app/api";
+import useMaintenanceCheck from "../../hooks/useMaintenanceCheck";
 
 const LoginPage = () => {
+  useMaintenanceCheck();
   const navigate = useNavigate();
   const location = useLocation();
   const toast = useCustomToast();
@@ -38,22 +39,6 @@ const LoginPage = () => {
 
   const user = userpool.getCurrentUser();
   const authTokens = JSON.parse(localStorage.getItem("token"));
-
-  const {
-    data: maintenanceData,
-    isLoading: maintenanceIsLoading,
-    isError: maintenanceIsError,
-  } = useMaintenanceCheckQuery();
-
-  useEffect(() => {
-    if (
-      !maintenanceIsLoading &&
-      !maintenanceIsError &&
-      maintenanceData?.data !== null
-    ) {
-      navigate("/maintenance");
-    }
-  }, [maintenanceData, maintenanceIsLoading, maintenanceIsError]);
 
   useEffect(() => {
     if (user && authTokens?.accessToken) {

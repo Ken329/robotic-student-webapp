@@ -59,9 +59,7 @@ const Post = () => {
     data: studentData,
     isLoading: studentDataLoading,
     isError: studentDataError,
-  } = useGetAllStudentsQuery(null, {
-    skip: blog?.category !== POST_TYPE.COMPETITION,
-  });
+  } = useGetAllStudentsQuery();
 
   const [competitionSignUp, { isLoading: signUpLoading }] =
     useCompetitionSignUpMutation();

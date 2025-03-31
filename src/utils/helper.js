@@ -31,3 +31,10 @@ export const sortBlogs = (blogs, sortBy) => {
       return sortedBlogs;
   }
 };
+
+export const withCacheSettings = (queryConfig) => ({
+  ...queryConfig,
+  keepUnusedDataFor: 3600, // Cache for 1 hour
+  refetchOnMountOrArgChange: 1800, // Background refetch every 30 minutes
+  refetchOnReconnect: true, // Refetch when the user reconnects to the internet
+});

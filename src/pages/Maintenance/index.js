@@ -1,11 +1,11 @@
 import React from "react";
 import { Box, Flex, Text, VStack, Icon, Image } from "@chakra-ui/react";
 import { FaTools } from "react-icons/fa";
-import useGetMaintenance from "./hooks/useGetMaintenance";
 import SteamCupLogo from "../../assets/images/STEAM-Cup+-Logo.png";
+import useMaintenanceCheck from "../../hooks/useMaintenanceCheck";
 
 const Maintenance = () => {
-  const { maintenanceTime } = useGetMaintenance();
+  const { maintenanceTime } = useMaintenanceCheck();
 
   return (
     <Box

@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { makeSelectUserStatus } from "../../redux/slices/app/selector";
 import {
@@ -16,33 +16,30 @@ const PendingAlert = () => {
   const isPending = Object.values(PENDING_STATUS_MAP).includes(status);
   const isExpired = status === "expired";
 
+  if (!isPending && !isExpired) return null;
+
+  const alertProps = isPending
+    ? {
+        status: "warning",
+        title: `Your account is ${status} approval!`,
+        description:
+          "Access to some features may be limited. Thank you for your patience.",
+      }
+    : {
+        status: "error",
+        title: "Your membership is pending renewal!",
+        description:
+          "Please contact your centre for renewal, then update your profile. Access to some features may be limited. Thank you for your patience.",
+      };
+
   return (
-    <Fragment>
-      {isPending ? (
-        <Alert status="warning" marginBottom={"8px"}>
-          <AlertIcon />
-          <Box>
-            <AlertTitle>Your account is {status} approval!</AlertTitle>
-            <AlertDescription>
-              Access to some features may be limited. Thank you for your
-              patience.
-            </AlertDescription>
-          </Box>
-        </Alert>
-      ) : isExpired ? (
-        <Alert status="error" marginBottom={"8px"}>
-          <AlertIcon />
-          <Box>
-            <AlertTitle>Your membership is pending renewal!</AlertTitle>
-            <AlertDescription>
-              Please contact your centre for renewal, then go to profile to
-              update your personal information. In the meantime access to some
-              features may be limited. Thank you for your patience.
-            </AlertDescription>
-          </Box>
-        </Alert>
-      ) : null}
-    </Fragment>
+    <Alert status={alertProps.status} marginBottom="8px">
+      <AlertIcon />
+      <Box>
+        <AlertTitle>{alertProps.title}</AlertTitle>
+        <AlertDescription>{alertProps.description}</AlertDescription>
+      </Box>
+    </Alert>
   );
 };
 

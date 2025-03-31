@@ -1,5 +1,6 @@
 import React from "react";
-import { Box, Text, keyframes } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
+import { keyframes } from "@emotion/react";
 
 const scrollAnimation = keyframes`
   0% { transform: translateX(100%); }
