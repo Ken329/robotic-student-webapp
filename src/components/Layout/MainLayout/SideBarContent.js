@@ -1,14 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
-import { makeSelectUserStatus } from "../../../redux/slices/app/selector";
 import SteamCupPlusWord from "../../../assets/images/STEAM-Cup+-Text.png";
 import { Box, Flex, CloseButton, Image } from "@chakra-ui/react";
 import { FiHome, FiCompass, FiStar } from "react-icons/fi";
 import NavItem from "./NavItem";
+import useLayout from "./hooks/useLayout";
 
 const SidebarContent = ({ onClose, ...props }) => {
-  const userStatus = useSelector(makeSelectUserStatus());
+  const { userStatus } = useLayout();
 
   const LinkItems = [
     { name: "Dashboard", icon: FiHome, path: "/dashboard", isDisabled: false },

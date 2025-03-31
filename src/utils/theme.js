@@ -6,8 +6,8 @@ const theme = extendTheme({
     useSystemColorMode: false,
   },
   fonts: {
-    heading: "'Figtree', sans-serif",
-    body: "'Figtree', sans-serif",
+    heading: "'Inter', sans-serif",
+    body: "'Inter', sans-serif",
   },
   colors: {
     light: {

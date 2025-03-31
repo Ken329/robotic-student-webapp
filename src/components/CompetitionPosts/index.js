@@ -17,7 +17,7 @@ import { SearchIcon } from "@chakra-ui/icons";
 import BlogCard from "../BlogPosts/BlogCard";
 import { sortBlogs } from "../../utils/helper";
 
-const CompetitionPosts = ({ blogs }) => {
+const CompetitionPosts = ({ blogs = [] }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("newest");
 
@@ -116,10 +116,6 @@ const CompetitionPosts = ({ blogs }) => {
 
 CompetitionPosts.propTypes = {
   blogs: PropTypes.array.isRequired,
-};
-
-CompetitionPosts.defaultProps = {
-  blogs: [],
 };
 
 export default CompetitionPosts;

@@ -1,63 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
-import { useGetUserDataQuery } from "../../../redux/slices/app/api";
-import { saveUserData } from "../../../redux/slices/app";
-import { Box, Drawer, DrawerContent } from "@chakra-ui/react";
+import {
+  Box,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  useDisclosure,
+} from "@chakra-ui/react";
 import SidebarContent from "./SideBarContent";
 import MobileNav from "./MobileNavItem";
 import PendingAlert from "../../PendingAlert";
 import AnimatedPage from "../../AnimatedPage";
 import Spin from "../../Spin";
-import userpool from "../../../utils/userpool";
+import useLayout from "./hooks/useLayout";
 
-const Layout = ({ children, isLoading, padding = 4 }) => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [isOpen, setIsOpen] = useState(false);
-  const { data, isLoading: isUserLoading, isError } = useGetUserDataQuery();
-
-  useEffect(() => {
-    if (!isUserLoading && !isError && data) {
-      const role = data?.data?.role;
-      if (role !== "student") {
-        navigate("/logout", { replace: true, state: { unauthorized: true } });
-      } else {
-        if (data?.data?.status === "rejected") {
-          const user = userpool.getCurrentUser();
-          if (user) {
-            user.getSession((err, session) => {
-              if (!err && session) {
-                user.deleteUser((deleteErr, result) => {
-                  if (deleteErr) {
-                    console.error("Error deleting user:", deleteErr);
-                  } else {
-                    console.log("Successfully deleted user:", result);
-                    navigate("/login", { replace: true });
-                  }
-                });
-              }
-            });
-          }
-        }
-        dispatch(saveUserData(data?.data));
-      }
-    } else if (isError) {
-      onLogout();
-    }
-  }, [data, isUserLoading, isError, dispatch]);
-
-  const onClose = () => setIsOpen(false);
-  const onOpen = () => setIsOpen(true);
-
-  const onLogout = () => {
-    navigate("/logout");
-  };
-
-  const onClickProfile = () => {
-    navigate("/profile");
-  };
+const Layout = ({ children, isLoading = false, padding = 4 }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isLoading: isUserLoading, onClickProfile, onLogout } = useLayout();
 
   return (
     <Box minH="100vh" bg="gray.100">
@@ -65,15 +24,8 @@ const Layout = ({ children, isLoading, padding = 4 }) => {
         onClose={onClose}
         display={{ base: "none", md: "block" }}
       />
-      <Drawer
-        autoFocus={false}
-        isOpen={isOpen}
-        placement="left"
-        onClose={onClose}
-        returnFocusOnClose={false}
-        onOverlayClick={onClose}
-        size="xs"
-      >
+      <Drawer isOpen={isOpen} placement="left" onClose={onClose} size="full">
+        <DrawerOverlay />
         <DrawerContent>
           <SidebarContent onClose={onClose} />
         </DrawerContent>
@@ -84,7 +36,7 @@ const Layout = ({ children, isLoading, padding = 4 }) => {
         onClickProfile={onClickProfile}
       />
       <Box ml={{ base: 0, md: 60 }} p={padding}>
-        {isLoading ? (
+        {isLoading || isUserLoading ? (
           <Spin />
         ) : (
           <AnimatedPage>
@@ -98,13 +50,9 @@ const Layout = ({ children, isLoading, padding = 4 }) => {
 };
 
 Layout.propTypes = {
-  children: PropTypes.any.isRequired,
+  children: PropTypes.node,
   isLoading: PropTypes.bool,
   padding: PropTypes.number,
-};
-
-Layout.defaultProps = {
-  isLoading: false,
 };
 
 export default Layout;

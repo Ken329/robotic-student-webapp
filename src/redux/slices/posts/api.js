@@ -1,18 +1,44 @@
+import { withCacheSettings } from "../../../utils/helper";
 import { baseApiSlice } from "../../createAppApi";
 
 export const postsApi = baseApiSlice.injectEndpoints({
   endpoints: (builder) => {
     return {
-      getPostById: builder.query({
-        query: (id) => ({
-          url: `/blog/${id}`,
-        }),
-      }),
-      getAllBlogs: builder.query({
-        query: () => ({
-          url: "/blog",
-        }),
-      }),
+      getPostById: builder.query(
+        withCacheSettings({
+          query: (id) => ({
+            url: `/blog/${id}`,
+          }),
+        })
+      ),
+      getAllBlogs: builder.query(
+        withCacheSettings({
+          query: () => ({
+            url: "/blog",
+          }),
+        })
+      ),
+      signUpConfirmation: builder.query(
+        withCacheSettings({
+          query: (blogId) => ({
+            url: `/participants/${blogId}`,
+          }),
+        })
+      ),
+      getAllSignUps: builder.query(
+        withCacheSettings({
+          query: () => ({
+            url: "/participants",
+          }),
+        })
+      ),
+      getAllStudents: builder.query(
+        withCacheSettings({
+          query: () => ({
+            url: "/user/students",
+          }),
+        })
+      ),
       competitionSignUp: builder.mutation({
         query: ({ blogId, payload }) => ({
           url: `/participants/${blogId}`,
@@ -22,21 +48,6 @@ export const postsApi = baseApiSlice.injectEndpoints({
           },
         }),
       }),
-      signUpConfirmation: builder.query({
-        query: (blogId) => ({
-          url: `/participants/${blogId}`,
-        }),
-      }),
-      getAllSignUps: builder.query({
-        query: () => ({
-          url: "/participants",
-        }),
-      }),
-      getAllStudents: builder.query({
-        query: () => ({
-          url: "/user/students",
-        }),
-      }),
     };
   },
 });
@@ -44,8 +55,8 @@ export const postsApi = baseApiSlice.injectEndpoints({
 export const {
   useGetPostByIdQuery,
   useGetAllBlogsQuery,
-  useCompetitionSignUpMutation,
   useSignUpConfirmationQuery,
   useGetAllSignUpsQuery,
   useGetAllStudentsQuery,
+  useCompetitionSignUpMutation,
 } = postsApi;

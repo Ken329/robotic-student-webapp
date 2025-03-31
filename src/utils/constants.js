@@ -4,15 +4,10 @@ export const PENDING_STATUS_MAP = {
   PENDING_ADMIN: "pending admin",
 };
 
-export const categoryMap = {
+export const CATEGORY_MAP = {
   general: { label: "General", colorScheme: "blue" },
   exercise: { label: "Exercise", colorScheme: "green" },
   competition: { label: "Competition", colorScheme: "orange" },
-};
-
-export const ERR_MESSAGE = {
-  MAINTENANCE:
-    "STEAM Cup+ is under daily maintenance from 10 PM to 6 AM. Please try again tommorrow.",
 };
 
 export const POST_TYPE = {
@@ -21,8 +16,7 @@ export const POST_TYPE = {
   EXERCISE: "exercise",
 };
 
-export const ALLOWED_EDIT_ATTRIBUTES = {
-  school: "school",
-  contact: "contact",
-  parentContact: "parentContact",
+export const BLOG_FILTERS = {
+  categories: ["all", "general", "exercise", "competition"],
+  sortOptions: ["newest", "oldest", "mostViewed"],
 };

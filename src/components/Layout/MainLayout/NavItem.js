@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import PropTypes from "prop-types";
 import { Box, Flex, Icon, Text } from "@chakra-ui/react";
 
@@ -46,4 +46,4 @@ NavItem.propTypes = {
   isDisabled: PropTypes.bool,
 };
 
-export default NavItem;
+export default memo(NavItem);
