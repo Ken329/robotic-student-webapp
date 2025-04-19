@@ -69,7 +69,20 @@ const SignUpPage = () => {
     const fetchCenter = async () => {
       try {
         const centerData = await getCenter();
-        setActiveCentres(centerData);
+
+        const excludeList = [
+          "Prod_Test_Centre",
+          "e@Robotclub Kajang Prima, Kajang",
+          "e@Robotclub Metro Perdana, Kepong",
+          "e@Robotclub Pandan Prima, KL",
+          "e@Robotclub The Strand, Kota Damansara",
+        ];
+
+        const filteredCenters = centerData.data.filter(
+          (center) => !excludeList.includes(center.name)
+        );
+
+        setActiveCentres(filteredCenters);
       } catch (error) {
         setError(error.message);
       }
@@ -756,7 +769,7 @@ const SignUpPage = () => {
                   {...signUpFormik.getFieldProps("center")}
                 >
                   {activeCentres &&
-                    activeCentres?.data?.map((center) => (
+                    activeCentres?.map((center) => (
                       <option key={center.id} value={center.id}>
                         {center.name}
                       </option>
