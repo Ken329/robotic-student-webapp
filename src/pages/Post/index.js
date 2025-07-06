@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import parse from "html-react-parser";
+import CreatableSelect from "react-select/creatable";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   useGetPostByIdQuery,
@@ -29,7 +30,6 @@ import {
   FormLabel,
   Input,
 } from "@chakra-ui/react";
-import Select from "react-select";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import useCustomToast from "../../components/CustomToast";
 import Layout from "../../components/Layout/MainLayout";
@@ -219,7 +219,13 @@ const Post = () => {
   };
 
   const handleTeamMemberChange = (selectedOption) => {
-    setTeamMember(selectedOption);
+    if (!selectedOption) {
+      setTeamMember(null);
+      return;
+    }
+
+    const { label, value } = selectedOption; // Exclude __isNew__ from CreatableSelect
+    setTeamMember({ label, value });
   };
 
   const teamMemberOptions =
@@ -369,14 +375,15 @@ const Post = () => {
                           <FormLabel>
                             {attribute.category} {remark && `(${remark})`}
                           </FormLabel>
-                          <Select
-                            placeholder="Select team member"
+                          <CreatableSelect
+                            placeholder="Select or input team member name"
                             value={teamMember}
                             onChange={handleTeamMemberChange}
                             options={teamMemberOptions}
                             isSearchable
                             isClearable
                             isDisabled={signedUp}
+                            formatCreateLabel={(inputValue) => inputValue}
                           />
                         </FormControl>
                       );
