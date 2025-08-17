@@ -230,7 +230,7 @@ const Post = () => {
 
   const teamMemberOptions =
     studentList?.map((student) => ({
-      value: student.email,
+      value: student.name,
       label: student.name,
     })) || [];
 
