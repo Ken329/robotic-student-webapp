@@ -167,14 +167,14 @@ const LoginPage = () => {
           Verify Email
         </Link>
       </Flex>
-        {/* <Flex justifyContent="center" w="100%" mt={"15px"}>
-          <Text>
-            New user?{" "}
-            <Link href="/sign-up" color={"red"}>
-              Sign Up Now
-            </Link>
-          </Text>
-        </Flex> */}
+      <Flex justifyContent="center" w="100%" mt={"15px"}>
+        <Text>
+          New user?{" "}
+          <Link href="/sign-up" color={"red"}>
+            Sign Up Now
+          </Link>
+        </Text>
+      </Flex>
     </Box>
   );
 };
