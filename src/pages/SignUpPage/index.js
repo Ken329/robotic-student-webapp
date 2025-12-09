@@ -76,6 +76,11 @@ const SignUpPage = () => {
           "e@Robotclub Metro Perdana, Kepong",
           "e@Robotclub Pandan Prima, KL",
           "e@Robotclub The Strand, Kota Damansara",
+          "e@Robotclub Bukit Pasir, Muar",
+          "e@Robotclub Bandar Mentakab",
+          "e@Robotclub Bandar Triang",
+          "e@Robotclub Bandar Kampar",
+          "e@Robotclub Ayer Itam",
         ];
 
         const filteredCenters = centerData.data.filter(
