@@ -30,7 +30,7 @@ const NotificationBanner = () => {
         aria-live="polite"
       >
         🎉 Welcome to STEAM Cup+ Student Portal! We have daily scheduled
-        maintenance from 12 AM to 8 AM.
+        maintenance from 12 AM to 9 AM.
       </Text>
     </Box>
   );
