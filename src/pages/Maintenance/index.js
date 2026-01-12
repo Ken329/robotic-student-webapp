@@ -36,8 +36,8 @@ const Maintenance = () => {
           maxWidth="500px"
         >
           STEAM Cup+ is under daily maintenance from{" "}
-          {maintenanceTime?.startTime || "12:00 AM"} to{" "}
-          {maintenanceTime?.endTime || "N/A"}. Please try again tomorrow.
+          {maintenanceTime?.startTime || "12:00 AM"} to 9:00 AM. Please try
+          again tomorrow.
         </Text>
       </VStack>
     </Box>
