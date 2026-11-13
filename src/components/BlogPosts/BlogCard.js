@@ -1,6 +1,8 @@
 import React, { memo, useMemo } from "react";
 
 import {
+  Badge,
+  Box,
   Button,
   Card,
   CardBody,
@@ -37,6 +39,42 @@ const BlogCard = ({ blog }) => {
     addSuffix: true,
   });
 
+  const extractDueDate = (description) => {
+    const match = description?.match(/due_date=(\d{2}\/\d{2}\/\d{4})/);
+
+    if (!match) return null;
+
+    const [day, month, year] = match[1].split("/").map(Number);
+
+    const dueDate = new Date(year, month - 1, day);
+
+    const today = new Date();
+
+    today.setHours(0, 0, 0, 0);
+    dueDate.setHours(0, 0, 0, 0);
+
+    const isExpired = dueDate < today;
+
+    return {
+      label: isExpired ? "Expired" : `Due Date ${match[1]}`,
+      colorScheme: isExpired ? "red" : "yellow",
+    };
+  };
+
+  const dueDateInfo = extractDueDate(blog?.description);
+
+  const normalizedDesc = (description) => {
+    let desc = "";
+
+    try {
+      desc = description.replace(/\s*due_date=\d{2}\/\d{2}\/\d{4}/, "");
+    } catch (err) {
+      desc = description;
+    }
+
+    return desc;
+  };
+
   return (
     <Card
       maxW="sm"
@@ -52,6 +90,21 @@ const BlogCard = ({ blog }) => {
         boxShadow: "0px 8px 15px rgba(0, 0, 0, 0.25)",
       }}
     >
+      <Box
+        position="absolute"
+        top="10px"
+        right="10px"
+        display="flex"
+        flexDirection="row"
+        alignItems="flex-end"
+        gap="2"
+      >
+        {dueDateInfo && (
+          <Badge variant="subtle" colorScheme={dueDateInfo.colorScheme}>
+            {dueDateInfo.label}
+          </Badge>
+        )}
+      </Box>
       <CardHeader p={0}>
         <Image
           src={blog?.url}
@@ -71,7 +124,7 @@ const BlogCard = ({ blog }) => {
         </HStack>
         <VStack alignItems="flex-start">
           <Heading fontSize="xl">{blog?.title}</Heading>
-          <Text fontSize="sm">{blog?.description}</Text>
+          <Text fontSize="sm">{normalizedDesc(blog?.description)}</Text>
         </VStack>
       </CardBody>
 

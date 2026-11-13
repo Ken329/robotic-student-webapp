@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import {
+  Badge,
   Box,
   Button,
   Checkbox,
@@ -65,6 +66,30 @@ const Post = () => {
 
   const [competitionSignUp, { isLoading: signUpLoading }] =
     useCompetitionSignUpMutation();
+
+  const extractDueDate = (description) => {
+    const match = description?.match(/due_date=(\d{2}\/\d{2}\/\d{4})/);
+
+    if (!match) return null;
+
+    const [day, month, year] = match[1].split("/").map(Number);
+
+    const dueDate = new Date(year, month - 1, day);
+
+    const today = new Date();
+
+    today.setHours(0, 0, 0, 0);
+    dueDate.setHours(0, 0, 0, 0);
+
+    const isExpired = dueDate < today;
+
+    return {
+      label: isExpired ? "Expired" : `Due Date ${match[1]}`,
+      colorScheme: isExpired ? "red" : "yellow",
+    };
+  };
+
+  const dueDateInfo = extractDueDate(blog?.description);
 
   useEffect(() => {
     if (data && !isLoading && !isError) {
@@ -278,7 +303,7 @@ const Post = () => {
             boxShadow="md"
             overflow="hidden"
           >
-            <HStack align="start" spacing="1" mb="10px">
+            <HStack align="start" spacing="1" mb="10px" alignItems={"center"}>
               <Text
                 fontSize={{ base: "xs", md: "md", lg: "md" }}
                 color="gray.500"
@@ -299,6 +324,14 @@ const Post = () => {
                 • {new Date(blog?.createdAt).toLocaleDateString()} •{" "}
                 {blog?.views} views
               </Text>
+              {dueDateInfo && (
+                <Text color="gray.500">
+                  •
+                  <Badge variant="subtle" colorScheme={dueDateInfo.colorScheme}>
+                    {dueDateInfo.label}
+                  </Badge>
+                </Text>
+              )}
             </HStack>
 
             <Box
@@ -421,7 +454,9 @@ const Post = () => {
                       onClick={() => {
                         handleSignUp();
                       }}
-                      isDisabled={signUpLoading}
+                      isDisabled={
+                        signUpLoading || dueDateInfo?.label === "Expired"
+                      }
                     >
                       Register Now
                     </Button>
