@@ -1,5 +1,5 @@
-import { withCacheSettings } from "../../../utils/helper";
-import { baseApiSlice } from "../../createAppApi";
+import { baseApiSlice } from "@redux/createAppApi";
+import { withCacheSettings } from "@utils/helper";
 
 export const achievementsApi = baseApiSlice.injectEndpoints({
   endpoints: (builder) => {

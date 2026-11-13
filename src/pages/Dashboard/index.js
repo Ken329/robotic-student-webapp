@@ -1,22 +1,24 @@
 import React from "react";
+
 import { Box, Text } from "@chakra-ui/react";
-import Layout from "../../components/Layout/MainLayout";
-import BlogList from "../../components/BlogPosts";
-import Carousel from "../../components/Carousel";
-import NotificationBanner from "../../components/NotificationBanner";
-import useFetchBlogs from "./hooks/useFetchBlogs";
+
+import useFetchBlogs from "@pages/Dashboard/hooks/useFetchBlogs";
+import BlogList from "@components/BlogPosts";
+import Carousel from "@components/Carousel";
+import PageContent from "@components/Layout/MainLayout/PageContent";
+import NotificationBanner from "@components/NotificationBanner";
 
 const Dashboard = () => {
   const { blogsData, slides, userStatus, isLoading, isUserPending } =
     useFetchBlogs();
 
   if (!userStatus) {
-    return <Layout isLoading={!userStatus} padding={0}></Layout>;
+    return <PageContent isLoading={!userStatus} padding={0}></PageContent>;
   }
 
   if (isUserPending) {
     return (
-      <Layout padding={0}>
+      <PageContent padding={0}>
         <Box
           display="flex"
           justifyContent="center"
@@ -27,16 +29,16 @@ const Dashboard = () => {
             Posts are available for approved accounts only
           </Text>
         </Box>
-      </Layout>
+      </PageContent>
     );
   }
 
   return (
-    <Layout isLoading={isLoading} padding={0}>
+    <PageContent isLoading={isLoading} padding={0}>
       <NotificationBanner />
       {slides.length > 0 && <Carousel slides={slides} />}
       <BlogList blogs={blogsData} />
-    </Layout>
+    </PageContent>
   );
 };
 

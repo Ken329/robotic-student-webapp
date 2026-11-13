@@ -1,22 +1,24 @@
 import React from "react";
-import PropTypes from "prop-types";
+
+import { SearchIcon } from "@chakra-ui/icons";
 import {
   Box,
-  Text,
+  Button,
+  Flex,
   Heading,
-  SimpleGrid,
+  Icon,
   Input,
   InputGroup,
   InputLeftElement,
-  Flex,
-  Icon,
-  Button,
+  SimpleGrid,
+  Text,
 } from "@chakra-ui/react";
+import PropTypes from "prop-types";
 import { FaMedal } from "react-icons/fa";
-import { SearchIcon } from "@chakra-ui/icons";
-import { BLOG_FILTERS } from "../../utils/constants";
-import useBlogFilters from "./hooks/useBlogFilters";
-import BlogCard from "./BlogCard";
+
+import { BLOG_FILTERS } from "@utils/constants";
+import BlogCard from "@components/BlogPosts/BlogCard";
+import useBlogFilters from "@components/BlogPosts/hooks/useBlogFilters";
 
 const BlogList = ({ blogs = [] }) => {
   const { filters, updateFilter, handleSearchChange, sortedAndFilteredBlogs } =

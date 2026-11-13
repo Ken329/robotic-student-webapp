@@ -1,42 +1,33 @@
 import { useEffect, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useGetAllBlogsQuery } from "../../../redux/slices/posts/api";
-import { saveBlogsData } from "../../../redux/slices/posts";
-import { makeSelectBlogsData } from "../../../redux/slices/posts/selector";
-import { makeSelectUserStatus } from "../../../redux/slices/app/selector";
-import useCustomToast from "../../../components/CustomToast";
+
+import { useSelector } from "react-redux";
+
+import { selectUserStatus } from "@redux/slices/app/selector";
+import { useGetAllBlogsQuery } from "@redux/slices/posts/api";
+import { EMPTY_ARRAY } from "@utils/constants";
+import useCustomToast from "@components/CustomToast";
 
 const useFetchBlogs = () => {
-  const dispatch = useDispatch();
   const toast = useCustomToast();
-  const blogsData = useSelector(makeSelectBlogsData());
-  const userStatus = useSelector(makeSelectUserStatus());
+  const userStatus = useSelector(selectUserStatus);
 
   const isUserPending = userStatus && userStatus !== "approved";
 
-  const { data, isLoading, isError, refetch } = useGetAllBlogsQuery(undefined, {
+  const { data, isLoading, isError } = useGetAllBlogsQuery(undefined, {
     skip: userStatus !== "approved",
+    refetchOnMountOrArgChange: true,
   });
+  const blogsData = data?.data ?? EMPTY_ARRAY;
 
   useEffect(() => {
-    if (userStatus === "approved") {
-      if (!isLoading && !isError && data) {
-        dispatch(saveBlogsData(data?.data));
-      } else if (isError) {
-        toast({
-          title: "Dashboard",
-          description: "Error getting blogs list",
-          status: "error",
-        });
-      }
+    if (userStatus === "approved" && isError) {
+      toast({
+        title: "Dashboard",
+        description: "Error getting blogs list",
+        status: "error",
+      });
     }
-  }, [data, isLoading, isError, userStatus, dispatch, toast]);
-
-  useEffect(() => {
-    if (userStatus === "approved") {
-      refetch();
-    }
-  }, [userStatus, refetch]);
+  }, [isError, userStatus, toast]);
 
   const slides = useMemo(
     () =>

@@ -1,18 +1,20 @@
 import React from "react";
+
 import {
   Box,
-  Text,
-  Image,
   Flex,
-  Heading,
   Grid,
-  useMediaQuery,
+  Heading,
   Icon,
+  Image,
+  Text,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { FaMedal } from "react-icons/fa";
-import { formatIssuedAtDate } from "../../utils/helper";
-import Layout from "../../components/Layout/MainLayout";
-import useAchievements from "./hooks/useAchievements";
+
+import { formatIssuedAtDate } from "@utils/helper";
+import useAchievements from "@pages/Achievements/hooks/useAchievements";
+import PageContent from "@components/Layout/MainLayout/PageContent";
 
 const Achievements = () => {
   const {
@@ -25,7 +27,7 @@ const Achievements = () => {
   const [isMobile] = useMediaQuery("(max-width: 600px)");
 
   return (
-    <Layout isLoading={isLoading || imagesLoading}>
+    <PageContent isLoading={isLoading || imagesLoading}>
       <Flex flexDirection={"column"}>
         <Box p={5}>
           {!isMobile && (
@@ -142,7 +144,7 @@ const Achievements = () => {
           ))}
         </Box>
       </Flex>
-    </Layout>
+    </PageContent>
   );
 };
 

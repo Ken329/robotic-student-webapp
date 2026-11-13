@@ -1,9 +1,11 @@
 import React, { memo } from "react";
-import PropTypes from "prop-types";
-import { Box, Flex, IconButton, Icon, HStack, Heading } from "@chakra-ui/react";
+
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
+import { Box, Flex, Heading, HStack, Icon, IconButton } from "@chakra-ui/react";
+import PropTypes from "prop-types";
 import { GoDotFill } from "react-icons/go";
-import useCarousel from "./hooks/useCarousel";
+
+import useCarousel from "@components/Carousel/hooks/useCarousel";
 
 const Carousel = ({ slides }) => {
   const {
@@ -23,9 +25,9 @@ const Carousel = ({ slides }) => {
       <Box position="relative" w="full" overflow="hidden" borderRadius="md">
         <Box ref={emblaRef} overflow="hidden">
           <Flex>
-            {slides.map((slide, index) => (
+            {slides.map((slide) => (
               <Box
-                key={index}
+                key={slide.id}
                 flexShrink={0}
                 flexBasis="100%"
                 height={{ base: "200px", md: "360px" }}

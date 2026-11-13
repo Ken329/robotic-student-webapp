@@ -1,32 +1,34 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import SteamCupLogo from "../../assets/images/STEAM-Cup+-Logo.png";
+import React, { useEffect, useState } from "react";
+
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import {
+  Alert,
+  AlertIcon,
   Box,
   Button,
+  Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
-  Input,
-  Text,
-  VStack,
-  Flex,
-  Alert,
-  AlertIcon,
   Image,
-  Spinner,
+  Input,
   InputGroup,
   InputRightElement,
   Link,
+  Spinner,
+  Text,
+  VStack,
 } from "@chakra-ui/react";
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { Formik, Field } from "formik";
-import { authenticate } from "../../services/awsAuth";
-import userpool from "../../utils/userpool";
-import { loginSchema } from "../../utils/validationSchema";
-import { generateAccessToken } from "../../services/auth";
-import useCustomToast from "../../components/CustomToast";
-import useMaintenanceCheck from "../../hooks/useMaintenanceCheck";
+import { Field, Formik } from "formik";
+import { useLocation, useNavigate } from "react-router-dom";
+
+import SteamCupLogo from "@assets/images/STEAM-Cup+-Logo.png";
+import useMaintenanceCheck from "@hooks/useMaintenanceCheck";
+import { generateAccessToken } from "@services/auth";
+import { authenticate } from "@services/awsAuth";
+import userpool from "@utils/userpool";
+import { loginSchema } from "@utils/validationSchema";
+import useCustomToast from "@components/CustomToast";
 
 const LoginPage = () => {
   useMaintenanceCheck();
@@ -52,7 +54,7 @@ const LoginPage = () => {
       });
       location.state.unauthorized = false;
     }
-  }, [user, authTokens, location]);
+  }, [user, authTokens, location, navigate, toast]);
 
   const initAuth = async (cognitoToken) => {
     try {

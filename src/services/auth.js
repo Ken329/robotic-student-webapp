@@ -85,10 +85,10 @@ const getCenter = async () => {
 };
 
 export {
-  generatePublicKey,
   generateAccessToken,
+  generatePublicKey,
+  getCenter,
   logout,
   signUp,
   verifyOtp,
-  getCenter,
 };

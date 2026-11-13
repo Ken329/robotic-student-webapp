@@ -98,10 +98,10 @@ const resetPasswordSchema = Yup.object().shape({
 });
 
 export {
-  loginSchema,
-  signUpSchema,
-  verifySchema,
   emailSchema,
   forgotPasswordSchema,
+  loginSchema,
   resetPasswordSchema,
+  signUpSchema,
+  verifySchema,
 };

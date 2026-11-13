@@ -36,17 +36,13 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "lint": "eslint \"src/**/*.{js,jsx}\"",
+    "lint:fix": "eslint \"src/**/*.{js,jsx}\" --fix",
+    "format": "prettier --write \"src/**/*.{js,jsx,css,json}\""
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/Ken329/robotic-student-webapp.git"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
   },
   "browserslist": {
     "production": [
@@ -62,7 +58,12 @@
   },
   "devDependencies": {
     "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.1.2",
+    "eslint-plugin-prettier": "^5.5.7",
     "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "prettier": "^3.10.1",
     "webpack": "^5.98.0"
   }
 }

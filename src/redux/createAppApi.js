@@ -1,6 +1,7 @@
 import axios from "axios";
+
+import { resetApp } from "@redux/slices/app";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { resetApp } from "./slices/app";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.REACT_APP_BASE_API,

@@ -1,41 +1,43 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import NodeRSA from "node-rsa";
-import { useFormik } from "formik";
+import React, { useEffect, useRef, useState } from "react";
+
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import {
+  Alert,
+  AlertIcon,
   Box,
   Button,
+  Checkbox,
+  Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
-  Input,
-  Select,
-  VStack,
-  Text,
-  Flex,
   Grid,
-  Link,
-  InputRightElement,
+  Input,
   InputGroup,
-  Alert,
-  AlertIcon,
-  Spinner,
-  UnorderedList,
+  InputRightElement,
+  Link,
   ListItem,
-  Checkbox,
+  Select,
+  Spinner,
   Stack,
+  Text,
+  UnorderedList,
+  VStack,
 } from "@chakra-ui/react";
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { useFormik } from "formik";
+import NodeRSA from "node-rsa";
+import { useNavigate } from "react-router-dom";
+
+import { useMaintenanceCheckQuery } from "@redux/slices/app/api";
 import {
   generatePublicKey,
+  getCenter,
   signUp,
   verifyOtp,
-  getCenter,
-} from "../../services/auth";
-import { formatDate } from "../../utils/helper";
-import { signUpSchema, verifySchema } from "../../utils/validationSchema";
-import useCustomToast from "../../components/CustomToast";
-import { useMaintenanceCheckQuery } from "../../redux/slices/app/api";
+} from "@services/auth";
+import { formatDate } from "@utils/helper";
+import { signUpSchema, verifySchema } from "@utils/validationSchema";
+import useCustomToast from "@components/CustomToast";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -63,7 +65,7 @@ const SignUpPage = () => {
     ) {
       navigate("/maintenance");
     }
-  }, [maintenanceData, maintenanceIsLoading, maintenanceIsError]);
+  }, [maintenanceData, maintenanceIsLoading, maintenanceIsError, navigate]);
 
   useEffect(() => {
     const fetchCenter = async () => {

@@ -1,39 +1,41 @@
 import React, { useEffect, useState } from "react";
-import parse from "html-react-parser";
-import CreatableSelect from "react-select/creatable";
-import { useParams, useNavigate } from "react-router-dom";
-import {
-  useGetPostByIdQuery,
-  useCompetitionSignUpMutation,
-  useSignUpConfirmationQuery,
-  useGetAllStudentsQuery,
-} from "../../redux/slices/posts/api";
+
+import { ArrowBackIcon } from "@chakra-ui/icons";
 import {
   Box,
-  Image,
-  Heading,
-  Text,
-  HStack,
-  VStack,
-  Container,
   Button,
-  useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
   Checkbox,
+  Container,
   FormControl,
   FormLabel,
+  Heading,
+  HStack,
+  Image,
   Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text,
+  useDisclosure,
+  VStack,
 } from "@chakra-ui/react";
-import { ArrowBackIcon } from "@chakra-ui/icons";
-import useCustomToast from "../../components/CustomToast";
-import Layout from "../../components/Layout/MainLayout";
-import { POST_TYPE } from "../../utils/constants";
+import parse from "html-react-parser";
+import { useNavigate, useParams } from "react-router-dom";
+import CreatableSelect from "react-select/creatable";
+
+import {
+  useCompetitionSignUpMutation,
+  useGetAllStudentsQuery,
+  useGetPostByIdQuery,
+  useSignUpConfirmationQuery,
+} from "@redux/slices/posts/api";
+import { POST_TYPE } from "@utils/constants";
+import useCustomToast from "@components/CustomToast";
+import PageContent from "@components/Layout/MainLayout/PageContent";
 
 const Post = () => {
   const navigate = useNavigate();
@@ -85,7 +87,7 @@ const Post = () => {
         status: "error",
       });
     }
-  }, [data, isLoading, isError]);
+  }, [data, isLoading, isError, toast]);
 
   useEffect(() => {
     if (hasSignedUpData && !hasSignedUpLoading && !hasSignedUpError) {
@@ -129,7 +131,7 @@ const Post = () => {
         status: "error",
       });
     }
-  }, [hasSignedUpData, hasSignedUpLoading, hasSignedUpError]);
+  }, [hasSignedUpData, hasSignedUpLoading, hasSignedUpError, toast]);
 
   useEffect(() => {
     if (studentData && !studentDataLoading && !studentDataError) {
@@ -141,7 +143,7 @@ const Post = () => {
         status: "error",
       });
     }
-  }, [studentData, studentDataLoading, studentDataError]);
+  }, [studentData, studentDataLoading, studentDataError, toast]);
 
   const handleCompetitionSignUp = async (blogId) => {
     if (!selectedCategory) {
@@ -235,7 +237,7 @@ const Post = () => {
     })) || [];
 
   return (
-    <Layout isLoading={isLoading}>
+    <PageContent isLoading={isLoading}>
       <Container maxW="container.md" p={0}>
         <Button
           leftIcon={<ArrowBackIcon />}
@@ -458,7 +460,7 @@ const Post = () => {
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </Layout>
+    </PageContent>
   );
 };
 

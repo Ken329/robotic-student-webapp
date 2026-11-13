@@ -1,13 +1,12 @@
 import { useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+
 import { useDispatch, useSelector } from "react-redux";
-import {
-  makeSelectUserName,
-  makeSelectUserStatus,
-} from "../../../../redux/slices/app/selector";
-import { useGetUserDataQuery } from "../../../../redux/slices/app/api";
-import { saveUserData } from "../../../../redux/slices/app";
-import userpool from "../../../../utils/userpool";
+import { useLocation, useNavigate } from "react-router-dom";
+
+import { saveUserData } from "@redux/slices/app";
+import { useGetUserDataQuery } from "@redux/slices/app/api";
+import { selectUserName, selectUserStatus } from "@redux/slices/app/selector";
+import userpool from "@utils/userpool";
 
 const useLayout = () => {
   const navigate = useNavigate();
@@ -15,8 +14,8 @@ const useLayout = () => {
   const location = useLocation();
   const { data, isLoading, isError } = useGetUserDataQuery();
 
-  const userName = useSelector(makeSelectUserName());
-  const userStatus = useSelector(makeSelectUserStatus());
+  const userName = useSelector(selectUserName);
+  const userStatus = useSelector(selectUserStatus);
   const storedUserName = localStorage.getItem("userName");
 
   const onClickProfile = () => navigate("/profile");
@@ -37,7 +36,6 @@ const useLayout = () => {
                   if (deleteErr) {
                     console.error("Error deleting user:", deleteErr);
                   } else {
-                    console.log("Successfully deleted user");
                     navigate("/login", { replace: true });
                   }
                 });

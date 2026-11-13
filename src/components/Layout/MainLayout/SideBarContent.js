@@ -1,10 +1,12 @@
 import React from "react";
+
+import { Box, CloseButton, Flex, Image } from "@chakra-ui/react";
 import PropTypes from "prop-types";
-import SteamCupPlusWord from "../../../assets/images/STEAM-Cup+-Text.png";
-import { Box, Flex, CloseButton, Image } from "@chakra-ui/react";
-import { FiHome, FiCompass, FiStar } from "react-icons/fi";
-import NavItem from "./NavItem";
-import useLayout from "./hooks/useLayout";
+import { FiCompass, FiHome, FiStar } from "react-icons/fi";
+
+import SteamCupPlusWord from "@assets/images/STEAM-Cup+-Text.png";
+import useLayout from "@components/Layout/MainLayout/hooks/useLayout";
+import NavItem from "@components/Layout/MainLayout/NavItem";
 
 const SidebarContent = ({ onClose, ...props }) => {
   const { userStatus } = useLayout();
@@ -46,9 +48,9 @@ const SidebarContent = ({ onClose, ...props }) => {
         />
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
-      {LinkItems.map((link, index) => (
+      {LinkItems.map((link) => (
         <NavItem
-          key={index}
+          key={link.path}
           icon={link.icon}
           path={link.path}
           isDisabled={link.isDisabled}

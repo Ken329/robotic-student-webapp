@@ -1,4 +1,5 @@
 import React, { Suspense } from "react";
+
 import { Center, Spinner } from "@chakra-ui/react";
 
 const LazyLoad = (Component) => (

@@ -1,21 +1,23 @@
 import React, { useEffect } from "react";
-import PropTypes from "prop-types";
+
 import {
+  Avatar,
+  AvatarBadge,
   Box,
   Flex,
-  Text,
   HStack,
   IconButton,
   Menu,
   MenuButton,
+  MenuDivider,
   MenuItem,
   MenuList,
-  MenuDivider,
-  Avatar,
-  AvatarBadge,
+  Text,
 } from "@chakra-ui/react";
-import { FiMenu, FiChevronDown } from "react-icons/fi";
-import useLayout from "./hooks/useLayout";
+import PropTypes from "prop-types";
+import { FiChevronDown, FiMenu } from "react-icons/fi";
+
+import useLayout from "@components/Layout/MainLayout/hooks/useLayout";
 
 const MobileNav = ({ onOpen, onLogout, onClickProfile, ...props }) => {
   const { location, userName, storedUserName } = useLayout();

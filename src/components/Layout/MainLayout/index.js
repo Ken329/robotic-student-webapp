@@ -1,20 +1,22 @@
 import React from "react";
-import PropTypes from "prop-types";
+
 import {
   Box,
   Drawer,
-  DrawerOverlay,
   DrawerContent,
+  DrawerOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import SidebarContent from "./SideBarContent";
-import MobileNav from "./MobileNavItem";
-import PendingAlert from "../../PendingAlert";
-import AnimatedPage from "../../AnimatedPage";
-import Spin from "../../Spin";
-import useLayout from "./hooks/useLayout";
+import PropTypes from "prop-types";
+import { Outlet } from "react-router-dom";
 
-const Layout = ({ children, isLoading = false, padding = 4 }) => {
+import useLayout from "@components/Layout/MainLayout/hooks/useLayout";
+import MobileNav from "@components/Layout/MainLayout/MobileNavItem";
+import SidebarContent from "@components/Layout/MainLayout/SideBarContent";
+import Spin from "@components/Spin";
+
+// Persistent app shell (sidebar + header). Route pages render via <Outlet />.
+const Layout = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isLoading: isUserLoading, onClickProfile, onLogout } = useLayout();
 
@@ -35,15 +37,8 @@ const Layout = ({ children, isLoading = false, padding = 4 }) => {
         onLogout={onLogout}
         onClickProfile={onClickProfile}
       />
-      <Box ml={{ base: 0, md: 60 }} p={padding}>
-        {isLoading || isUserLoading ? (
-          <Spin />
-        ) : (
-          <AnimatedPage>
-            <PendingAlert />
-            {children}
-          </AnimatedPage>
-        )}
+      <Box ml={{ base: 0, md: 60 }}>
+        {isUserLoading ? <Spin /> : (children ?? <Outlet />)}
       </Box>
     </Box>
   );
@@ -51,8 +46,6 @@ const Layout = ({ children, isLoading = false, padding = 4 }) => {
 
 Layout.propTypes = {
   children: PropTypes.node,
-  isLoading: PropTypes.bool,
-  padding: PropTypes.number,
 };
 
 export default Layout;

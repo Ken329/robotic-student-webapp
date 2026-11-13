@@ -1,12 +1,15 @@
+import "react-quill/dist/quill.snow.css";
+import "@pages/Post/Quill.css";
+
 import React from "react";
+
+import { ChakraProvider } from "@chakra-ui/react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
-import { ChakraProvider } from "@chakra-ui/react";
-import store from "./redux/store";
-import theme from "./utils/theme";
-import App from "./App";
-import "react-quill/dist/quill.snow.css";
-import "./pages/Post/Quill.css";
+
+import store from "@redux/store";
+import theme from "@utils/theme";
+import App from "@/App";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

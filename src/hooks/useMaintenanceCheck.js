@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { useMaintenanceCheckQuery } from "../redux/slices/app/api";
+import { useEffect, useState } from "react";
+
+import { useLocation, useNavigate } from "react-router-dom";
+
+import { useMaintenanceCheckQuery } from "@redux/slices/app/api";
 
 const useMaintenanceCheck = () => {
   const navigate = useNavigate();

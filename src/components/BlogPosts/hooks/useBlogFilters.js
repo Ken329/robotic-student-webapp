@@ -1,5 +1,6 @@
-import { useState, useMemo } from "react";
-import { sortBlogs } from "../../../utils/helper";
+import { useMemo, useState } from "react";
+
+import { sortBlogs } from "@utils/helper";
 
 const useBlogFilters = (blogs) => {
   const [filters, setFilters] = useState({

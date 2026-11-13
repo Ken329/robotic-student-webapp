@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
+
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
   Button,
   FormControl,
   FormLabel,
   Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
 } from "@chakra-ui/react";
+import PropTypes from "prop-types";
 
 const EditProfileModal = ({ isOpen, onClose, profileData, onSave }) => {
   const [formValues, setFormValues] = useState({
