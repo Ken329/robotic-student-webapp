@@ -1,6 +1,7 @@
 import React, { memo } from "react";
-import PropTypes from "prop-types";
+
 import { Box, Flex, Icon, Text } from "@chakra-ui/react";
+import PropTypes from "prop-types";
 
 const NavItem = ({ icon, path, children, isDisabled }) => {
   return (

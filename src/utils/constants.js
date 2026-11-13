@@ -20,3 +20,5 @@ export const BLOG_FILTERS = {
   categories: ["all", "general", "exercise", "competition"],
   sortOptions: ["newest", "oldest", "mostViewed"],
 };
+
+export const EMPTY_ARRAY = Object.freeze([]);

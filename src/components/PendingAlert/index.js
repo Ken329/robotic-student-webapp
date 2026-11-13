@@ -1,17 +1,19 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { makeSelectUserStatus } from "../../redux/slices/app/selector";
+
 import {
-  Box,
   Alert,
-  AlertTitle,
   AlertDescription,
   AlertIcon,
+  AlertTitle,
+  Box,
 } from "@chakra-ui/react";
-import { PENDING_STATUS_MAP } from "../../utils/constants";
+import { useSelector } from "react-redux";
+
+import { selectUserStatus } from "@redux/slices/app/selector";
+import { PENDING_STATUS_MAP } from "@utils/constants";
 
 const PendingAlert = () => {
-  const status = useSelector(makeSelectUserStatus());
+  const status = useSelector(selectUserStatus);
 
   const isPending = Object.values(PENDING_STATUS_MAP).includes(status);
   const isExpired = status === "expired";

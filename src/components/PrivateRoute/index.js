@@ -1,31 +1,36 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, Outlet } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { saveToken } from "../../redux/slices/app";
+
 import { Flex, Spinner } from "@chakra-ui/react";
-import userpool from "../../utils/userpool";
-import Layout from "../Layout/MainLayout";
+import { useDispatch } from "react-redux";
+import { Outlet, useNavigate } from "react-router-dom";
+
+import { saveToken } from "@redux/slices/app";
+import userpool from "@utils/userpool";
+import Layout from "@components/Layout/MainLayout";
 
 const PrivateRoute = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isReady, setIsReady] = useState(false);
 
-  const user = userpool.getCurrentUser();
-  const authTokens = JSON.parse(localStorage.getItem("token"));
-
   useEffect(() => {
+    const user = userpool.getCurrentUser();
+    const authTokens = JSON.parse(localStorage.getItem("token"));
+
     if (user && authTokens?.accessToken) {
-      dispatch(saveToken(authTokens?.accessToken));
+      dispatch(saveToken(authTokens.accessToken));
       setIsReady(true);
     } else {
       navigate("/logout", { replace: true });
     }
-  }, [user, authTokens]);
+  }, [dispatch, navigate]);
 
-  if (!isReady) {
-    return (
-      <Layout>
+  // The shell stays mounted across route changes; only the Outlet swaps.
+  return (
+    <Layout>
+      {isReady ? (
+        <Outlet />
+      ) : (
         <Flex
           position="absolute"
           top="50%"
@@ -37,14 +42,8 @@ const PrivateRoute = () => {
         >
           <Spinner size="xl" color="blue.500" thickness="4px" speed="0.65s" />
         </Flex>
-      </Layout>
-    );
-  }
-
-  if (isReady) {
-    return <Outlet />;
-  }
-
-  return null;
+      )}
+    </Layout>
+  );
 };
 export default PrivateRoute;

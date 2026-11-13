@@ -1,38 +1,32 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useGetAllSignUpsQuery } from "../../redux/slices/posts/api";
-import { saveCompetitionsData } from "../../redux/slices/posts";
-import { makeSelectCompetitionsData } from "../../redux/slices/posts/selector";
-import Layout from "../../components/Layout/MainLayout";
-import useCustomToast from "../../components/CustomToast";
-import CompetitionPosts from "../../components/CompetitionPosts";
+
+import { useGetAllSignUpsQuery } from "@redux/slices/posts/api";
+import { EMPTY_ARRAY } from "@utils/constants";
+import CompetitionPosts from "@components/CompetitionPosts";
+import useCustomToast from "@components/CustomToast";
+import PageContent from "@components/Layout/MainLayout/PageContent";
 
 const Competitions = () => {
-  const dispatch = useDispatch();
   const toast = useCustomToast();
-  const competitionsData = useSelector(makeSelectCompetitionsData());
-  const { data, isLoading, isError, refetch } = useGetAllSignUpsQuery();
+  const { data, isLoading, isError } = useGetAllSignUpsQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
+  const competitionsData = data?.data ?? EMPTY_ARRAY;
 
   useEffect(() => {
-    if (!isLoading && !isError && data) {
-      dispatch(saveCompetitionsData(data?.data));
-    } else if (isError) {
+    if (isError) {
       toast({
         title: "Competitions",
         description: "Error getting competition list",
         status: "error",
       });
     }
-  }, [data, isLoading, isError, dispatch]);
-
-  useEffect(() => {
-    refetch();
-  }, [refetch]);
+  }, [isError, toast]);
 
   return (
-    <Layout isLoading={isLoading}>
+    <PageContent isLoading={isLoading}>
       <CompetitionPosts blogs={competitionsData} />
-    </Layout>
+    </PageContent>
   );
 };
 export default Competitions;

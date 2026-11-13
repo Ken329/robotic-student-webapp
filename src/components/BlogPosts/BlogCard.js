@@ -1,25 +1,27 @@
-import React, { useMemo, memo } from "react";
-import PropTypes from "prop-types";
-import { useNavigate } from "react-router-dom";
-import { formatDistanceToNow } from "date-fns";
+import React, { memo, useMemo } from "react";
+
 import {
-  Image,
-  Heading,
-  Text,
-  HStack,
-  Tag,
+  Badge,
+  Box,
   Button,
-  Flex,
-  VStack,
-  Spacer,
   Card,
-  CardHeader,
   CardBody,
   CardFooter,
-  Box,
-  Badge,
+  CardHeader,
+  Flex,
+  Heading,
+  HStack,
+  Image,
+  Spacer,
+  Tag,
+  Text,
+  VStack,
 } from "@chakra-ui/react";
-import { CATEGORY_MAP } from "../../utils/constants";
+import { formatDistanceToNow } from "date-fns";
+import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
+
+import { CATEGORY_MAP } from "@utils/constants";
 
 const BlogCard = ({ blog }) => {
   const navigate = useNavigate();
@@ -30,7 +32,7 @@ const BlogCard = ({ blog }) => {
         label: blog.category,
         colorScheme: "gray",
       },
-    [blog.category],
+    [blog.category]
   );
 
   const timeAgo = formatDistanceToNow(new Date(blog.createdAt), {
@@ -82,6 +84,11 @@ const BlogCard = ({ blog }) => {
       boxShadow="md"
       overflow="hidden"
       position="relative"
+      transition="all 0.3s ease"
+      _hover={{
+        transform: "scale(1.02)",
+        boxShadow: "0px 8px 15px rgba(0, 0, 0, 0.25)",
+      }}
     >
       <Box
         position="absolute"

@@ -1,20 +1,22 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+
+import { ArrowBackIcon } from "@chakra-ui/icons";
 import {
+  Button,
   Flex,
   FormControl,
   FormLabel,
+  Grid,
   Heading,
   Input,
   Stack,
-  Grid,
-  Button,
   useDisclosure,
 } from "@chakra-ui/react";
-import { ArrowBackIcon } from "@chakra-ui/icons";
-import Layout from "../../components/Layout/MainLayout";
-import useProfile from "./hooks/useProfile";
-import EditProfileModal from "./EditProfileModal";
+import { useNavigate } from "react-router-dom";
+
+import EditProfileModal from "@pages/Profile/EditProfileModal";
+import useProfile from "@pages/Profile/hooks/useProfile";
+import PageContent from "@components/Layout/MainLayout/PageContent";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -22,7 +24,7 @@ const Profile = () => {
   const { profileData, isExpired, getValue, handleSave } = useProfile();
 
   return (
-    <Layout>
+    <PageContent>
       <Button
         leftIcon={<ArrowBackIcon />}
         color="#27374d"
@@ -140,7 +142,7 @@ const Profile = () => {
           onSave={handleSave}
         />
       </Flex>
-    </Layout>
+    </PageContent>
   );
 };
 
