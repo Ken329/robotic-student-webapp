@@ -8,7 +8,7 @@ ARG DEPLOY_ENV
 ENV DEPLOY_ENV=${DEPLOY_ENV}
 ENV NODE_ENV=production
 
-RUN npm ci
+RUN npm ci --include=dev
 RUN npm run build
 
 FROM nginx:alpine
