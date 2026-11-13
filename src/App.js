@@ -1,27 +1,28 @@
 import React, { lazy } from "react";
+
 import {
-  Route,
-  RouterProvider,
   createBrowserRouter,
   createRoutesFromElements,
+  Route,
+  RouterProvider,
 } from "react-router-dom";
 
-import LazyLoad from "./components/LazyLoad";
-import AuthLayout from "./components/Layout/AuthLayout";
-import PrivateRoute from "./components/PrivateRoute";
+import AuthLayout from "@components/Layout/AuthLayout";
+import LazyLoad from "@components/LazyLoad";
+import PrivateRoute from "@components/PrivateRoute";
 
-const IndexPage = lazy(() => import("./pages/IndexPage"));
-const LoginPage = lazy(() => import("./pages/LoginPage"));
-const LogoutPage = lazy(() => import("./pages/LogoutPage"));
-const SignUpPage = lazy(() => import("./pages/SignUpPage"));
-const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
-const Verify = lazy(() => import("./pages/Verify"));
-const Maintenance = lazy(() => import("./pages/Maintenance"));
-const Profile = lazy(() => import("./pages/Profile"));
-const Dashboard = lazy(() => import("./pages/Dashboard"));
-const Post = lazy(() => import("./pages/Post"));
-const Achievements = lazy(() => import("./pages/Achievements"));
-const Competitions = lazy(() => import("./pages/Competitions"));
+const IndexPage = lazy(() => import("@pages/IndexPage"));
+const LoginPage = lazy(() => import("@pages/LoginPage"));
+const LogoutPage = lazy(() => import("@pages/LogoutPage"));
+const SignUpPage = lazy(() => import("@pages/SignUpPage"));
+const ForgotPassword = lazy(() => import("@pages/ForgotPassword"));
+const Verify = lazy(() => import("@pages/Verify"));
+const Maintenance = lazy(() => import("@pages/Maintenance"));
+const Profile = lazy(() => import("@pages/Profile"));
+const Dashboard = lazy(() => import("@pages/Dashboard"));
+const Post = lazy(() => import("@pages/Post"));
+const Achievements = lazy(() => import("@pages/Achievements"));
+const Competitions = lazy(() => import("@pages/Competitions"));
 
 const router = createBrowserRouter(
   createRoutesFromElements(

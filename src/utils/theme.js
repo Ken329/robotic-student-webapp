@@ -21,6 +21,15 @@ const theme = extendTheme({
   },
   styles: {
     global: (props) => ({
+      // Hide the page scrollbar (scrolling still works) so it can't shift or
+      // clip the layout when content height changes between pages.
+      "html, body": {
+        scrollbarWidth: "none",
+        msOverflowStyle: "none",
+      },
+      "html::-webkit-scrollbar, body::-webkit-scrollbar": {
+        display: "none",
+      },
       body: {
         bg: props.colorMode === "dark" ? "dark.background" : "light.background",
         color: props.colorMode === "dark" ? "dark.text" : "light.text",

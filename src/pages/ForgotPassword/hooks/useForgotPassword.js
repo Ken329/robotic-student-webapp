@@ -1,9 +1,8 @@
 import { useState } from "react";
+
 import { useNavigate } from "react-router-dom";
-import {
-  forgotPassword,
-  resetPasswordWithOTP,
-} from "../../../services/awsAuth";
+
+import { forgotPassword, resetPasswordWithOTP } from "@services/awsAuth";
 
 const useForgotPassword = () => {
   const navigate = useNavigate();

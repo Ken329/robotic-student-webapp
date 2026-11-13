@@ -1,70 +1,91 @@
-# Getting Started with Create React App
+# Robotic Student Webapp
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Student portal for the SteamCup robotics programme. Students sign up, wait for approval, then browse posts and competitions, view their achievements and manage their profile. A separate admin portal (`robotic-admin-webapp`) handles approvals.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+| Area | What it does |
+| --- | --- |
+| **Sign up** | Multi-field student registration. Student sign-ups are approved by a centre and then an admin. |
+| **Auth** | AWS Cognito login, forgot password, OTP verification, token refresh and a maintenance-mode page. |
+| **Dashboard** | Priority-post carousel and a searchable, filterable, sortable list of posts. Shown once the student is approved; pending students see an alert instead. |
+| **Post** | Post detail page. Competition posts include a sign-up form with custom fields. |
+| **Competitions** | Competitions the student can join or has joined. |
+| **Achievements** | Achievements grouped by year, with images. |
+| **Profile** | View the student's own details. |
 
-### `npm start`
+## Tech stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **React 18** with **react-router-dom 6** (routes are lazy-loaded)
+- **Chakra UI 2** and Emotion for styling, Framer Motion for animation
+- **Redux Toolkit** with **RTK Query** for server state, and Redux for auth/app state
+- **Formik** and **Yup** for forms and validation
+- **React Quill** for rendering rich-text content, **Embla Carousel** for the carousel
+- **AWS Cognito** (`amazon-cognito-identity-js`) for authentication
+- **CRA (react-scripts 5)** customised with **CRACO**
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Getting started
 
-### `npm test`
+Requires Node 20 and npm.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+npm ci
+npm start
+```
 
-### `npm run build`
+The dev server runs on [http://localhost:3000](http://localhost:3000).
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Environment variables
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+`craco.config.js` loads `config/.env.<DEPLOY_ENV>` and injects its values at build time. `DEPLOY_ENV` defaults to `uat`; a root `.env` can set it (for example `DEPLOY_ENV=development`).
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+| Variable | Purpose |
+| --- | --- |
+| `REACT_APP_BASE_API` | Backend API base URL |
+| `REACT_APP_COGNITO_POOL_ID` | Cognito user pool ID |
+| `REACT_APP_COGNITO_CLIENT_ID` | Cognito app client ID |
 
-### `npm run eject`
+## Scripts
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+| Command | Description |
+| --- | --- |
+| `npm start` | Start the dev server |
+| `npm run build` | Production build into `build/` |
+| `npm run lint` | Run ESLint |
+| `npm run lint:fix` | Run ESLint and auto-fix |
+| `npm run format` | Format `src/` with Prettier |
+| `npm test` | Run tests (none exist yet) |
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Project structure
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```
+src/
+├── App.js              Route table (lazy-loaded pages, public and protected routes)
+├── index.js            App entry: providers, theme, global styles
+├── assets/             Images
+├── components/         Shared UI (layout, post cards, carousel, toasts, alerts)
+├── hooks/              Shared hooks (maintenance check)
+├── pages/              One folder per route
+├── redux/
+│   ├── createAppApi.js   RTK Query base API: auth header and 401 token refresh
+│   ├── store.js
+│   └── slices/           Per-feature API endpoints, plus app and achievements state
+├── services/           Auth, Cognito and helper functions
+└── utils/              Constants, validation schemas, theme, Cognito user pool
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Each `slices/<feature>/api.js` defines RTK Query endpoints. Pages read query results directly instead of copying them into Redux.
 
-## Learn More
+## Code style
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- **Absolute imports only.** Relative `./` and `../` imports are an ESLint error. Use the aliases `@/`, `@components`, `@pages`, `@hooks`, `@utils`, `@redux`, `@services` and `@assets`. They are defined in both `jsconfig.json` (editor) and `craco.config.js` (webpack), so change both together.
+- Imports are sorted automatically by `simple-import-sort`.
+- Prettier is enforced through ESLint (double quotes, ES5 trailing commas).
+- `react-hooks/exhaustive-deps` is on. Where a dependency is left out on purpose, the line has an `eslint-disable` comment.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Run `npm run lint` before committing.
 
-### Code Splitting
+## Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- The `Dockerfile` builds the app in a Node 20 image and serves `build/` with nginx on port 8080 (`config/nginx.conf`). Pass `--build-arg DEPLOY_ENV=<env>` to pick the environment file.
+- Pushing to the CI branches triggers GitHub Actions, which builds and pushes the Docker image to Docker Hub. A CD workflow then pulls it and restarts the container on a self-hosted runner (host port 3000).

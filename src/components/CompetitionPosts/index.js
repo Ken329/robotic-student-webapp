@@ -1,21 +1,23 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
+
+import { SearchIcon } from "@chakra-ui/icons";
 import {
   Box,
-  Text,
+  Flex,
   Heading,
-  SimpleGrid,
-  Select,
+  Icon,
   Input,
   InputGroup,
   InputLeftElement,
-  Flex,
-  Icon,
+  Select,
+  SimpleGrid,
+  Text,
 } from "@chakra-ui/react";
+import PropTypes from "prop-types";
 import { FaMedal } from "react-icons/fa";
-import { SearchIcon } from "@chakra-ui/icons";
-import BlogCard from "../BlogPosts/BlogCard";
-import { sortBlogs } from "../../utils/helper";
+
+import { sortBlogs } from "@utils/helper";
+import BlogCard from "@components/BlogPosts/BlogCard";
 
 const CompetitionPosts = ({ blogs = [] }) => {
   const [searchQuery, setSearchQuery] = useState("");

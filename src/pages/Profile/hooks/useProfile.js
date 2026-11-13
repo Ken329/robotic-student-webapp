@@ -1,18 +1,17 @@
-import { useEffect, useState, useMemo, useCallback } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+
 import { useSelector } from "react-redux";
-import {
-  makeSelectUserData,
-  makeSelectUserStatus,
-} from "../../../redux/slices/app/selector";
+
 import {
   useGetUserDataQuery,
   useRenewStudentAccountMutation,
-} from "../../../redux/slices/app/api";
-import useCustomToast from "../../../components/CustomToast";
+} from "@redux/slices/app/api";
+import { selectUserData, selectUserStatus } from "@redux/slices/app/selector";
+import useCustomToast from "@components/CustomToast";
 
 const useProfile = () => {
-  const userData = useSelector(makeSelectUserData());
-  const status = useSelector(makeSelectUserStatus());
+  const userData = useSelector(selectUserData);
+  const status = useSelector(selectUserStatus);
   const toast = useCustomToast();
 
   const [profileData, setProfileData] = useState({});

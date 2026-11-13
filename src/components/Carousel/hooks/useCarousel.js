@@ -1,7 +1,8 @@
-import { useCallback, useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import useEmblaCarousel from "embla-carousel-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+
 import Autoplay from "embla-carousel-autoplay";
+import useEmblaCarousel from "embla-carousel-react";
+import { useNavigate } from "react-router-dom";
 
 const useCarousel = () => {
   const navigate = useNavigate();

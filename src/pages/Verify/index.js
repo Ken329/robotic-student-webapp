@@ -1,30 +1,32 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import SteamCupLogo from "../../assets/images/STEAM-Cup+-Logo.png";
+
+import { ArrowBackIcon } from "@chakra-ui/icons";
 import {
-  Flex,
-  Text,
-  VStack,
-  FormLabel,
-  FormControl,
-  Input,
-  Button,
-  FormErrorMessage,
-  Spinner,
-  Box,
-  Image,
   Alert,
   AlertIcon,
+  Box,
+  Button,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Image,
+  Input,
   Link,
+  Spinner,
+  Text,
+  VStack,
 } from "@chakra-ui/react";
-import { ArrowBackIcon } from "@chakra-ui/icons";
 import { useFormik } from "formik";
-import { verifySchema, emailSchema } from "../../utils/validationSchema";
-import { verifyOtp } from "../../services/auth";
-import { resendVerificationOtp } from "../../services/awsAuth";
-import useCustomToast from "../../components/CustomToast";
-import useMaintenanceCheck from "../../hooks/useMaintenanceCheck";
+import { useNavigate } from "react-router-dom";
+
+import SteamCupLogo from "@assets/images/STEAM-Cup+-Logo.png";
+import useMaintenanceCheck from "@hooks/useMaintenanceCheck";
+import { verifyOtp } from "@services/auth";
+import { resendVerificationOtp } from "@services/awsAuth";
+import { emailSchema, verifySchema } from "@utils/validationSchema";
+import useCustomToast from "@components/CustomToast";
 
 const Verify = () => {
   useMaintenanceCheck();

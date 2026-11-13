@@ -1,12 +1,14 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
-import { makeSelectToken } from "../../redux/slices/app/selector";
-import { appApi } from "../../redux/slices/app/api";
-import { resetApp } from "../../redux/slices/app";
-import { logout } from "../../services/auth";
-import Spin from "../../components/Spin";
-import userpool from "../../utils/userpool";
+import { useLocation, useNavigate } from "react-router-dom";
+
+import { resetApp } from "@redux/slices/app";
+import { appApi } from "@redux/slices/app/api";
+import { selectToken } from "@redux/slices/app/selector";
+import { logout } from "@services/auth";
+import userpool from "@utils/userpool";
+import Spin from "@components/Spin";
 
 const LogoutPage = () => {
   const navigate = useNavigate();
@@ -16,7 +18,7 @@ const LogoutPage = () => {
   const hasLoggedOut = useRef(false);
 
   const user = userpool.getCurrentUser();
-  const token = useSelector(makeSelectToken());
+  const token = useSelector(selectToken);
 
   const handleLogout = async () => {
     if (hasLoggedOut.current) return;
@@ -42,7 +44,9 @@ const LogoutPage = () => {
         state: { unauthorized: location?.state?.unauthorized ? true : false },
       });
     }
-  }, [token, location]);
+    // handleLogout is re-created every render and guarded by `hasLoggedOut`.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token, location, navigate]);
 
   return isLoading ? <Spin /> : null;
 };

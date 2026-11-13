@@ -1,6 +1,7 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+
 import { Flex } from "@chakra-ui/react";
+import { Outlet } from "react-router-dom";
 
 const AuthLayout = () => {
   return (

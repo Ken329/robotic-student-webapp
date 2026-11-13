@@ -1,31 +1,33 @@
 import React, { useState } from "react";
-import SteamCupLogo from "../../assets/images/STEAM-Cup+-Logo.png";
+
+import { ArrowBackIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import {
+  Alert,
+  AlertIcon,
   Box,
   Button,
+  Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
+  Image,
   Input,
-  Text,
-  VStack,
-  Flex,
-  Alert,
-  AlertIcon,
-  Spinner,
   InputGroup,
   InputRightElement,
   Link,
-  Image,
+  Spinner,
+  Text,
+  VStack,
 } from "@chakra-ui/react";
-import { ViewIcon, ViewOffIcon, ArrowBackIcon } from "@chakra-ui/icons";
-import { Formik, Field } from "formik";
+import { Field, Formik } from "formik";
+
+import SteamCupLogo from "@assets/images/STEAM-Cup+-Logo.png";
+import useMaintenanceCheck from "@hooks/useMaintenanceCheck";
 import {
   forgotPasswordSchema,
   resetPasswordSchema,
-} from "../../utils/validationSchema";
-import useMaintenanceCheck from "../../hooks/useMaintenanceCheck";
-import useForgotPassword from "./hooks/useForgotPassword";
+} from "@utils/validationSchema";
+import useForgotPassword from "@pages/ForgotPassword/hooks/useForgotPassword";
 
 const ForgotPassword = () => {
   useMaintenanceCheck();
